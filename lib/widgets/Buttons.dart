@@ -49,7 +49,7 @@ class _AnimatedHoverButtonState extends State<AnimatedHoverButton>
                 ]
               : [],
         ),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

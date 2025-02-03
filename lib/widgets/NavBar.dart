@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iact/widgets/Buttons.dart';
 import 'package:iact/widgets/CollaboratedGlass.dart';
-import 'package:iact/widgets/Partners.dart';
-import 'package:iact/widgets/schedule.dart';
+import 'package:iact/widgets/whatWeDO.dart';
+import 'package:lottie/lottie.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final TabController tabController;
@@ -24,8 +25,8 @@ class CustomNavigationBar extends StatelessWidget {
           snap: true,
           floating: true,
           pinned: false,
-          expandedHeight: MediaQuery.of(context).size.height * 0.15,
-          collapsedHeight: MediaQuery.of(context).size.height * 0.155,
+          expandedHeight: MediaQuery.of(context).size.height * 0.1,
+          //collapsedHeight: MediaQuery.of(context).size.height * 0.155,
           backgroundColor: Colors.transparent,
           flexibleSpace: Container(
             decoration: const BoxDecoration(color: Colors.transparent),
@@ -107,149 +108,63 @@ class CustomNavigationBar extends StatelessWidget {
         ),
       ],
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Left Column
-                  Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 80),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10, top: 60),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "Turn ",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black),
-                              ),
-                              TextSpan(
-                                text: "bold ideas",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.red.shade700),
-                              ),
-                              const TextSpan(
-                                text: " into cutting-edge solutions with",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
-                          "Ideas in Action",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 54,
-                            color: Colors.red.shade700,
-                            letterSpacing: 1.2,
-                          ),
+                          "Ideas to Action",
+                          style: GoogleFonts.baloo2(
+                              fontSize: 24, letterSpacing: 10),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "Empowering businesses with ",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                              TextSpan(
-                                text: "state-of-the-art tools ",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.red.shade700),
-                              ),
-                              const TextSpan(
-                                text:
-                                    "that seamlessly integrate strategy, \ninnovation, and decision-making at scale.",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ],
-                          ),
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          "From insights to innovation",
+                          style: GoogleFonts.baloo2(
+                              fontSize: 50, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: AnimatedHoverButton(
-                            hoverColor: Colors.redAccent,
-                            normalColor: Colors.white,
-                            label: "Start program",
-                            onPressed: () {}),
-                      ),
-                    ],
-                  ),
-                  // Right Column
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Stack(
-                        alignment: AlignmentDirectional.center,
-                        clipBehavior: Clip.none,
-                        // Allows Positioned to move outside the parent boundaries
-                        children: [
-                          // Background Logo with Padding
-                          Padding(
-                            padding: const EdgeInsets.only(right: 100),
-                            child: Image.asset(
-                              "/_logo.png", // Ensure the asset path is correct
-                            ),
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          "Transforming bold ideas into actionable insights through \n innovation and data- driven strategies",
+                          style: GoogleFonts.baloo2(
+                            fontSize: 28,
                           ),
-
-                          // Move CompaniesWorkedWith widget down
-                          Positioned(bottom: 100, child: Partners()),
-
-                          Positioned(bottom: 50, child: schedule()),
-                        ],
-                      )
+                        ),
+                      ),
+                      ElevatedButton(onPressed: () {}, child: Text("Our work"))
                     ],
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: CompaniesWorkedWith(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: CompaniesWorkedWith(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: CompaniesWorkedWith(),
-                  ),
-                ],
-              )
-            ],
-          ),
+                ),
+                Lottie.asset("tech.json",
+                    width: 540, height: 500, fit: BoxFit.contain)
+              ],
+            ),
+            // second row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //spacing: 10,
+              children: [
+                CompaniesWorkedWith(),
+                CompaniesWorkedWith(),
+                WhatIactDoes()
+              ],
+            )
+          ],
         ),
       ),
     );
