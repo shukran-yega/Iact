@@ -32,11 +32,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: _router,
       title: 'IACT- Ideas In Action',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
     );
   }

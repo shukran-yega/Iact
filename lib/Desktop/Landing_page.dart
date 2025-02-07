@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iact/Desktop/NavBar.dart';
 import 'package:iact/mobile/Landing_page.dart';
-import 'package:iact/widgets/NavBar.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -17,7 +17,7 @@ class _LandingPageState extends State<LandingPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _scrollController = ScrollController();
   }
 
@@ -37,10 +37,12 @@ class _LandingPageState extends State<LandingPage>
         if (screenWidth > 1250) {
           // Desktop layout
           return Scaffold(
-              backgroundColor: Color(0xffeeeeee),
-              body: CustomNavigationBar(
-                  tabController: _tabController,
-                  scrollController: _scrollController));
+            backgroundColor: Colors.white,
+            //Color(0xffeeeeee),
+            body: CustomNavigationBar(
+                tabController: _tabController,
+                scrollController: _scrollController),
+          );
         } else {
           // Fallback for mobile layout
           return LandingPageMobile();

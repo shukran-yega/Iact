@@ -181,7 +181,6 @@ class _LandingPageMobileState extends State<LandingPageMobile>
           const SizedBox(height: 20),
           Center(child: CompaniesWorkedWith()),
           const SizedBox(height: 20),
-          //Center(child: WhatIactDoes()),
         ],
       ),
     );
