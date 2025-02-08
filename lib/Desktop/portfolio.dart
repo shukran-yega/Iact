@@ -12,7 +12,7 @@ class PortfolioPage extends StatelessWidget {
             ? 2
             : 3;
     double itemWidth = screenWidth / crossAxisCount;
-    double itemHeight = 250; // You can tweak this based on layout needs
+    double itemHeight = 600; // You can tweak this based on layout needs
     double childAspectRatio = itemWidth / itemHeight;
 
     return Scaffold(
@@ -20,11 +20,11 @@ class PortfolioPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio:
-                childAspectRatio, // formula to calculate this on the fly for different screen?
-            mainAxisSpacing: 2,
-          ),
+              crossAxisCount: 4,
+              childAspectRatio:
+                  childAspectRatio, // formula to calculate this on the fly for different screen?
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10),
           children: [
             _buildPortfolioItem(
               imagePath: "ihi.jpg",
@@ -77,11 +77,11 @@ class PortfolioPage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black), // Border even when collapsed
-          borderRadius: BorderRadius.circular(15),
+          //border: Border.all(color: Colors.black), // Border even when collapsed
+          borderRadius: BorderRadius.circular(40),
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
+              color: Colors.grey,
               blurRadius: 4,
               offset: Offset(2, 2),
             ),
@@ -91,9 +91,9 @@ class PortfolioPage extends StatelessWidget {
         child: ExpansionTile(
           initiallyExpanded: true,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(40),
           ),
-          tilePadding: EdgeInsets.zero,
+          tilePadding: EdgeInsets.all(5),
           childrenPadding: const EdgeInsets.all(10),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,8 +112,11 @@ class PortfolioPage extends StatelessWidget {
           ),
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 10),
+              padding:
+                  const EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
               child: Text(
+                maxLines: 11,
+                overflow: TextOverflow.ellipsis,
                 details,
                 textAlign: TextAlign.justify,
                 style: const TextStyle(
