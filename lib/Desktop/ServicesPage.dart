@@ -42,9 +42,7 @@ class ServicePage extends StatelessWidget {
                       color: Colors.redAccent,
                       isBold: true),
                   _textSpan(
-                      "that complies with all applicable laws in Tanzania and from the client side. Our implementation strategy includes a small pilot study to test and validate tools followed by the actual field implementation. Throughout implementation, we closely monitor finances to make sure the project is implemented according to the budget"
-                      "We pride ourselves on our flexibility to field dynamic changes while not compromising the quality of our work. The entire research implementation phase is surrounded by quality control initiatives through routine evaluation and verification of each major step. We also employ technologies to help streamline our processes."
-                      "We also support preparation prior to research implementation including but not limited to supporting client’s IRB application materials and/or obtaining COSTECH’s research permit. Our team will also review and/or prepare informed consent forms, in both English and Kiswahili, and ensure that official letters required to introduce field enumerators are obtained through appropriate channels.")
+                      "We ensure compliance with Tanzanian laws and client requirements, starting with a pilot study before full implementation. Our approach emphasizes budget adherence, flexibility, and quality control through routine evaluations and technology integration. Additionally, we assist with pre-research preparations, including IRB applications, COSTECH permits, and informed consent forms in English and Kiswahili.")
                 ],
                 animationPath: "research.json",
                 isImageFirst: true,
@@ -103,7 +101,7 @@ class ServicePage extends StatelessWidget {
                       color: Colors.redAccent,
                       isBold: true),
                   _textSpan(
-                      "We offer digital forms (or web version) of the data collection tools for testing purposes and also imporve overall data tools design. Through the digital web version, our team in collaboration with the client ensure that all the questions, the required work flow are accurately programmed and all the client’s requirements are met. For the actual field study, the team uses the “Rahisisha “app an adapted version of ODK for field data collection with a configuration to store the data in a secured server.Rahisisha App, available in Google Play Store, was configured and is maintained by iAct as an open-source set of tools which help researchers to collect field data. The andoid-based app allows data collection using mobile devices either online or offline with data submission capability to a secured server. The app is configured with other features like GPS cordinates and sound recording as well as capabilities to take and store pictures. The Rahisisha app is currently available in Kiswahili and English. Our team is also capable of developing a customized version to work with IOS depending on our client’s requirements.")
+                      "We provide digital and web-based data collection tools for testing and optimization. For field studies, we use the Rahisisha app, an adapted version of ODK, ensuring secure data storage. Available on the Google Play Store, Rahisisha supports online/offline data collection, GPS, sound recording, and image capture. It’s available in Kiswahili and English, with customization options for iOS based on client needs.")
                 ],
                 animationPath: "collection.json",
                 isImageFirst: true,
@@ -205,8 +203,9 @@ class ServicePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                textAlign: TextAlign.justify,
+                TextSpan(
                   children: description,
                   style: const TextStyle(fontSize: 16, color: Colors.black87),
                 ),

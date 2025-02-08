@@ -107,7 +107,7 @@ class _StyledImageGridState extends State<StyledImageGrid>
 
   Widget _buildFirstContainer(String imagePath) => _buildContainer(
       imagePath,
-      300,
+      250,
       500,
       BorderRadius.only(
         topLeft: Radius.circular(100),
@@ -118,7 +118,7 @@ class _StyledImageGridState extends State<StyledImageGrid>
 
   Widget _buildSecondContainer(String imagePath) => _buildContainer(
       imagePath,
-      300,
+      250,
       275,
       BorderRadius.only(
         topLeft: Radius.circular(100),
@@ -129,7 +129,7 @@ class _StyledImageGridState extends State<StyledImageGrid>
 
   Widget _buildThirdContainer(String imagePath) => _buildContainer(
       imagePath,
-      300,
+      250,
       210,
       BorderRadius.only(
         topLeft: Radius.circular(100),

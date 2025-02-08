@@ -34,8 +34,9 @@ class Homepage extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 20),
-                        child: RichText(
-                          text: TextSpan(
+                        child: Text.rich(
+                          overflow: TextOverflow.visible,
+                          TextSpan(
                             text: "From ",
                             style: GoogleFonts.baloo2(
                               fontSize: 50,
@@ -73,6 +74,7 @@ class Homepage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
+                          textAlign: TextAlign.justify,
                           "Transforming bold ideas into actionable insights \nthrough innovation and data- driven strategies",
                           style: GoogleFonts.baloo2(
                             fontSize: 28,
@@ -80,6 +82,7 @@ class Homepage extends StatelessWidget {
                         ),
                       ),
                       Text(
+                        textAlign: TextAlign.justify,
                         "At IACT, we turn ideas into reality by providing innovative solutions\nthat bridge the gap between technology and community impact. "
                         "\nwe empower businesses and individuals to bring their visions to life \nwith efficiency and creativity.",
                         style: GoogleFonts.baloo2(

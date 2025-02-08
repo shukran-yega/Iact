@@ -5,13 +5,24 @@ class PortfolioPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount = screenWidth < 600
+        ? 1
+        : screenWidth < 1200
+            ? 2
+            : 3;
+    double itemWidth = screenWidth / crossAxisCount;
+    double itemHeight = 250; // You can tweak this based on layout needs
+    double childAspectRatio = itemWidth / itemHeight;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 2.0,
+            childAspectRatio:
+                childAspectRatio, // formula to calculate this on the fly for different screen?
             mainAxisSpacing: 2,
           ),
           children: [
@@ -104,9 +115,9 @@ class PortfolioPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 details,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 15,
                   color: Colors.black87,
                 ),
               ),

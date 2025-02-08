@@ -34,7 +34,7 @@ class _LandingPageState extends State<LandingPage>
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (screenWidth > 1250) {
+        if (screenWidth >= 1200) {
           // Desktop layout
           return Scaffold(
             backgroundColor: Colors.white,
