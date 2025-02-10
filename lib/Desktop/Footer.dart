@@ -6,15 +6,19 @@ class IACTFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height * 0.3,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       color: const Color(0xFFEFF3FA), // Light blue background
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Contact Info & Address
+          // Contact Info, Address, and Logo in a single row
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Email Icon
+
               // Contact Info
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,25 +61,26 @@ class IACTFooter extends StatelessWidget {
                   Text("P.O Box 12345 - 00100", style: TextStyle(fontSize: 14)),
                 ],
               ),
-            ],
-          ),
 
-          const SizedBox(height: 20),
-
-          // Logo and Copyright
-          Column(
-            children: [
+              // Logo
               Image.asset(
                 "iact.png", // Replace with actual IACT logo
                 height: 50,
               ),
-              const SizedBox(height: 10),
-              const Text(
+            ],
+          ),
+
+          const SizedBox(height: 5),
+
+          // Copyright Info
+          Column(
+            children: const [
+              Text(
                 "© 2025 IACT - Ideas in Action. All Rights Reserved.",
                 style: TextStyle(fontSize: 12, color: Colors.black54),
               ),
-              const SizedBox(height: 5),
-              const Text(
+              SizedBox(height: 5),
+              Text(
                 "Version: 1.0.0",
                 style: TextStyle(fontSize: 12, color: Colors.black54),
               ),
