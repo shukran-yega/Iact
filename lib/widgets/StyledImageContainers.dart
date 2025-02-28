@@ -107,8 +107,8 @@ class _StyledImageGridState extends State<StyledImageGrid>
 
   Widget _buildFirstContainer(String imagePath) => _buildContainer(
       imagePath,
-      250,
-      500,
+      MediaQuery.of(context).size.width * 0.2, // 20% of screen width
+      MediaQuery.of(context).size.height * 0.6, // 60% of screen height
       BorderRadius.only(
         topLeft: Radius.circular(100),
         topRight: Radius.circular(100),
@@ -118,8 +118,8 @@ class _StyledImageGridState extends State<StyledImageGrid>
 
   Widget _buildSecondContainer(String imagePath) => _buildContainer(
       imagePath,
-      250,
-      275,
+      MediaQuery.of(context).size.width * 0.2,
+      MediaQuery.of(context).size.height * 0.35, // Adjusted dynamically
       BorderRadius.only(
         topLeft: Radius.circular(100),
         topRight: Radius.circular(50),
@@ -129,8 +129,9 @@ class _StyledImageGridState extends State<StyledImageGrid>
 
   Widget _buildThirdContainer(String imagePath) => _buildContainer(
       imagePath,
-      250,
-      210,
+      MediaQuery.of(context).size.width * 0.2,
+      MediaQuery.of(context).size.height * 0.25, // Adjusted dynamically
+
       BorderRadius.only(
         topLeft: Radius.circular(100),
         topRight: Radius.circular(0),

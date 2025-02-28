@@ -6,8 +6,8 @@ class IACTFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.3,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      height: MediaQuery.of(context).size.height * 0.18,
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
       color: const Color(0xFFEFF3FA), // Light blue background
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,15 +73,15 @@ class IACTFooter extends StatelessWidget {
           const SizedBox(height: 5),
 
           // Copyright Info
-          Column(
-            children: const [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Text(
-                "© 2025 IACT - Ideas in Action. All Rights Reserved.",
+                "© 2025 IACT - Ideas in Action. All Rights Reserved. ",
                 style: TextStyle(fontSize: 12, color: Colors.black54),
               ),
-              SizedBox(height: 5),
               Text(
-                "Version: 1.0.0",
+                "| Version: 1.0.0",
                 style: TextStyle(fontSize: 12, color: Colors.black54),
               ),
             ],

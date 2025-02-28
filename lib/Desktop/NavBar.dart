@@ -5,19 +5,17 @@ import 'package:iact/Desktop/portfolio.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final TabController tabController;
-  final ScrollController scrollController;
 
   const CustomNavigationBar({
     Key? key,
     required this.tabController,
-    required this.scrollController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
-      controller: scrollController,
-      physics: const BouncingScrollPhysics(),
+      //controller: scrollController,
+      physics: ClampingScrollPhysics(),
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverAppBar(
           elevation: 0,
@@ -30,6 +28,7 @@ class CustomNavigationBar extends StatelessWidget {
           flexibleSpace: Container(
             decoration: const BoxDecoration(color: Colors.transparent),
             child: FlexibleSpaceBar(
+              collapseMode: CollapseMode.none,
               stretchModes: const [StretchMode.blurBackground],
               expandedTitleScale: 1,
               centerTitle: true,
@@ -69,8 +68,8 @@ class CustomNavigationBar extends StatelessWidget {
                             labelColor: Colors.redAccent,
                             tabs: const [
                               Tab(text: 'Home'),
-                              Tab(text: 'Services'),
                               Tab(text: 'Portfolio'),
+                              Tab(text: 'Services'),
                               //   Tab(text: 'Contact'),
                             ],
                           ),
@@ -88,8 +87,8 @@ class CustomNavigationBar extends StatelessWidget {
         controller: tabController,
         children: const [
           Homepage(),
-          ServicePage(),
           PortfolioPage(),
+          ServicePage(),
           //Contactpage(),
         ],
       ),

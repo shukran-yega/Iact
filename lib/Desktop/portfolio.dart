@@ -10,21 +10,21 @@ class PortfolioPage extends StatelessWidget {
         ? 1
         : screenWidth < 1200
             ? 2
-            : 3;
+            : 4;
     double itemWidth = screenWidth / crossAxisCount;
-    double itemHeight = 600; // You can tweak this based on layout needs
+    double itemHeight = 500; // Adjust height as needed
     double childAspectRatio = itemWidth / itemHeight;
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio:
-                  childAspectRatio, // formula to calculate this on the fly for different screen?
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10),
+            crossAxisCount: crossAxisCount,
+            childAspectRatio: childAspectRatio,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+          ),
           children: [
             _buildPortfolioItem(
               imagePath: "ihi.jpg",
@@ -76,52 +76,38 @@ class PortfolioPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          //border: Border.all(color: Colors.black), // Border even when collapsed
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey,
-              blurRadius: 4,
-              offset: Offset(2, 2),
+              color: Colors.grey.shade300,
+              blurRadius: 5,
+              offset: const Offset(3, 3),
             ),
           ],
-          color: Colors.white, // Background color to avoid transparency
+          color: Colors.white,
         ),
-        child: ExpansionTile(
-          initiallyExpanded: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
-          ),
-          tilePadding: EdgeInsets.all(5),
-          childrenPadding: const EdgeInsets.all(10),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(imagePath, height: 100, fit: BoxFit.contain),
-              const SizedBox(height: 10),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
-              child: Text(
-                maxLines: 11,
-                overflow: TextOverflow.ellipsis,
-                details,
-                textAlign: TextAlign.justify,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Colors.black87,
+            Image.asset(imagePath, height: 100, fit: BoxFit.contain),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Text(
+                  details,
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(fontSize: 15, color: Colors.black87),
                 ),
               ),
             ),

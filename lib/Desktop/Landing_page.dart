@@ -40,8 +40,8 @@ class _LandingPageState extends State<LandingPage>
             backgroundColor: Colors.white,
             //Color(0xffeeeeee),
             body: CustomNavigationBar(
-                tabController: _tabController,
-                scrollController: _scrollController),
+              tabController: _tabController,
+            ),
           );
         } else {
           // Fallback for mobile layout
