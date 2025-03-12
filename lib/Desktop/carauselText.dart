@@ -26,7 +26,7 @@ class _TextCarouselState extends State<TextCarousel> {
   }
 
   void _startAutoScroll() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
         _pageController.animateToPage(
           (_currentIndex + 1) % texts.length,

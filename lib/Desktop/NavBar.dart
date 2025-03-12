@@ -56,6 +56,7 @@ class CustomNavigationBar extends StatelessWidget {
                             MainAxisAlignment.center, // Center vertically
                         children: [
                           TabBar(
+                            splashBorderRadius: BorderRadius.circular(50),
                             controller: tabController,
                             isScrollable: true,
                             //indicatorPadding: const EdgeInsets.only(right: 30),
@@ -68,8 +69,8 @@ class CustomNavigationBar extends StatelessWidget {
                             labelColor: Colors.redAccent,
                             tabs: const [
                               Tab(text: 'Home'),
-                              Tab(text: 'Portfolio'),
                               Tab(text: 'Services'),
+                              Tab(text: 'Portfolio'),
                               //   Tab(text: 'Contact'),
                             ],
                           ),
@@ -87,8 +88,8 @@ class CustomNavigationBar extends StatelessWidget {
         controller: tabController,
         children: const [
           Homepage(),
-          PortfolioPage(),
           ServicePage(),
+          PortfolioPage(),
           //Contactpage(),
         ],
       ),

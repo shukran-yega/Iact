@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Uri _url = Uri.parse(
+    "https://www.google.com.au/maps/place/PSSSF+COMMERCIAL+COMPLEX/@-6.7791121,39.217825,17.35z/"
+    "data=!4m6!3m5!1s0x185c4f1cfe233113:0xa57f6ec7db3aa101!8m2!3d-6.7794547!"
+    "4d39.217617!16s%2Fg%2F11qm3t8p9j?entry=ttu&g_ep=EgoyMDI1MDMwOC4wIKXMDSoASAFQAw%3D%3D");
 
 class IACTFooter extends StatelessWidget {
   const IACTFooter({super.key});
@@ -43,23 +49,37 @@ class IACTFooter extends StatelessWidget {
               ),
 
               // Address Info
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "📍 Physical Address",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+              InkWell(
+                onTap: () async {
+                  if (!await launchUrl(_url)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Failed to open Google Maps"),
+                        backgroundColor: Colors.redAccent,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "📍 Physical Address",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.blue),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  Text("IACT - Ideas in Action",
-                      style: TextStyle(fontSize: 14)),
-                  Text("Tanzania, Dar es salaam",
-                      style: TextStyle(fontSize: 14)),
-                  Text("P.O Box 12345 - 00100", style: TextStyle(fontSize: 14)),
-                ],
+                    SizedBox(height: 5),
+                    Text("  IACT - Ideas in Action",
+                        style: TextStyle(fontSize: 14)),
+                    Text("  Tanzania, Dar es salaam",
+                        style: TextStyle(fontSize: 14)),
+                    Text("  P.O Box 12345 - 00100",
+                        style: TextStyle(fontSize: 14)),
+                  ],
+                ),
               ),
 
               // Logo
