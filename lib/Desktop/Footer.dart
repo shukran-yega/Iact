@@ -6,7 +6,7 @@ class IACTFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.18,
+      //height: MediaQuery.of(context).size.height * 0.2,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
       color: const Color(0xFFEFF3FA), // Light blue background
       child: Column(

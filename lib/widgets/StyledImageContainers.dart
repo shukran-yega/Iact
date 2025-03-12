@@ -146,6 +146,14 @@ class _StyledImageGridState extends State<StyledImageGrid>
       height: height,
       decoration: BoxDecoration(
         borderRadius: borderRadius,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // Shadow color
+            spreadRadius: 5, // Spread radius
+            blurRadius: 15, // Blur radius for softness
+            offset: Offset(5, 10), // Offset to create the 3D effect
+          ),
+        ],
       ),
       child: ClipRRect(
         borderRadius: borderRadius,
