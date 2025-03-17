@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iact/Desktop/Footer.dart';
 import 'package:iact/widgets/StyledImageContainers.dart';
 
+import 'InstititutionWork.dart';
 import 'carauselText.dart';
 
 class Homepage extends StatelessWidget {
@@ -154,12 +155,13 @@ class Homepage extends StatelessWidget {
         ),
         // carasuel for services
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.only(
+              top: 15, bottom: MediaQuery.of(context).size.height * 0.09),
           child: TextCarousel(),
         ),
         // services offered
         Container(
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery.of(context).size.height,
           color: Colors.blueGrey.withOpacity(0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -280,6 +282,10 @@ class Homepage extends StatelessWidget {
               )
             ],
           ),
+        ),
+
+        InstitutionsWorkedWith(
+          onSeeMore: () {},
         ),
 
         Container(

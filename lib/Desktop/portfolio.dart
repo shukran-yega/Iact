@@ -11,7 +11,7 @@ class PortfolioPage extends StatelessWidget {
         ? 1
         : screenWidth < 1200
             ? 2
-            : 4;
+            : 3;
     double itemWidth = screenWidth / crossAxisCount;
     double itemHeight = 500; // Adjust height as needed
     double childAspectRatio = itemWidth / itemHeight;
