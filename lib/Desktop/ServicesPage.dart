@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ServicePage extends StatelessWidget {
-  const ServicePage({super.key});
+  ServicePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +15,34 @@ class ServicePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Title Section
-            Text(
-              "Our Services",
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
+            Text.rich(
+              overflow: TextOverflow.visible,
+              TextSpan(
+                text: "What ",
+                style: GoogleFonts.baloo2(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                children: [
+                  TextSpan(
+                    text: " we do",
+                    style: GoogleFonts.baloo2(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 10),
             Text(
-              "We provide innovative solutions tailored to your needs.",
+              "We provide innovative solutions tailored to your needs,\nWith a budget conscious approach",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, color: Colors.grey[700]),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
 
             // Services in a Grid Layout
             Padding(
@@ -39,16 +52,18 @@ class ServicePage extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
-                  childAspectRatio: 1.3,
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 30,
+                  childAspectRatio: 1.5,
+                  crossAxisSpacing: 50,
+                  mainAxisSpacing: 50,
                 ),
                 itemCount: services.length,
                 itemBuilder: (context, index) {
+                  final service = services[index]; // Get service item
                   return _buildServiceCard(
-                    services[index]["title"]!,
-                    services[index]["description"]!,
-                    services[index]["animation"]!,
+                    bgColor: service['bgColor'],
+                    description: service['description'],
+                    imagePath: service['imagePath'],
+                    title: service['title'],
                   );
                 },
               ),
@@ -60,16 +75,16 @@ class ServicePage extends StatelessWidget {
   }
 
   Widget _buildServiceCard(
-      String title, String description, String animationPath) {
+      {required String title,
+      required String description,
+      required String imagePath,
+      required Color bgColor}) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.white, Colors.grey.shade100],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: bgColor, // Custom background color
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: bgColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -79,73 +94,142 @@ class ServicePage extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Lottie.asset(animationPath, height: 100),
+          // Icon/Image
+          Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 8,
+                  offset: const Offset(2, 2),
+                ),
+              ],
+            ),
+            child: Image.asset(
+              imagePath,
+              height: 60,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
           const SizedBox(height: 10),
+
+          // Title
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 5),
+
+          // Description (Limited to 3 sentences)
           Text(
-            description,
-            textAlign: TextAlign.justify,
-            style: const TextStyle(fontSize: 14, color: Colors.black87),
+            _limitSentences(description, 3),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black54,
+            ),
           ),
+          const SizedBox(height: 10),
+
+          // // Learn More Button
+          // TextButton(
+          //   onPressed: () {},
+          //   child: const Text(
+          //     "Learn More >",
+          //     style: TextStyle(
+          //       fontSize: 18,
+          //       fontWeight: FontWeight.bold,
+          //       color: Colors.blueAccent,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
   }
-}
 
-// List of Services
-List<Map<String, String>> services = [
-  {
-    "title": "Software Development",
-    "description":
-        "We specialize in crafting tailored software for desktop, web, and mobile platforms, "
-            "ensuring high-quality, scalable solutions that drive business success."
-            " Our expert team transforms your unique ideas into innovative, user-friendly applications.",
-    "animation": "code.json",
-  },
-  {
-    "title": "Research Implementation",
-    "description": "Our commitment to conducting ethical and structured"
-        " research ensures that we provide valuable and actionable insights"
-        ". We meticulously gather and analyze"
-        " data to deliver impactful findings that"
-        " drive informed decision-making.",
-    "animation": "research.json",
-  },
-  {
-    "title": "Mobile Application",
-    "description":
-        "We develop robust iOS and Android applications designed to deliver exceptional performance and user experiences. Our tailored solutions ensure that your mobile apps are reliable, fast,"
-            " and optimized for success in a competitive market.",
-    "animation": "mobile.json",
-  },
-  {
-    "title": "Data Hosting",
-    "description":
-        "We provide secure cloud-based database solutions designed to meet the needs of modern businesses. Our services ensure data safety, accessibility, and scalability,"
-            " empowering your business with reliable and efficient data management.",
-    "animation": "tech.json",
-  },
-  {
-    "title": "Data Analytics",
-    "description":
-        "We specialize in turning raw data into meaningful and actionable insights. Through advanced analytics and data processing,"
-            " we help businesses uncover valuable trends and make informed decisions that drive success.",
-    "animation": "stats.json",
-  },
-  {
-    "title": "Data Collection",
-    "description":
-        "We offer efficient mobile and web-based data collection solutions that streamline the process of gathering, storing, and analyzing data. Our tools are designed to enhance data accuracy and accessibility,"
-            " enabling businesses to make informed decisions quickly and effectively.",
-    "animation": "collection.json",
-  },
-];
+// Function to limit text to a specific number of sentences
+  String _limitSentences(String text, int sentenceLimit) {
+    List<String> sentences = text.split(RegExp(r'\. ')); // Split into sentences
+    return sentences.take(sentenceLimit).join('. ') +
+        (sentences.length > sentenceLimit ? '.' : '');
+  }
+
+// List of Services with images and colors
+  List<Map<String, dynamic>> services = [
+    {
+      "title": "Software Development",
+      "description":
+          "We craft software for web, mobile, and desktop platforms. Our team delivers high-quality and scalable solutions. We turn your ideas into user-friendly applications.",
+      "imagePath": "devops.png",
+      "bgColor": const Color(0xFFFCBDB9),
+    },
+    {
+      "title": "Research Implementation",
+      "description":
+          "We conduct ethical and structured research. Our approach ensures valuable and actionable insights. We analyze data to drive informed decision-making.",
+      "imagePath": "research.png",
+      "bgColor": const Color(0xFFE0F7EF),
+    },
+    {
+      "title": "Mobile Application",
+      "description":
+          "We develop high-performance mobile apps. Our solutions ensure reliability and user engagement. Optimized for success in a competitive market.",
+      "imagePath": "mobile.png",
+      "bgColor": const Color(0xFFE5F1FF),
+    },
+    {
+      "title": "Data Hosting",
+      "description":
+          "We offer secure cloud-based hosting solutions. Our services ensure data safety and scalability. Reliable and efficient for modern businesses.",
+      "imagePath": "dataHosting.png",
+      "bgColor": const Color(0xFFFFF5D9),
+    },
+    {
+      "title": "Data Analytics",
+      "description":
+          "We turn raw data into actionable insights. Our analytics uncover trends and patterns. Helping businesses make data-driven decisions.",
+      "imagePath": "analysis.png",
+      "bgColor": const Color(0xFFFFEAF4),
+    },
+    {
+      "title": "Data Collection",
+      "description":
+          "We streamline mobile and web data collection. Our tools enhance data accuracy and accessibility. Enabling businesses to make informed decisions faster.",
+      "imagePath": "dataCollection.png",
+      "bgColor": const Color(0xFFF1F3FF),
+    },
+    {
+      "title": "Recruit and Train enumerators",
+      "description":
+          "We can recruit and train enumerators to perform ethical field interviews.",
+      "imagePath": "field.png",
+      "bgColor": const Color(0xFFFFF9F1),
+    },
+    {
+      "title": "Support & mentorship",
+      "description":
+          "We provide mentorship to bachelors,Masters and phD students with a hands on approach",
+      "imagePath": "cap.png",
+      "bgColor": const Color(0xFFFFF1FB),
+    },
+    {
+      "title": "Adaption and Deployment of research proposal",
+      "description":
+          "Adaption and Deployment of research proposal to local context following all legal procedures",
+      "imagePath": "legal.png",
+      "bgColor": const Color(0xFFFFEDED),
+    },
+  ];
+}

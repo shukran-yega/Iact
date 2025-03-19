@@ -3,6 +3,8 @@ import 'package:iact/Desktop/ServicesPage.dart';
 import 'package:iact/Desktop/homepage.dart';
 import 'package:iact/Desktop/portfolio.dart';
 
+import 'ContactPage.dart';
+
 class CustomNavigationBar extends StatelessWidget {
   final TabController tabController;
 
@@ -71,6 +73,7 @@ class CustomNavigationBar extends StatelessWidget {
                               Tab(text: 'Home'),
                               Tab(text: 'Services'),
                               Tab(text: 'Portfolio'),
+                              Tab(text: 'Team'),
                               //   Tab(text: 'Contact'),
                             ],
                           ),
@@ -86,11 +89,11 @@ class CustomNavigationBar extends StatelessWidget {
       ],
       body: TabBarView(
         controller: tabController,
-        children: const [
+        children: [
           Homepage(),
           ServicePage(),
           PortfolioPage(),
-          //Contactpage(),
+          Contactpage(),
         ],
       ),
     );

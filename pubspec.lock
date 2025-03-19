@@ -240,6 +240,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.15.0"
+  org_chart:
+    dependency: "direct dev"
+    description:
+      name: org_chart
+      sha256: "360cc6fa5c353ff716d8b343494b9ac12350663e95e216039199dd03c67b1bac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
   path:
     dependency: transitive
     description:

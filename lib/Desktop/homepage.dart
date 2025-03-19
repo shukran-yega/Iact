@@ -172,7 +172,7 @@ class Homepage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.6,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5), // Shadow color
@@ -184,10 +184,10 @@ class Homepage extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(100),
-                    topRight: Radius.circular(100),
-                    bottomLeft: Radius.circular(100),
-                    bottomRight: Radius.circular(100),
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
                   ),
                   child: Image.asset(
                     "team.jpg",
@@ -397,10 +397,10 @@ class Homepage extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(100),
-                    topRight: Radius.circular(100),
-                    bottomLeft: Radius.circular(100),
-                    bottomRight: Radius.circular(100),
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
                   ),
                   child: Image.asset(
                     "support.jpg",

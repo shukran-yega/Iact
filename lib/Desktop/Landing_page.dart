@@ -17,7 +17,7 @@ class _LandingPageState extends State<LandingPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _scrollController = ScrollController();
   }
 
