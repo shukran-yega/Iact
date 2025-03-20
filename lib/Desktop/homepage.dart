@@ -49,7 +49,7 @@ class Homepage extends StatelessWidget {
                               style: GoogleFonts.baloo2(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.redAccent,
+                                color: Colors.blue.shade900,
                               ),
                             ),
                             TextSpan(
@@ -65,7 +65,7 @@ class Homepage extends StatelessWidget {
                               style: GoogleFonts.baloo2(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.redAccent,
+                                color: Colors.blue.shade900,
                               ),
                             ),
                           ],
@@ -96,7 +96,7 @@ class Homepage extends StatelessWidget {
                       padding: EdgeInsets.all(16),
                       margin: EdgeInsets.symmetric(vertical: 20),
                       decoration: BoxDecoration(
-                        color: Colors.redAccent.shade100.withOpacity(0.2),
+                        color: Colors.blue.shade900.withOpacity(0.2),
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(25),
                             bottomLeft: Radius.circular(25)),
@@ -106,7 +106,7 @@ class Homepage extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: Colors.redAccent.shade200,
+                              color: Colors.blue.shade900,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
@@ -131,9 +131,8 @@ class Homepage extends StatelessWidget {
                                   TextSpan(
                                     text: "info@iact.co.tz",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.redAccent.shade700,
-                                    ),
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue.shade900),
                                   ),
                                 ],
                               ),
@@ -208,7 +207,7 @@ class Homepage extends StatelessWidget {
                       style: GoogleFonts.baloo2(
                         fontSize: 40,
                         fontWeight: FontWeight.w600,
-                        color: Colors.redAccent,
+                        color: Colors.blue.shade900,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -233,7 +232,7 @@ class Homepage extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent.shade100.withOpacity(0.2),
+                      color: Colors.blue.shade900.withOpacity(0.2),
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(25),
                           bottomLeft: Radius.circular(25)),
@@ -243,7 +242,7 @@ class Homepage extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: Colors.redAccent.shade200,
+                            color: Colors.blue.shade900,
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -268,7 +267,7 @@ class Homepage extends StatelessWidget {
                                   text: " info@iact.co.tz",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.redAccent.shade700,
+                                    color: Colors.blue.shade900,
                                   ),
                                 ),
                               ],
@@ -306,7 +305,7 @@ class Homepage extends StatelessWidget {
                       style: GoogleFonts.baloo2(
                         fontSize: 40,
                         fontWeight: FontWeight.w600,
-                        color: Colors.redAccent,
+                        color: Colors.blue.shade900,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -330,7 +329,7 @@ class Homepage extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent.shade100.withOpacity(0.2),
+                      color: Colors.blue.shade900.withOpacity(0.2),
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(25),
                           bottomLeft: Radius.circular(25)),
@@ -340,7 +339,7 @@ class Homepage extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: Colors.redAccent.shade200,
+                            color: Colors.blue.shade900,
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -366,7 +365,7 @@ class Homepage extends StatelessWidget {
                                   text: " info@iact.co.tz",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.redAccent.shade700,
+                                    color: Colors.blue.shade900,
                                   ),
                                 ),
                               ],
@@ -403,7 +402,7 @@ class Homepage extends StatelessWidget {
                     bottomRight: Radius.circular(25),
                   ),
                   child: Image.asset(
-                    "support.jpg",
+                    "support2.jpg",
                     fit: BoxFit.cover,
                   ),
                 ),

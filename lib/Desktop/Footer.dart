@@ -84,7 +84,7 @@ class IACTFooter extends StatelessWidget {
 
               // Logo
               Image.asset(
-                "iact.png", // Replace with actual IACT logo
+                "logo.png", // Replace with actual IACT logo
                 height: 50,
               ),
             ],
@@ -101,7 +101,7 @@ class IACTFooter extends StatelessWidget {
                 style: TextStyle(fontSize: 12, color: Colors.black54),
               ),
               Text(
-                "| Version: 1.0.0",
+                "| Version: 1.0.1",
                 style: TextStyle(fontSize: 12, color: Colors.black54),
               ),
             ],

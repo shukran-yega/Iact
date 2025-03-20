@@ -45,7 +45,7 @@ class CustomNavigationBar extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(
-                        "iact.png",
+                        "logo.png",
                         height: 70,
                         width: 70,
                       ),
@@ -62,13 +62,13 @@ class CustomNavigationBar extends StatelessWidget {
                             controller: tabController,
                             isScrollable: true,
                             //indicatorPadding: const EdgeInsets.only(right: 30),
-                            indicatorColor: Colors.redAccent,
+                            indicatorColor: Colors.blue.shade900,
                             labelStyle: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                             unselectedLabelColor: Colors.grey,
-                            labelColor: Colors.redAccent,
+                            labelColor: Colors.blue.shade900,
                             tabs: const [
                               Tab(text: 'Home'),
                               Tab(text: 'Services'),

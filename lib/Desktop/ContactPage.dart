@@ -79,7 +79,7 @@ class _ContactpageState extends State<Contactpage> {
             ),
           ),
           child: Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: const Color(0xFFECECEC),
             body: Stack(
               children: [
                 OrgChart<Map>(
@@ -114,13 +114,12 @@ class _ContactpageState extends State<Contactpage> {
                           child: Container(
                             height: 100,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: details.isBeingDragged
-                                  ? Colors.green.shade100
-                                  : details.isOverlapped
-                                      ? Colors.red.shade200
-                                      : Colors.teal.shade50,
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                color: details.isBeingDragged
+                                    ? Colors.redAccent.shade100
+                                    : details.isOverlapped
+                                        ? Colors.red.shade200
+                                        : Colors.white70),
                             //elevation: 5,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -148,7 +147,7 @@ class _ContactpageState extends State<Contactpage> {
                                     textAlign: TextAlign.center,
                                     details.item["text"],
                                     style: TextStyle(
-                                      color: Colors.purple.shade900,
+                                      color: Colors.black,
                                       fontSize: 16,
                                     ),
                                   ),

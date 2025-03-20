@@ -46,7 +46,7 @@ class _InstitutionsWorkedWithState extends State<InstitutionsWorkedWith> {
                   style: GoogleFonts.baloo2(
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
-                    color: Colors.redAccent,
+                    color: Colors.blue.shade900,
                   ),
                 ),
               ],
@@ -80,7 +80,7 @@ class _InstitutionsWorkedWithState extends State<InstitutionsWorkedWith> {
         ElevatedButton(
           onPressed: widget.onSeeMore,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.blue.shade900,
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
