@@ -67,166 +67,158 @@ class _ContactpageState extends State<Contactpage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.blue.shade100,
-                Colors.blue.shade200,
-              ],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-            ),
-          ),
-          child: Scaffold(
-            backgroundColor: const Color(0xFFECECEC),
-            body: Stack(
-              children: [
-                OrgChart<Map>(
-                  arrowStyle: const DashedGraphArrow(pattern: [20, 10, 5, 10]),
-                  cornerRadius: 10,
-                  controller: orgChartController,
-                  isDraggable: true,
-                  linePaint: Paint()
-                    ..color = Colors.black
-                    ..strokeWidth = 5
-                    ..style = PaintingStyle.stroke
-                    ..strokeCap = StrokeCap.round
-                    ..color = Colors.grey,
-                  builder: (details) {
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          // onTap: () {
-                          //   orgChartController.addItem({
-                          //     "id": orgChartController.uniqueNodeId,
-                          //     "text": 'New Block',
-                          //     "to": details.item["id"],
-                          //   });
-                          // },
-                          // onDoubleTap: () async {
-                          //   String? text =
-                          //       await getBlockText(context, details.item);
-                          //   if (text != null) {
-                          //     setState(() => details.item["text"] = text);
-                          //   }
-                          // },
-                          child: Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: details.isBeingDragged
-                                    ? Colors.redAccent.shade100
-                                    : details.isOverlapped
-                                        ? Colors.red.shade200
-                                        : Colors.white70),
-                            //elevation: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width: 40, // Adjust size as needed
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Colors.black, width: 1),
-                                    ),
-                                    child: Icon(
-                                      Icons.person, // Placeholder icon
-                                      size: 20,
-                                      color: Colors.grey.shade700,
-                                    ),
+        Scaffold(
+          backgroundColor: const Color(0xFFECECEC),
+          body: Stack(
+            children: [
+              OrgChart<Map>(
+                arrowStyle: const DashedGraphArrow(pattern: [20, 10, 5, 10]),
+                cornerRadius: 10,
+                controller: orgChartController,
+                isDraggable: true,
+                linePaint: Paint()
+                  ..color = Colors.black
+                  ..strokeWidth = 5
+                  ..style = PaintingStyle.stroke
+                  ..strokeCap = StrokeCap.round
+                  ..color = Colors.blue.withOpacity(0.5),
+                builder: (details) {
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        // onTap: () {
+                        //   orgChartController.addItem({
+                        //     "id": orgChartController.uniqueNodeId,
+                        //     "text": 'New Block',
+                        //     "to": details.item["id"],
+                        //   });
+                        // },
+                        // onDoubleTap: () async {
+                        //   String? text =
+                        //       await getBlockText(context, details.item);
+                        //   if (text != null) {
+                        //     setState(() => details.item["text"] = text);
+                        //   }
+                        // },
+                        child: Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: details.isBeingDragged
+                                  ? Colors.redAccent.shade100
+                                  : details.isOverlapped
+                                      ? Colors.red.shade200
+                                      : Colors.white),
+                          //elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 40, // Adjust size as needed
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Colors.black, width: 1),
                                   ),
-                                  const SizedBox(
-                                      height:
-                                          2), // Spacing between image and text
-                                  Text(
-                                    textAlign: TextAlign.center,
-                                    details.item["text"],
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
+                                  child: Icon(
+                                    Icons.person, // Placeholder icon
+                                    size: 20,
+                                    color: Colors.grey.shade700,
                                   ),
-                                ],
-                              ),
+                                ),
+                                const SizedBox(
+                                    height:
+                                        2), // Spacing between image and text
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  details.item["text"],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        // ElevatedButton(
-                        //   onPressed: () {
-                        //     details.hideNodes(!details.nodesHidden);
-                        //   },
-                        //   child: Text(
-                        //     details.nodesHidden
-                        //         ? 'Press to Unhide'
-                        //         : 'Press to Hide',
-                        //   ),
-                        // ),
-                      ],
-                    );
-                  },
-                  // optionsBuilder: (item) {
-                  //   return [
-                  //     const PopupMenuItem(
-                  //       value: 'Remove',
-                  //       child: Text('Remove'),
-                  //     ),
-                  //   ];
-                  // },
-                  onOptionSelect: (item, value) {
-                    if (value == 'Remove') {
-                      orgChartController.removeItem(
-                          item["id"], ActionOnNodeRemoval.unlink);
-                    }
-                  },
-                  onDrop: (dragged, target, isTargetSubnode) {
-                    if (dragged["to"] == target["id"]) {
-                      orgChartController.calculatePosition();
-                      return;
-                    }
-                    if (isTargetSubnode) {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return AlertDialog(
-                                title: const Text('Error'),
-                                content: const Text(
-                                    'You cannot drop a node on a subnode'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ]);
-                          });
-                      orgChartController.calculatePosition();
-
-                      return;
-                    }
-                    dragged["to"] = target["id"];
-                    orgChartController.calculatePosition();
-                  },
-                ),
-                const Positioned(
-                  bottom: 20,
-                  left: 20,
-                  child: Text(
-                      'Tap to add a node, double tap to change text\ndrag and drop to change hierarchy\nright click / tap and hold to remove \nDrag in the empty space to pan the chart\n& pinch to zoom in and out.'),
-                )
-              ],
-            ),
-            floatingActionButton: FloatingActionButton.extended(
-                label: const Text('Reset & Change Orientation'),
-                onPressed: () {
-                  orgChartController.switchOrientation();
-                }),
+                      ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     details.hideNodes(!details.nodesHidden);
+                      //   },
+                      //   child: Text(
+                      //     details.nodesHidden
+                      //         ? 'Press to Unhide'
+                      //         : 'Press to Hide',
+                      //   ),
+                      // ),
+                    ],
+                  );
+                },
+                // optionsBuilder: (item) {
+                //   return [
+                //     const PopupMenuItem(
+                //       value: 'Remove',
+                //       child: Text('Remove'),
+                //     ),
+                //   ];
+                // },
+                onOptionSelect: (item, value) {
+                  if (value == 'Remove') {
+                    orgChartController.removeItem(
+                        item["id"], ActionOnNodeRemoval.unlink);
+                  }
+                },
+                // onDrop: (dragged, target, isTargetSubnode) {
+                //   if (dragged["to"] == target["id"]) {
+                //     orgChartController.calculatePosition();
+                //     return;
+                //   }
+                //   if (isTargetSubnode) {
+                //     showDialog(
+                //         context: context,
+                //         builder: (_) {
+                //           return AlertDialog(
+                //               title: const Text('Error'),
+                //               content: const Text(
+                //                   'You cannot drop a node on a subnode'),
+                //               actions: [
+                //                 TextButton(
+                //                   onPressed: () {
+                //                     Navigator.of(context).pop();
+                //                   },
+                //                   child: const Text('OK'),
+                //                 ),
+                //               ]);
+                //         });
+                //     orgChartController.calculatePosition();
+                //
+                //     return;
+                //   }
+                //dragged["to"] = target["id"];
+                //orgChartController.calculatePosition();
+                //},
+              ),
+              // const Positioned(
+              //   bottom: 20,
+              //   left: 20,
+              //   child: Text('Tap to add a node, double tap to change text'
+              //       '\ndrag and drop to change hierarchy'
+              //       '\nright click / tap and hold to remove '
+              //       '\nDrag in the empty space to pan the chart'
+              //       '\n& pinch to zoom in and out.'
+              //       '\nAll features are disabled'),
+              // )
+            ],
           ),
+          floatingActionButton: FloatingActionButton.extended(
+              label: const Text('Reset & Change Orientation'),
+              onPressed: () {
+                orgChartController.switchOrientation();
+              }),
         ),
       ],
     );

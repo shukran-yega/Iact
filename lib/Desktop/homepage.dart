@@ -1,3 +1,4 @@
+import 'package:animate_gradient/animate_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iact/Desktop/Footer.dart';
@@ -11,79 +12,181 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      //crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // welcome to iact
-        Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Column(
+    return AnimateGradient(
+      // the gradient should be at the center  going down leave the top part and use the geomtry property as well
+      primaryBegin: Alignment.center, // Start from the center
+      primaryEnd: Alignment.bottomCenter, // Move directly downward
+      secondaryBegin: Alignment.centerLeft, // Keep secondary gradient aligned
+      secondaryEnd: Alignment.centerRight, // Also move downward
+      primaryBeginGeometry: const AlignmentDirectional(0, 1),
+      primaryEndGeometry: const AlignmentDirectional(0, 2),
+      secondaryBeginGeometry: const AlignmentDirectional(2, 0),
+      secondaryEndGeometry: const AlignmentDirectional(0, -0.8),
+      primaryColors: [
+        Colors.white, // Keeps the top part untouched
+        Colors.white.withOpacity(0.3), // Subtle fade
+      ],
+      secondaryColors: [
+        Colors.white, // Start with no color at the top
+        Colors.blue.shade100.withOpacity(0.1), // Gradient intensifies downward
+      ],
+      child: ListView(
+        children: [
+          // welcome to iact
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          "Ideas to Action",
+                          style: GoogleFonts.baloo2(
+                              fontSize: 25, letterSpacing: 7),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text.rich(
+                          overflow: TextOverflow.visible,
+                          TextSpan(
+                            text: "From ",
+                            style: GoogleFonts.baloo2(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: "insights ",
+                                style: GoogleFonts.baloo2(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue.shade900,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "to",
+                                style: GoogleFonts.baloo2(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: " innovation",
+                                style: GoogleFonts.baloo2(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue.shade900,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          textAlign: TextAlign.justify,
+                          "Transforming bold ideas into actionable insights \nthrough innovation and data-driven strategies",
+                          style: GoogleFonts.baloo2(fontSize: 28),
+                        ),
+                      ),
+                      Text(
+                        textAlign: TextAlign.justify,
+                        "At IACT, we turn ideas into reality by providing innovative solutions\nthat bridge the gap between technology and community impact. "
+                        "\nwe empower businesses and individuals to bring their visions to life \nwith efficiency and creativity.",
+                        style: GoogleFonts.baloo2(
+                          fontSize: 18,
+                          color: Colors.black87,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const StyledImageGrid(
+                  imagePath1: "pic1.jpg",
+                  imagePath2: "meeting.jpg",
+                  imagePath3: "PIC2.jpg",
+                ),
+              ],
+            ),
+          ),
+          // carasuel for services
+          Padding(
+            padding: EdgeInsets.only(
+                top: 15, bottom: MediaQuery.of(context).size.height * 0.09),
+            child: TextCarousel(),
+          ),
+          // services offered
+          Container(
+            height: MediaQuery.of(context).size.height,
+            color: Colors.blueGrey.withOpacity(0.05),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // picture
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.40,
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5), // Shadow color
+                        spreadRadius: 5, // Spread radius
+                        blurRadius: 15, // Blur radius for softness
+                        offset: Offset(5, 10), // Offset to create the 3D effect
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                    child: Image.asset(
+                      "team.jpg",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+
+                // description
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        "Ideas to Action",
-                        style:
-                            GoogleFonts.baloo2(fontSize: 25, letterSpacing: 7),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Text.rich(
-                        overflow: TextOverflow.visible,
-                        TextSpan(
-                          text: "From ",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "insights ",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue.shade900,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "to",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            TextSpan(
-                              text: " innovation",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue.shade900,
-                              ),
-                            ),
-                          ],
+                        "Expertise You Can Trust",
+                        style: GoogleFonts.baloo2(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue.shade900,
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        textAlign: TextAlign.justify,
-                        "Transforming bold ideas into actionable insights \nthrough innovation and data-driven strategies",
-                        style: GoogleFonts.baloo2(fontSize: 28),
+                        textAlign: TextAlign.left,
                       ),
                     ),
                     Text(
+                      "IACT boasts a team of highly skilled professionals,"
+                      " each an expert in their respective fields."
+                      " \nFrom software development to data analytics,"
+                      " our staff excels in creating innovative,\nscalable solutions."
+                      " With years of experience, we deliver cutting-edge applications,\nresearch tools, and secure hosting services. "
+                      " \nAt IACT, excellence isn’t just a goal—it’s the standard we uphold in every project we undertake.",
                       textAlign: TextAlign.justify,
-                      "At IACT, we turn ideas into reality by providing innovative solutions\nthat bridge the gap between technology and community impact. "
-                      "\nwe empower businesses and individuals to bring their visions to life \nwith efficiency and creativity.",
                       style: GoogleFonts.baloo2(
                         fontSize: 18,
                         color: Colors.black87,
@@ -110,7 +213,100 @@ class Homepage extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              Icons.email,
+                              Icons.edit_note_outlined,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: "To Learn more about our portfolio:",
+                                  ),
+                                  TextSpan(
+                                    text: " info@iact.co.tz",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue.shade900,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+
+          Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            //width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // picture
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        "Guaranteed support",
+                        style: GoogleFonts.baloo2(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue.shade900,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Text(
+                      "We proudly provide an extensive three-year software support plan for all our products,"
+                      "\nensuring consistent, reliable assistance regardless of whether the software is designed"
+                      "\nfor mobile applications, data analysis,or research purposes. With a commitment to excellence,"
+                      "\nwe go above and beyond to deliver unmatched transparency at every step of the process,"
+                      "\nbuilding trust and confidence with our users.",
+                      textAlign: TextAlign.justify,
+                      style: GoogleFonts.baloo2(
+                        fontSize: 18,
+                        color: Colors.black87,
+                        height: 1.5,
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.23,
+                      height: 100,
+                      padding: EdgeInsets.all(16),
+                      margin: EdgeInsets.symmetric(vertical: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade900.withOpacity(0.2),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(25),
+                            bottomLeft: Radius.circular(25)),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade900,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.support_agent,
                               color: Colors.white,
                               size: 24,
                             ),
@@ -126,13 +322,14 @@ class Homepage extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text:
-                                        "For general inquiries, email us at: ",
+                                        "To Learn more about the services we offer:",
                                   ),
                                   TextSpan(
-                                    text: "info@iact.co.tz",
+                                    text: " info@iact.co.tz",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue.shade900),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue.shade900,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -143,276 +340,48 @@ class Homepage extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              const StyledImageGrid(
-                imagePath1: "pic1.jpg",
-                imagePath2: "meeting.jpg",
-                imagePath3: "PIC2.jpg",
-              ),
-            ],
-          ),
-        ),
-        // carasuel for services
-        Padding(
-          padding: EdgeInsets.only(
-              top: 15, bottom: MediaQuery.of(context).size.height * 0.09),
-          child: TextCarousel(),
-        ),
-        // services offered
-        Container(
-          height: MediaQuery.of(context).size.height,
-          color: Colors.blueGrey.withOpacity(0.05),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // picture
-              Container(
-                width: MediaQuery.of(context).size.width * 0.40,
-                height: MediaQuery.of(context).size.height * 0.6,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // Shadow color
-                      spreadRadius: 5, // Spread radius
-                      blurRadius: 15, // Blur radius for softness
-                      offset: Offset(5, 10), // Offset to create the 3D effect
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25),
-                  ),
-                  child: Image.asset(
-                    "team.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
 
-              // description
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      "Expertise You Can Trust",
-                      style: GoogleFonts.baloo2(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue.shade900,
+                // description
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.40,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5), // Shadow color
+                        spreadRadius: 5, // Spread radius
+                        blurRadius: 15, // Blur radius for softness
+                        offset: Offset(5, 10), // Offset to create the 3D effect
                       ),
-                      textAlign: TextAlign.left,
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                    child: Image.asset(
+                      "support2.jpg",
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  Text(
-                    "IACT boasts a team of highly skilled professionals,"
-                    " each an expert in their respective fields."
-                    " \nFrom software development to data analytics,"
-                    " our staff excels in creating innovative,\nscalable solutions."
-                    " With years of experience, we deliver cutting-edge applications,\nresearch tools, and secure hosting services. "
-                    " \nAt IACT, excellence isn’t just a goal—it’s the standard we uphold in every project we undertake.",
-                    textAlign: TextAlign.justify,
-                    style: GoogleFonts.baloo2(
-                      fontSize: 18,
-                      color: Colors.black87,
-                      height: 1.5,
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.23,
-                    height: 100,
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade900.withOpacity(0.2),
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(25),
-                          bottomLeft: Radius.circular(25)),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.edit_note_outlined,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black87,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "To Learn more about our portfolio:",
-                                ),
-                                TextSpan(
-                                  text: " info@iact.co.tz",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue.shade900,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
 
-        InstitutionsWorkedWith(
-          onSeeMore: () {},
-        ),
-
-        Container(
-          height: MediaQuery.of(context).size.height * 0.75,
-          //width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // picture
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      "Guaranteed support",
-                      style: GoogleFonts.baloo2(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue.shade900,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Text(
-                    "We proudly provide an extensive three-year software support plan for all our products,"
-                    "\nensuring consistent, reliable assistance regardless of whether the software is designed"
-                    "\nfor mobile applications, data analysis,or research purposes. With a commitment to excellence,"
-                    "\nwe go above and beyond to deliver unmatched transparency at every step of the process,"
-                    "\nbuilding trust and confidence with our users.",
-                    textAlign: TextAlign.justify,
-                    style: GoogleFonts.baloo2(
-                      fontSize: 18,
-                      color: Colors.black87,
-                      height: 1.5,
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.23,
-                    height: 100,
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade900.withOpacity(0.2),
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(25),
-                          bottomLeft: Radius.circular(25)),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.support_agent,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black87,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "To Learn more about the services we offer:",
-                                ),
-                                TextSpan(
-                                  text: " info@iact.co.tz",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue.shade900,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              // description
-              Container(
-                width: MediaQuery.of(context).size.width * 0.40,
-                height: MediaQuery.of(context).size.height * 0.5,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // Shadow color
-                      spreadRadius: 5, // Spread radius
-                      blurRadius: 15, // Blur radius for softness
-                      offset: Offset(5, 10), // Offset to create the 3D effect
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25),
-                  ),
-                  child: Image.asset(
-                    "support2.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              )
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: InstitutionStats(),
           ),
-        ),
-        // footer
-        IACTFooter()
-      ],
+          // footer
+          IACTFooter()
+        ],
+      ),
     );
   }
 }

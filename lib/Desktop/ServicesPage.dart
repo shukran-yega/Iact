@@ -1,3 +1,4 @@
+import 'package:animate_gradient/animate_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -6,73 +7,57 @@ class ServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    //int crossAxisCount = screenWidth < 1200 ? 2 : 3; // Responsive Grid
     return Scaffold(
         backgroundColor: const Color(0xFFECECEC),
-        // body: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: [
-        //     // Title Section
-        //     Text.rich(
-        //       overflow: TextOverflow.visible,
-        //       TextSpan(
-        //         text: "What ",
-        //         style: GoogleFonts.baloo2(
-        //           fontSize: 50,
-        //           fontWeight: FontWeight.bold,
-        //           color: Colors.black,
-        //         ),
-        //         children: [
-        //           TextSpan(
-        //             text: " we do",
-        //             style: GoogleFonts.baloo2(
-        //               fontSize: 50,
-        //               fontWeight: FontWeight.bold,
-        //               color: Colors.redAccent,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //     const SizedBox(height: 10),
-        //     Text(
-        //       "We provide innovative solutions tailored to your needs,\nWith a budget conscious approach",
-        //       textAlign: TextAlign.center,
-        //       style: TextStyle(fontSize: 18, color: Colors.grey[700]),
-        //     ),
-        //     const SizedBox(height: 20),
-        //
-        // Services in a Grid Layout
-        body: Padding(
-          padding: const EdgeInsets.only(
-            left: 40.0,
-            right: 40,
-            top: 10,
-          ),
-          child: SizedBox(
-            height:
-                MediaQuery.of(context).size.height, // Adjust height as needed,
-            child: GridView.custom(
-              gridDelegate: SliverQuiltedGridDelegate(
-                crossAxisCount: 4,
-                mainAxisSpacing: 15,
-                crossAxisSpacing: 15,
-                repeatPattern: QuiltedGridRepeatPattern.inverted,
-                pattern: [
-                  QuiltedGridTile(1, 1),
-                  QuiltedGridTile(1, 2),
-                  QuiltedGridTile(1, 1),
-                  //QuiltedGridTile(1, 2),
-                ],
-              ),
-              childrenDelegate: SliverChildBuilderDelegate(
-                childCount: 9,
-                (context, index) => _buildServiceCard(
-                  bgColor: services[index]['bgColor'],
-                  description: services[index]['description'],
-                  imagePath: services[index]['imagePath'],
-                  title: services[index]['title'],
+        body: AnimateGradient(
+          primaryBegin: Alignment.topRight, // Start from the center
+          primaryEnd: Alignment.bottomLeft, // Move directly downward
+          secondaryBegin:
+              Alignment.centerLeft, // Keep secondary gradient aligned
+          secondaryEnd: Alignment.centerRight, // Also move downward
+          primaryBeginGeometry: const AlignmentDirectional(0, 1),
+          primaryEndGeometry: const AlignmentDirectional(0, 2),
+          secondaryBeginGeometry: const AlignmentDirectional(2, 0),
+          secondaryEndGeometry: const AlignmentDirectional(0, -0.8),
+          primaryColors: [
+            Colors.white, // Keeps the top part untouched
+            Colors.white.withOpacity(0.3), // Subtle fade
+          ],
+          secondaryColors: [
+            Colors.white, // Start with no color at the top
+            Colors.blue.withOpacity(0.5), // Gradient intensifies downward
+          ],
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 40.0,
+              right: 40,
+              top: 10,
+            ),
+            child: SizedBox(
+              height: MediaQuery.of(context)
+                  .size
+                  .height, // Adjust height as needed,
+              child: GridView.custom(
+                gridDelegate: SliverQuiltedGridDelegate(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
+                  repeatPattern: QuiltedGridRepeatPattern.inverted,
+                  pattern: [
+                    QuiltedGridTile(1, 1),
+                    QuiltedGridTile(1, 2),
+                    QuiltedGridTile(1, 1),
+                    //QuiltedGridTile(1, 2),
+                  ],
+                ),
+                childrenDelegate: SliverChildBuilderDelegate(
+                  childCount: 9,
+                  (context, index) => _buildServiceCard(
+                    bgColor: services[index]['bgColor'],
+                    description: services[index]['description'],
+                    imagePath: services[index]['imagePath'],
+                    title: services[index]['title'],
+                  ),
                 ),
               ),
             ),
@@ -108,7 +93,12 @@ class ServicePage extends StatelessWidget {
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               color: Colors.white,
-              shape: BoxShape.circle,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
@@ -129,10 +119,10 @@ class ServicePage extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: Colors.blue.shade900,
             ),
           ),
           //const SizedBox(height: 5),
