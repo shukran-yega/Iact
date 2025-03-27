@@ -25,8 +25,8 @@ class CustomNavigationBar extends StatelessWidget {
           floating: true,
           pinned: true,
           expandedHeight: MediaQuery.of(context).size.height * 0.15,
-          collapsedHeight: MediaQuery.of(context).size.height * 0.1,
-          backgroundColor: Colors.white,
+          collapsedHeight: MediaQuery.of(context).size.height * 0.12,
+          backgroundColor: Colors.transparent,
           flexibleSpace: Container(
             decoration: const BoxDecoration(color: Colors.transparent),
             child: FlexibleSpaceBar(
@@ -35,19 +35,27 @@ class CustomNavigationBar extends StatelessWidget {
               expandedTitleScale: 1,
               centerTitle: true,
               title: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Row(
                   mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // Space out elements
+                      MainAxisAlignment.center, // Space out elements
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Left: Logo
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        "logo.png",
-                        height: 70,
-                        width: 70,
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.05),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20))),
+                        child: Image.asset(
+                          "logo.png",
+                          height: 70,
+                          width: 70,
+                        ),
                       ),
                     ),
 
@@ -57,25 +65,39 @@ class CustomNavigationBar extends StatelessWidget {
                         mainAxisAlignment:
                             MainAxisAlignment.center, // Center vertically
                         children: [
-                          TabBar(
-                            splashBorderRadius: BorderRadius.circular(50),
-                            controller: tabController,
-                            isScrollable: true,
-                            //indicatorPadding: const EdgeInsets.only(right: 30),
-                            indicatorColor: Colors.blue.shade900,
-                            labelStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.8),
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  topLeft: Radius.circular(20),
+                                )),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TabBar(
+                                indicatorSize: TabBarIndicatorSize.label,
+                                splashBorderRadius: BorderRadius.circular(50),
+                                controller: tabController,
+                                isScrollable: true,
+                                //indicatorPadding: const EdgeInsets.only(right: 30),
+                                indicatorColor: Colors.blue.shade900,
+                                labelStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                                unselectedLabelColor: Colors.grey,
+                                labelColor: Colors.blue.shade900,
+                                tabs: const [
+                                  Tab(text: 'Home'),
+                                  Tab(text: 'Services'),
+                                  Tab(text: 'Portfolio'),
+                                  Tab(text: 'Team'),
+                                  //   Tab(text: 'Contact'),
+                                ],
+                              ),
                             ),
-                            unselectedLabelColor: Colors.grey,
-                            labelColor: Colors.blue.shade900,
-                            tabs: const [
-                              Tab(text: 'Home'),
-                              Tab(text: 'Services'),
-                              Tab(text: 'Portfolio'),
-                              Tab(text: 'Team'),
-                              //   Tab(text: 'Contact'),
-                            ],
                           ),
                         ],
                       ),

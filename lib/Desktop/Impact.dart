@@ -19,7 +19,7 @@ class InstitutionStats extends StatelessWidget {
         // Dark Overlay for Contrast
         Positioned.fill(
           child: Container(
-            color: Colors.blueGrey.withOpacity(0.05),
+            color: Colors.transparent,
           ),
         ),
 
@@ -27,7 +27,6 @@ class InstitutionStats extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 80),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Text.rich(
@@ -54,7 +53,8 @@ class InstitutionStats extends StatelessWidget {
 
             // Stats Row
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 50,
               children: [
                 _buildStatCard(
                   icon: Icons.people,

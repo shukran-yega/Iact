@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowMaterialGrid: false,
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
       title: 'IACT- Ideas In Action',

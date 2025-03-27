@@ -144,6 +144,14 @@ class PortfolioPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.7, // Ensure it has a height
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: ImageCarousel(
+                      imagePaths: ["field4.jpg", "field5.jpg", "support2.jpg"],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Column(
@@ -242,14 +250,6 @@ class PortfolioPage extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["field4.jpg", "field5.jpg", "support2.jpg"],
                     ),
                   ),
                 ],
@@ -376,6 +376,14 @@ class PortfolioPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.7, // Ensure it has a height
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: ImageCarousel(
+                      imagePaths: ["pic1.jpg", "meeting.jpg", "PIC2.jpg"],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Column(
@@ -470,14 +478,6 @@ class PortfolioPage extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["pic1.jpg", "meeting.jpg", "PIC2.jpg"],
                     ),
                   ),
                 ],
@@ -602,6 +602,14 @@ class PortfolioPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.7, // Ensure it has a height
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: ImageCarousel(
+                      imagePaths: ["support2.jpg", "meeting.jpg", "PIC2.jpg"],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Column(
@@ -700,14 +708,6 @@ class PortfolioPage extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["support2.jpg", "meeting.jpg", "PIC2.jpg"],
                     ),
                   ),
                 ],

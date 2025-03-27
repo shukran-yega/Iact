@@ -21,7 +21,7 @@ class IACTFooter extends StatelessWidget {
         children: [
           // Top Section - Logo & Description
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Logo & Description

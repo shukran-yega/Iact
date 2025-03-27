@@ -112,9 +112,9 @@ class _StyledImageGridState extends State<StyledImageGrid>
       MediaQuery.of(context).size.width * 0.2, // 20% of screen width
       MediaQuery.of(context).size.height * 0.6, // 60% of screen height
       BorderRadius.only(
-        topLeft: Radius.circular(50),
-        topRight: Radius.circular(50),
-        bottomLeft: Radius.circular(50),
+        topLeft: Radius.circular(25),
+        topRight: Radius.circular(25),
+        bottomLeft: Radius.circular(25),
         bottomRight: Radius.circular(5),
       ));
 
@@ -123,7 +123,7 @@ class _StyledImageGridState extends State<StyledImageGrid>
       MediaQuery.of(context).size.width * 0.2,
       MediaQuery.of(context).size.height * 0.35, // Adjusted dynamically
       BorderRadius.only(
-        topLeft: Radius.circular(50),
+        topLeft: Radius.circular(25),
         topRight: Radius.circular(25),
         bottomLeft: Radius.circular(5),
         bottomRight: Radius.circular(25),
@@ -135,10 +135,10 @@ class _StyledImageGridState extends State<StyledImageGrid>
       MediaQuery.of(context).size.height * 0.25, // Adjusted dynamically
 
       BorderRadius.only(
-        topLeft: Radius.circular(50),
+        topLeft: Radius.circular(25),
         topRight: Radius.circular(0),
-        bottomLeft: Radius.circular(50),
-        bottomRight: Radius.circular(50),
+        bottomLeft: Radius.circular(25),
+        bottomRight: Radius.circular(25),
       ));
 
   Widget _buildContainer(String imagePath, double width, double height,

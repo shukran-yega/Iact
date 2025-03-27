@@ -35,19 +35,21 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   go_router: ^14.7.1
-  flutter_svg_provider: ^1.0.7
   lottie: ^3.3.1
   google_fonts: ^6.2.1
-  footer: ^0.0.4
   url_launcher: ^6.3.1
   org_chart: ^4.0.2
   flutter_staggered_grid_view: ^0.7.0
   carousel_slider: ^5.0.0
   animate_gradient: ^0.0.3
+  simple_parallax: ^0.1.1
+
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

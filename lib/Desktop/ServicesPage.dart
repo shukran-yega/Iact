@@ -25,12 +25,12 @@ class ServicePage extends StatelessWidget {
           ],
           secondaryColors: [
             Colors.white, // Start with no color at the top
-            Colors.blue.withOpacity(0.5), // Gradient intensifies downward
+            Colors.grey.withOpacity(0.1), // Gradient intensifies downward
           ],
           child: Padding(
             padding: const EdgeInsets.only(
-              left: 40.0,
-              right: 40,
+              left: 60,
+              right: 60,
               top: 10,
             ),
             child: SizedBox(
@@ -65,11 +65,12 @@ class ServicePage extends StatelessWidget {
         ));
   }
 
-  Widget _buildServiceCard(
-      {required String title,
-      required String description,
-      required String imagePath,
-      required Color bgColor}) {
+  Widget _buildServiceCard({
+    required String title,
+    required String description,
+    required String imagePath,
+    required Color bgColor,
+  }) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -110,11 +111,9 @@ class ServicePage extends StatelessWidget {
             child: Image.asset(
               imagePath,
               height: 60,
-              filterQuality: FilterQuality.high,
+              fit: BoxFit.cover,
             ),
           ),
-          //const SizedBox(height: 5),
-
           // Title
           Text(
             title,
@@ -125,8 +124,6 @@ class ServicePage extends StatelessWidget {
               color: Colors.blue.shade900,
             ),
           ),
-          //const SizedBox(height: 5),
-
           // Description (Limited to 3 sentences)
           Text(
             _limitSentences(description, 3),
@@ -137,23 +134,13 @@ class ServicePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-
-          // // Learn More Button
-          // TextButton(
-          //   onPressed: () {},
-          //   child: const Text(
-          //     "Learn More >",
-          //     style: TextStyle(
-          //       fontSize: 18,
-          //       fontWeight: FontWeight.bold,
-          //       color: Colors.blueAccent,
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
   }
+
+  final _scaleController =
+      ValueNotifier<double>(1.0); // Controller to handle scaling
 
 // Function to limit text to a specific number of sentences
   String _limitSentences(String text, int sentenceLimit) {
@@ -168,49 +155,49 @@ class ServicePage extends StatelessWidget {
       "title": "Software Development",
       "description":
           "We craft software for web, mobile, and desktop platforms. Our team delivers high-quality and scalable solutions. We turn your ideas into user-friendly applications.",
-      "imagePath": "devops.png",
+      "imagePath": "coding.png",
       "bgColor": const Color(0xFFFFFFFF),
     },
     {
       "title": "Research Implementation",
       "description":
           "We conduct ethical and structured research. Our approach ensures valuable and actionable insights. We analyze data to drive informed decision-making.",
-      "imagePath": "research.png",
+      "imagePath": "search.png",
       "bgColor": const Color(0xFFFFFFFF),
     },
     {
       "title": "Mobile Application",
       "description":
           "We develop high-performance mobile apps. Our solutions ensure reliability and user engagement. Optimized for success in a competitive market.",
-      "imagePath": "mobile.png",
+      "imagePath": "phone.png",
       "bgColor": const Color(0xFFFFFFFF),
     },
     {
       "title": "Data Hosting",
       "description":
           "We offer secure cloud-based hosting solutions. Our services ensure data safety and scalability. Reliable and efficient for modern businesses.",
-      "imagePath": "dataHosting.png",
+      "imagePath": "host.png",
       "bgColor": const Color(0xFFFFFFFF),
     },
     {
       "title": "Data Analytics",
       "description":
           "We turn raw data into actionable insights. Our analytics uncover trends and patterns. Helping businesses make data-driven decisions.",
-      "imagePath": "analysis.png",
+      "imagePath": "data.png",
       "bgColor": const Color(0xFFFFFFFF),
     },
     {
       "title": "Data Collection",
       "description":
           "We streamline mobile and web data collection. Our tools enhance data accuracy and accessibility. Enabling businesses to make informed decisions faster.",
-      "imagePath": "dataCollection.png",
+      "imagePath": "datacollect.png",
       "bgColor": const Color(0xFFFFFFFF),
     },
     {
       "title": "Recruit and Train enumerators",
       "description":
           "We can recruit and train enumerators to perform ethical field interviews.",
-      "imagePath": "field.png",
+      "imagePath": "meeting.png",
       "bgColor": const Color(0xFFFFFFFF),
     },
     {
