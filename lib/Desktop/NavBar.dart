@@ -1,3 +1,4 @@
+import 'dart:html' as html show window;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -57,8 +58,8 @@ class CustomNavigationBar extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width * 0.05),
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
+                          child: InkWell(
+                            onTap: () => html.window.location.reload(),
                             child: Container(
                               padding: EdgeInsets.all(8),
                               decoration: BoxDecoration(

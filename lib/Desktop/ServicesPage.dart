@@ -217,8 +217,8 @@ class _ServicePageState extends State<ServicePage> {
             ? MediaQuery.of(context).size.width
             : (isHorizontal ? 500 : 450),
         constraints: BoxConstraints(
-          minHeight: isHorizontal ? 350 : 400,
-          maxHeight: isHorizontal ? 400 : 450,
+          minHeight: 400,
+          maxHeight: 400,
         ),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -390,7 +390,7 @@ class _ServicePageState extends State<ServicePage> {
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
                 imagePath,
-                height: 300,
+                height: 375,
                 width: 150,
                 fit: BoxFit.cover,
               ),
