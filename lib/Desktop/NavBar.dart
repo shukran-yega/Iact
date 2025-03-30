@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:iact/Desktop/ServicesPage.dart';
 import 'package:iact/Desktop/homepage.dart';
@@ -16,7 +18,6 @@ class CustomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
-      //controller: scrollController,
       physics: ClampingScrollPhysics(),
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverAppBar(
@@ -28,81 +29,111 @@ class CustomNavigationBar extends StatelessWidget {
           collapsedHeight: MediaQuery.of(context).size.height * 0.12,
           backgroundColor: Colors.transparent,
           flexibleSpace: Container(
-            decoration: const BoxDecoration(color: Colors.transparent),
-            child: FlexibleSpaceBar(
-              collapseMode: CollapseMode.none,
-              stretchModes: const [StretchMode.blurBackground],
-              expandedTitleScale: 1,
-              centerTitle: true,
-              title: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Space out elements
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Left: Logo
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.05),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20))),
-                        child: Image.asset(
-                          "logo.png",
-                          height: 70,
-                          width: 70,
-                        ),
-                      ),
-                    ),
-
-                    // Center: TabBar wrapped in Column to align center
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment.center, // Center vertically
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.8),
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                )),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TabBar(
-                                indicatorSize: TabBarIndicatorSize.label,
-                                splashBorderRadius: BorderRadius.circular(50),
-                                controller: tabController,
-                                isScrollable: true,
-                                //indicatorPadding: const EdgeInsets.only(right: 30),
-                                indicatorColor: Colors.blue.shade900,
-                                labelStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                                unselectedLabelColor: Colors.grey,
-                                labelColor: Colors.blue.shade900,
-                                tabs: const [
-                                  Tab(text: 'Home'),
-                                  Tab(text: 'Services'),
-                                  Tab(text: 'Portfolio'),
-                                  Tab(text: 'Team'),
-                                  //   Tab(text: 'Contact'),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white.withOpacity(0.9),
+                  Colors.white.withOpacity(0.8),
+                ],
+              ),
+            ),
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.none,
+                  stretchModes: const [StretchMode.blurBackground],
+                  expandedTitleScale: 1,
+                  centerTitle: true,
+                  title: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Left: Logo with hover effect
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.05),
+                          child: MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 200),
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.blue.withOpacity(0.1),
+                                    blurRadius: 10,
+                                    offset: Offset(0, 2),
+                                  ),
                                 ],
+                              ),
+                              child: Image.asset(
+                                "logo.png",
+                                height: 60,
+                                width: 60,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+
+                        // Center: TabBar with modern styling
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(25),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.05),
+                                      blurRadius: 10,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10.0),
+                                  child: TabBar(
+                                    indicatorSize: TabBarIndicatorSize.label,
+                                    splashBorderRadius:
+                                        BorderRadius.circular(50),
+                                    controller: tabController,
+                                    isScrollable: true,
+                                    indicatorColor: Colors.blue.shade900,
+                                    labelStyle: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                    unselectedLabelColor: Colors.grey.shade600,
+                                    labelColor: Colors.blue.shade900,
+                                    tabs: [
+                                      _buildTab('Home', Icons.home_outlined),
+                                      _buildTab(
+                                          'Services',
+                                          Icons
+                                              .miscellaneous_services_outlined),
+                                      _buildTab(
+                                          'Portfolio', Icons.work_outline),
+                                      _buildTab('Team', Icons.people_outline),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -111,12 +142,32 @@ class CustomNavigationBar extends StatelessWidget {
       ],
       body: TabBarView(
         controller: tabController,
+        physics: BouncingScrollPhysics(),
         children: [
           Homepage(),
           ServicePage(),
           PortfolioPage(),
           Contactpage(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTab(String text, IconData icon) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Tab(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 18),
+              SizedBox(width: 8),
+              Text(text),
+            ],
+          ),
+        ),
       ),
     );
   }

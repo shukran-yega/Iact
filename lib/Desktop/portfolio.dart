@@ -8,713 +8,247 @@ class PortfolioPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    int crossAxisCount = screenWidth < 600
-        ? 1
-        : screenWidth < 1200
-            ? 2
-            : 3;
-    double itemWidth = screenWidth / crossAxisCount;
-    double itemHeight = 500; // Adjust height as needed
-    double childAspectRatio = itemWidth / itemHeight;
-
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text.rich(
-                            overflow: TextOverflow.visible,
-                            TextSpan(
-                              text: "Mbunge Live Project Pilot Survey",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            textAlign: TextAlign.justify,
-                            "Exploring the short term and long term effects of\nMbunge live show intervention",
-                            style: GoogleFonts.baloo2(fontSize: 25),
-                          ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.justify,
-                          "iDeas in Action conducted a two-pilot study for the survey in two constituencies:\n "
-                          "Tarime Rural and Nzega. The overall purpose of this assignment is to explore \n"
-                          "the short-term and potential long-term effects of the Mbunge live show intervention.\n "
-                          "The two pilot episodes were screened live using mobile cinema in 10 wards of each of\n the MPs' constituencies; "
-                          "the screenings were similar to a village meeting. Pre- and\n post-interviews were conducted with randomly selected respondents.\n"
-                          "The research team covered about half of the wards in each constituency\n using a mixed-method exercise,\n "
-                          "as appropriate to the theme/topic of exploration.",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 18,
-                            color: Colors.black87,
-                            height: 1.5,
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: 100,
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.2),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25)),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 70, // Ensure a defined size
-                                height: 70,
-                                //padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.redAccent.shade200,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(100), // Corrected
-                                  child: Image.asset(
-                                    "twaweza.jpg",
-                                    fit: BoxFit.cover,
-                                    // Use 'cover' to maintain aspect ratio
-                                    width: 70,
-                                    // Ensure a defined size
-                                    height: 70,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black87,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "Twaweza",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 60.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text.rich(
+                TextSpan(
+                  text: "Our ",
+                  style: GoogleFonts.baloo2(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["field.jpg", "team.jpg", "field2.jpg"],
+                  children: [
+                    TextSpan(
+                      text: "Portfolio",
+                      style: GoogleFonts.baloo2(
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue.shade900,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Explore our successful projects and collaborations",
+                style: GoogleFonts.baloo2(
+                  fontSize: 20,
+                  color: Colors.black87,
+                  height: 1.5,
+                ),
+              ),
+              SizedBox(height: 60),
+              _buildPortfolioItem(
+                context,
+                "Mbunge Live Project Pilot Survey",
+                "Exploring the short term and long term effects of Mbunge live show intervention",
+                "iDeas in Action conducted a two-pilot study for the survey in two constituencies: Tarime Rural and Nzega. The overall purpose of this assignment is to explore the short-term and potential long-term effects of the Mbunge live show intervention. The two pilot episodes were screened live using mobile cinema in 10 wards of each of the MPs' constituencies; the screenings were similar to a village meeting. Pre- and post-interviews were conducted with randomly selected respondents. The research team covered about half of the wards in each constituency using a mixed-method exercise, as appropriate to the theme/topic of exploration.",
+                ["field.jpg", "team.jpg", "field2.jpg"],
+                "twaweza.jpg",
+                "Twaweza",
+                isImageLeft: true,
+              ),
+              SizedBox(height: 80),
+              _buildPortfolioItem(
+                context,
+                "Data collection for Transparency for Development",
+                "Designed to access the intervention aimed at improving maternal and neonatal health",
+                "Transparency for Development (T4D) is a project led jointly by the Harvard Kennedy School and the Results for Development Institute in collaboration with the Clinton Health Access Initiative (CHAI), and is designed to assess whether well-designed transparency and accountability (T/A) interventions improve maternal and neonatal health (MNH) outcomes, and under what conditions within 100 sampled communities within the Dodoma and Tanga regions. iAct recruited and trained field enumerators, as well as, collected qualitative and quantitative data for that particular survey and provided data management support.",
+                ["field4.jpg", "field5.jpg", "support2.jpg"],
+                "t4d.jpg",
+                "Transparency for Development",
+                isImageLeft: false,
+              ),
+              SizedBox(height: 80),
+              _buildPortfolioItem(
+                context,
+                "Data Collection on diagnosing energy",
+                "FERN Marketing wished to obtain data on product sales and key performance indicators",
+                "FERN Marketing wished to obtain data on product sales and key performance indicators. We provided data management support—designing and customizing data collection tools, programming of data tools, data hosting, data cleaning, and data processing. We provided an online dashboard to give their clients summarized key performance indicators. Through FERN, we have indirectly worked with telecom companies in Tanzania (Tigo and Vodacom) and other companies such as Philip Morris International Tanzania (PMI).",
+                ["support2.jpg", "field2.jpg", "field3.jpg"],
+                "toronto.jpg",
+                "Toronto University",
+                isImageLeft: true,
+              ),
+              SizedBox(height: 80),
+              _buildPortfolioItem(
+                context,
+                "Windows-based Online virtual Machine",
+                "For hosting dedicated online servers such as ASP.NET and MS SQL",
+                "Custom dedicated online Windows-based server for hosting dedicated online services such as IIS, ASP.NET Controller, and MS SQL Server. Our online virtual servers can be configured with a static IP address, remote desktop connection, as well as base system modifications (kernel modifications). You can also configure script backups (cron jobs) or a complete snapshot of the server.",
+                ["pic1.jpg", "meeting.jpg", "PIC2.jpg"],
+                "ihi.jpg",
+                "Ifakara health center",
+                isImageLeft: false,
+              ),
+              SizedBox(height: 80),
+              _buildPortfolioItem(
+                context,
+                "Linux-based Online Virtual Servers",
+                "Custom dedicated online servers for hosting dedicated online applications",
+                "Custom dedicated online servers for hosting dedicated online applications such as web and data servers, online repositories, mail clients, and so forth. Our online virtual servers can be configured for direct secure shell connection (SSH) as well as base system modifications (kernel modifications). You can also configure script backups (cron jobs) or a complete snapshot of the server.",
+                ["support2.jpg", "meeting.jpg", "PIC2.jpg"],
+                "aaph.jpg",
+                "AAPH",
+                isImageLeft: true,
+              ),
+              SizedBox(height: 80),
+              _buildPortfolioItem(
+                context,
+                "Bridge Data Migration (DHIS2 Data Linkage)",
+                "We developed an online bridge application to DHIS2",
+                "With PACT Tanzania, we developed an online bridge application to DHIS2. DHIS2 is a famous data warehouse for online data collection via web forms. DHIS2 can also be configured for different types of data collection including mobile and machine-to-machine using Access Program Interfaces (APIs). Despite wide usage, DHIS2 has flexibility limitations on how to manipulate or modify some specific aspects of its data. With PACT Tanzania, we worked on a custom-designed solution to specifically address this challenge, and we were able to develop a bridge that acts as a pipe for advanced features to DHIS2 data.",
+                ["support2.jpg", "meeting.jpg", "PIC2.jpg"],
+                "pact.jpg",
+                "PACT",
+                isImageLeft: false,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPortfolioItem(
+    BuildContext context,
+    String title,
+    String subtitle,
+    String description,
+    List<String> images,
+    String partnerImage,
+    String partnerName, {
+    bool isImageLeft = true,
+  }) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final itemHeight = screenHeight * 0.8;
+
+    return Container(
+      height: itemHeight,
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 20,
+            offset: Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (isImageLeft) ...[
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: itemHeight * 0.8,
+                child: ImageCarousel(imagePaths: images),
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["field4.jpg", "field5.jpg", "support2.jpg"],
+            SizedBox(width: 40),
+          ],
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.baloo2(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.baloo2(
+                    fontSize: 20,
+                    color: Colors.blue.shade900,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Text(
+                      description,
+                      style: GoogleFonts.baloo2(
+                        fontSize: 16,
+                        color: Colors.black87,
+                        height: 1.6,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text.rich(
-                            overflow: TextOverflow.visible,
-                            TextSpan(
-                              text:
-                                  "Data collection for Transparency for Development",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                ),
+                SizedBox(height: 24),
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                              offset: Offset(0, 5),
                             ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Image.asset(
+                            partnerImage,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            textAlign: TextAlign.justify,
-                            "Designed to access the intervention "
-                            "aimed at improving maternal\nand neonatal health",
-                            style: GoogleFonts.baloo2(fontSize: 25),
-                          ),
+                      ),
+                      SizedBox(width: 12),
+                      Text(
+                        partnerName,
+                        style: GoogleFonts.baloo2(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue.shade900,
                         ),
-                        Text(
-                          textAlign: TextAlign.justify,
-                          "Transparency for Development (T4D) is a project led jointly by the Harvard Kennedy School \n"
-                          "and the Results for Development Institute in collaboration with the Clinton Health Access Initiative (CHAI)\n,"
-                          " and is designed to assess whether well-designed transparency and accountability (T/A)\n"
-                          "interventions improve maternal and neonatal health (MNH) outcomes, and under what \n"
-                          "conditions within 100 sampled communities within the Dodoma and Tanga regions.\n"
-                          "iAct recruited and trained field enumerators, as well as, collected qualitative\n"
-                          "and quantitative data for that particular survey and provided data management support.",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 18,
-                            color: Colors.black87,
-                            height: 1.5,
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: 100,
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.2),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25)),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 70, // Ensure a defined size
-                                height: 70,
-                                //padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.redAccent.shade200,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(100), // Corrected
-                                  child: Image.asset(
-                                    "t4d.jpg",
-                                    fit: BoxFit.cover,
-                                    // Use 'cover' to maintain aspect ratio
-                                    width: 70,
-                                    // Ensure a defined size
-                                    height: 70,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black87,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "Transparency for Development",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text.rich(
-                            overflow: TextOverflow.visible,
-                            TextSpan(
-                              text: "Data Collection on diagnosing energy",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            textAlign: TextAlign.justify,
-                            "FERN Marketing wished to obtain data on product sales\n"
-                            "and key performance indicators.",
-                            style: GoogleFonts.baloo2(fontSize: 25),
-                          ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.justify,
-                          "FERN Marketing wished to obtain data on product sales and key performance indicators.\n"
-                          "We provided data management support—designing and customizing data collection tools,\n"
-                          "programming of data tools, data hosting, data cleaning, and data processing.\n"
-                          "We provided an online dashboard to give their clients summarized key performance\nindicators."
-                          "Through FERN, we have indirectly worked with telecom companies in Tanzania \n(Tigo and Vodacom)"
-                          "and other companies such as Philip Morris International Tanzania (PMI).",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 18,
-                            color: Colors.black87,
-                            height: 1.5,
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: 100,
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.2),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25)),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 70, // Ensure a defined size
-                                height: 70,
-                                //padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.shade900,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(100), // Corrected
-                                  child: Image.asset(
-                                    "toronto.jpg",
-                                    fit: BoxFit.cover,
-                                    // Use 'cover' to maintain aspect ratio
-                                    width: 70,
-                                    // Ensure a defined size
-                                    height: 70,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black87,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "Toronto University",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["support2.jpg", "field2.jpg", "field3.jpg"],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["pic1.jpg", "meeting.jpg", "PIC2.jpg"],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text.rich(
-                            overflow: TextOverflow.visible,
-                            TextSpan(
-                              text: "Windows-based Online virtual Machine ",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            textAlign: TextAlign.justify,
-                            "For hosting dedicated online servers such as ASP.NET\n and MS SQL",
-                            style: GoogleFonts.baloo2(fontSize: 25),
-                          ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.justify,
-                          "Custom dedicated online Windows-based server for hosting dedicated online services such\n "
-                          "as IIS,ASP.NET Controller,and MS SQL Server. Our online virtual servers can be configured with a\n"
-                          "static IP address,remote desktop connection, as well as base system modifications\n "
-                          "(kernel modifications).You can also configure script backups (cron jobs) or a complete\n"
-                          " snapshot of the server.",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 18,
-                            color: Colors.black87,
-                            height: 1.5,
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: 100,
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.2),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25)),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 70, // Ensure a defined size
-                                height: 70,
-                                //padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.shade900,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(100), // Corrected
-                                  child: Image.asset(
-                                    "ihi.jpg",
-                                    fit: BoxFit.cover,
-                                    // Use 'cover' to maintain aspect ratio
-                                    width: 70,
-                                    // Ensure a defined size
-                                    height: 70,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black87,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "Ifakara health center",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text.rich(
-                            overflow: TextOverflow.visible,
-                            TextSpan(
-                              text: "Linux-based Online Virtual Servers",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            textAlign: TextAlign.justify,
-                            "Custom dedicated online servers for hosting\ndedicated online applications",
-                            style: GoogleFonts.baloo2(fontSize: 25),
-                          ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.justify,
-                          "Custom dedicated online servers for hosting dedicated online applications such\n as web and data servers,"
-                          "online repositories, mail clients, and so forth.\n"
-                          "Our online virtual servers can be configured for direct secure shell connection (SSH)\n"
-                          "as well as base system modifications (kernel modifications).\n "
-                          "You can also configure script backups (cron jobs) or a complete snapshot of the server.",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 18,
-                            color: Colors.black87,
-                            height: 1.5,
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: 100,
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.2),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25)),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 70, // Ensure a defined size
-                                height: 70,
-                                //padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.shade900,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(100), // Corrected
-                                  child: Image.asset(
-                                    "aaph.jpg",
-                                    fit: BoxFit.cover,
-                                    // Use 'cover' to maintain aspect ratio
-                                    width: 70,
-                                    // Ensure a defined size
-                                    height: 70,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black87,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "AAPH",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["support2.jpg", "meeting.jpg", "PIC2.jpg"],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.7, // Ensure it has a height
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: ImageCarousel(
-                      imagePaths: ["support2.jpg", "meeting.jpg", "PIC2.jpg"],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text.rich(
-                            overflow: TextOverflow.visible,
-                            TextSpan(
-                              text:
-                                  "Bridge Data Migration (DHIS2 Data Linkage)",
-                              style: GoogleFonts.baloo2(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            textAlign: TextAlign.justify,
-                            " we developed an online bridge application to DHIS2",
-                            style: GoogleFonts.baloo2(fontSize: 25),
-                          ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.justify,
-                          "With PACT Tanzania, we developed an online bridge application to DHIS2.\n"
-                          "DHIS2 is a famous data warehouse for online data collection via web forms.\n"
-                          "DHIS2 can also be configured for different types of data collection\n"
-                          "including mobile and machine-to-machine using Access Program Interfaces (APIs).\n"
-                          "Despite wide usage, DHIS2 has flexibility limitations on how to manipulate or \n"
-                          "modify some specific aspects of its data. With PACT Tanzania, we worked on a custom-designed\n"
-                          "solution to specifically address this challenge, and we were able to develop a bridge that acts\n"
-                          "as a pipe for advanced features to DHIS2 data.",
-                          style: GoogleFonts.baloo2(
-                            fontSize: 18,
-                            color: Colors.black87,
-                            height: 1.5,
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: 100,
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.2),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25)),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 70, // Ensure a defined size
-                                height: 70,
-                                //padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.shade900,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(100), // Corrected
-                                  child: Image.asset(
-                                    "pact.jpg",
-                                    fit: BoxFit.cover,
-                                    // Use 'cover' to maintain aspect ratio
-                                    width: 70,
-                                    // Ensure a defined size
-                                    height: 70,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black87,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "PACT",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+          ),
+          if (!isImageLeft) ...[
+            SizedBox(width: 40),
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: itemHeight * 0.8,
+                child: ImageCarousel(imagePaths: images),
               ),
             ),
           ],
-        ),
+        ],
       ),
     );
   }

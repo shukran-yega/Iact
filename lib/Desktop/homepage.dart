@@ -1,8 +1,8 @@
 import 'package:animate_gradient/animate_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iact/Desktop/ExpertWidget.dart';
 import 'package:iact/Desktop/Footer.dart';
+import 'package:iact/Desktop/test.dart';
 import 'package:iact/widgets/StyledImageContainers.dart';
 
 import 'Client.dart';
@@ -132,7 +132,12 @@ class Homepage extends StatelessWidget {
             child: TextCarousel(),
           ),
           // services offered
-          ExpertSection(),
+          ParallaxImage(
+            imagePath: "experts.jpg",
+            height: MediaQuery.of(context).size.height,
+            //width: MediaQuery.of(context).size.width,
+          ),
+          //ExpertSection(),
           InstitutionStats(),
           Padding(
             padding: const EdgeInsets.only(bottom: 50.0),

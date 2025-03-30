@@ -14,8 +14,17 @@ class IACTFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-      color: Colors.blue.shade900.withOpacity(0.5), // Dark theme
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.blue.shade900.withOpacity(0.6),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -24,70 +33,71 @@ class IACTFooter extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Logo & Description
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  sectionTitle("Quick Links"),
-                  InkWell(
-                      onTap: () {
-                        // Path to the file (ensure it's in the 'assets' folder)
-                        const String fileUrl = "assets/IACTProfile.pdf";
-
-                        // Create a downloadable link
-                        html.AnchorElement anchor =
-                            html.AnchorElement(href: fileUrl)
-                              ..setAttribute("download", "IACTProfile.pdf")
-                              ..click();
-                      },
-                      child: footerLink("Research reference")),
-                  InkWell(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content:
-                                Text("There are no announcement right now"),
-                            backgroundColor: Colors.blueAccent,
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      },
-                      child: footerLink("Announcements")),
-                  InkWell(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Web Blog is currently unavailable"),
-                            backgroundColor: Colors.blueAccent,
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      },
-                      child: footerLink("Blog")),
-                  InkWell(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content:
-                                Text("No events to report, try again later"),
-                            backgroundColor: Colors.blueAccent,
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      },
-                      child: footerLink("Events")),
-                ],
-              ),
-
               // Quick Links
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  sectionTitle("Quick Links"),
+                  _buildHoverableLink(
+                    context,
+                    "Research reference",
+                    () {
+                      const String fileUrl = "assets/IACTProfile.pdf";
+                      html.AnchorElement anchor =
+                          html.AnchorElement(href: fileUrl)
+                            ..setAttribute("download", "IACTProfile.pdf")
+                            ..click();
+                    },
+                  ),
+                  _buildHoverableLink(
+                    context,
+                    "Announcements",
+                    () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("There are no announcements right now"),
+                          backgroundColor: Colors.blueAccent,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildHoverableLink(
+                    context,
+                    "Blog",
+                    () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Web Blog is currently unavailable"),
+                          backgroundColor: Colors.blueAccent,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildHoverableLink(
+                    context,
+                    "Events",
+                    () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("No events to report, try again later"),
+                          backgroundColor: Colors.blueAccent,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+
+              // Contact Info
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   sectionTitle("Contact Us"),
-                  footerText("📞 +255 743 262 932"),
-                  const SizedBox(height: 10),
-                  footerText("📧 support@iact.co.tz"),
-                  const SizedBox(height: 10),
+                  _buildContactItem(Icons.phone, "+255 743 262 932"),
+                  _buildContactItem(Icons.email, "support@iact.co.tz"),
                   InkWell(
                     onTap: () async {
                       if (!await launchUrl(_url)) {
@@ -100,43 +110,67 @@ class IACTFooter extends StatelessWidget {
                         );
                       }
                     },
-                    child: footerText("📍 Dar es Salaam, Tanzania"),
+                    child: _buildContactItem(
+                        Icons.location_on, "Dar es Salaam, Tanzania"),
                   ),
                 ],
               ),
 
-              // Contact Info
+              // Logo & Description
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    "logo.png", // Replace with actual IACT logo
-                    height: 50,
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Image.asset(
+                      "logo.png",
+                      height: 60,
+                    ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   const Text(
                     "Ideas in Action - IACT",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 5),
                   const Text(
                     "Innovating solutions for a better future.",
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
                   ),
                 ],
               ),
             ],
           ),
 
-          const SizedBox(height: 15),
+          const SizedBox(height: 30),
 
           // Separator Line
-          const Divider(color: Colors.white24, thickness: 0.5),
+          Container(
+            height: 1,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Colors.white.withOpacity(0.2),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
 
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
 
           // Bottom Section - Copyright & Socials
           Column(
@@ -145,43 +179,46 @@ class IACTFooter extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //socialIcon("assets/facebook.png"),
-                  InkWell(
-                      onTap: () async {
-                        Uri facebok = Uri.parse(
-                            "https://web.facebook.com/iact.or.tz?_rdc=1&_rdr#");
-                        if (!await launchUrl(facebok)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Failed to open the link"),
-                              backgroundColor: Colors.redAccent,
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      },
-                      child: Icon(Icons.facebook)),
-                  const SizedBox(width: 10),
-                  //socialIcon("assets/twitter.png"),
-                  Icon(Icons.email),
-                  const SizedBox(width: 10),
-                  //socialIcon("assets/youtube.png"),
-                  Icon(Icons.youtube_searched_for),
+                  _buildSocialIcon(
+                    context,
+                    Icons.facebook,
+                    "https://web.facebook.com/iact.or.tz?_rdc=1&_rdr#",
+                  ),
+                  const SizedBox(width: 20),
+                  _buildSocialIcon(
+                    context,
+                    Icons.email,
+                    "mailto:support@iact.co.tz",
+                  ),
+                  const SizedBox(width: 20),
+                  _buildSocialIcon(
+                    context,
+                    Icons.youtube_searched_for,
+                    "https://www.youtube.com/@iact",
+                  ),
                 ],
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
 
               // Copyright & Version
               Text(
                 "© 2025 IACT - Ideas in Action. All Rights Reserved.",
-                style: TextStyle(fontSize: 12, color: Colors.white60),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white60,
+                  letterSpacing: 0.5,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 5),
               Text(
                 "Version: 1.0.1",
-                style: TextStyle(fontSize: 12, color: Colors.white60),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white60,
+                  letterSpacing: 0.5,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -191,45 +228,92 @@ class IACTFooter extends StatelessWidget {
     );
   }
 
-  // Footer Section Title
-  Widget sectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-          color: Colors.white,
+  Widget _buildHoverableLink(
+      BuildContext context, String text, VoidCallback onTap) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.white70,
+            ),
+          ),
         ),
       ),
     );
   }
 
-  // Footer Text Links
-  Widget footerLink(String text) {
+  Widget _buildContactItem(IconData icon, String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 12, color: Colors.white70),
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color: Colors.white70,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.white70,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  // Footer Regular Text
-  Widget footerText(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 12, color: Colors.white70),
+  Widget _buildSocialIcon(BuildContext context, IconData icon, String url) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: InkWell(
+        onTap: () async {
+          if (!await launchUrl(Uri.parse(url))) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Failed to open the link"),
+                backgroundColor: Colors.redAccent,
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
       ),
     );
   }
 
-  // Social Media Icon
-  Widget socialIcon(String assetPath) {
-    return Image.asset(assetPath, height: 24, color: Colors.white70);
+  Widget sectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15,
+          color: Colors.white,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
   }
 }

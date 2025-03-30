@@ -1,218 +1,403 @@
-import 'package:animate_gradient/animate_gradient.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class ServicePage extends StatelessWidget {
-  ServicePage({super.key});
+class ServicePage extends StatefulWidget {
+  const ServicePage({super.key});
+
+  @override
+  State<ServicePage> createState() => _ServicePageState();
+}
+
+class _ServicePageState extends State<ServicePage> {
+  final List<double> _imageScales = List.generate(9, (_) => 1.0);
+  final List<double> _cardElevations = List.generate(9, (_) => 2.0);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color(0xFFECECEC),
-        body: AnimateGradient(
-          primaryBegin: Alignment.topRight, // Start from the center
-          primaryEnd: Alignment.bottomLeft, // Move directly downward
-          secondaryBegin:
-              Alignment.centerLeft, // Keep secondary gradient aligned
-          secondaryEnd: Alignment.centerRight, // Also move downward
-          primaryBeginGeometry: const AlignmentDirectional(0, 1),
-          primaryEndGeometry: const AlignmentDirectional(0, 2),
-          secondaryBeginGeometry: const AlignmentDirectional(2, 0),
-          secondaryEndGeometry: const AlignmentDirectional(0, -0.8),
-          primaryColors: [
-            Colors.white, // Keeps the top part untouched
-            Colors.white.withOpacity(0.3), // Subtle fade
-          ],
-          secondaryColors: [
-            Colors.white, // Start with no color at the top
-            Colors.grey.withOpacity(0.1), // Gradient intensifies downward
-          ],
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 60,
-              right: 60,
-              top: 10,
-            ),
-            child: SizedBox(
-              height: MediaQuery.of(context)
-                  .size
-                  .height, // Adjust height as needed,
-              child: GridView.custom(
-                gridDelegate: SliverQuiltedGridDelegate(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  repeatPattern: QuiltedGridRepeatPattern.inverted,
-                  pattern: [
-                    QuiltedGridTile(1, 1),
-                    QuiltedGridTile(1, 2),
-                    QuiltedGridTile(1, 1),
-                    //QuiltedGridTile(1, 2),
-                  ],
-                ),
-                childrenDelegate: SliverChildBuilderDelegate(
-                  childCount: 9,
-                  (context, index) => _buildServiceCard(
-                    bgColor: services[index]['bgColor'],
-                    description: services[index]['description'],
-                    imagePath: services[index]['imagePath'],
-                    title: services[index]['title'],
-                  ),
-                ),
-              ),
-            ),
+    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
+
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white,
+              Colors.blue.shade50.withOpacity(0.3),
+              Colors.white,
+            ],
           ),
-        ));
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: isSmallScreen ? 20 : 40, vertical: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildHeader(context),
+              SizedBox(height: 40),
+              _buildServicesGrid(context, isSmallScreen),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _buildServiceCard({
-    required String title,
-    required String description,
-    required String imagePath,
-    required Color bgColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: bgColor, // Custom background color
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: bgColor),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(3, 3),
+  Widget _buildHeader(BuildContext context) {
+    return Column(
+      children: [
+        Text.rich(
+          TextSpan(
+            text: "From ",
+            style: GoogleFonts.baloo2(
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            children: [
+              TextSpan(
+                text: "insights ",
+                style: GoogleFonts.baloo2(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade900,
+                ),
+              ),
+              TextSpan(
+                text: "to",
+                style: GoogleFonts.baloo2(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: " innovation",
+                style: GoogleFonts.baloo2(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade900,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
+        SizedBox(height: 20),
+        Text(
+          textAlign: TextAlign.center,
+          "Transforming bold ideas into actionable insights through innovation and data-driven strategies",
+          style: GoogleFonts.baloo2(
+            fontSize: 24,
+            color: Colors.black87,
+            height: 1.5,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildServicesGrid(BuildContext context, bool isSmallScreen) {
+    return Wrap(
+      spacing: 20,
+      runSpacing: 20,
+      alignment: WrapAlignment.center,
+      children: [
+        _buildServiceCard(
+          context,
+          0,
+          "Software Development",
+          "Creating Custom tailored software solutions",
+          "IACT specializes in crafting tailor-made software solutions that empower businesses to streamline processes and achieve their unique goals. We deliver scalable and efficient systems designed to drive success. Your vision, our expertise—seamlessly integrated.",
+          "computer.jpg",
+          isSmallScreen,
+        ),
+        _buildServiceCard(
+          context,
+          1,
+          "Research Implementation",
+          "Ethical and structured research",
+          "Ethical research implementation balances integrity and accountability, protecting rights and ensuring transparency. By following clear objectives and systematic methodologies, it delivers meaningful, impactful results while upholding established guidelines",
+          "field5.jpg",
+          isSmallScreen,
+          isHorizontal: true,
+        ),
+        _buildServiceCard(
+          context,
+          2,
+          "Mobile Development",
+          "Creating Custom tailored software solutions",
+          "Mobile development focuses on creating user-friendly, responsive applications tailored for smartphones and tablets. With innovative design and seamless performance, it enhances accessibility and engagement for users. From concept to deployment.",
+          "mobile.jpg",
+          isSmallScreen,
+        ),
+        _buildServiceCard(
+          context,
+          3,
+          "Data Hosting",
+          "Secured Cloud based Hosting",
+          "Secured cloud-based hosting ensures data protection through encryption, firewalls, and regular backups. It offers scalable solutions with robust security measures to safeguard. Perfect for businesses prioritizing safety and efficiency.",
+          "cloud.jpg",
+          isSmallScreen,
+        ),
+        _buildServiceCard(
+          context,
+          4,
+          "Data Analysis",
+          "Performing data analysis",
+          "Data analysis involves systematically collecting, cleaning, and interpreting data to uncover insights and support decision-making. By leveraging statistical techniques and visualization tools, it transforms raw data into actionable knowledge.",
+          "PIC2.jpg",
+          isSmallScreen,
+          isHorizontal: true,
+        ),
+        _buildServiceCard(
+          context,
+          5,
+          "Data Collection",
+          "Ethical Data collection",
+          "Data collection involves gathering information from various sources using structured methods, ensuring accuracy and relevance. It serves as the foundation for analysis and decision-making in research and business.",
+          "field.jpg",
+          isSmallScreen,
+        ),
+        _buildServiceCard(
+          context,
+          6,
+          "Recruiting and Training",
+          "Training enumerators to perform ethical interviews",
+          "Recruiting and training enumerators involves selecting qualified individuals for data collection tasks and equipping them with the necessary skills. This includes thorough onboarding, clear instructions, and practical training.",
+          "field2.jpg",
+          isSmallScreen,
+        ),
+        _buildServiceCard(
+          context,
+          7,
+          "Support and Mentorship",
+          "Support others through mentorship",
+          "Support and mentorship involve guiding individuals through challenges while fostering their personal and professional growth. It includes providing advice, sharing knowledge, and creating a nurturing environment for development.",
+          "mentors.jpg",
+          isSmallScreen,
+          isHorizontal: true,
+        ),
+        _buildServiceCard(
+          context,
+          8,
+          "Research Deployment",
+          "Deploying research proposal to local context",
+          "Adaptation and deployment of a research proposal involve tailoring the methodology to fit specific contexts and ensuring its effective implementation. This process prioritizes ethical considerations and systematic execution.",
+          "support2.jpg",
+          isSmallScreen,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildServiceCard(
+    BuildContext context,
+    int index,
+    String title,
+    String subtitle,
+    String description,
+    String imagePath,
+    bool isSmallScreen, {
+    bool isHorizontal = false,
+  }) {
+    return MouseRegion(
+      onEnter: (_) => setState(() {
+        _imageScales[index] = 1.05;
+        _cardElevations[index] = 8.0;
+      }),
+      onExit: (_) => setState(() {
+        _imageScales[index] = 1.0;
+        _cardElevations[index] = 2.0;
+      }),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        width: isSmallScreen
+            ? MediaQuery.of(context).size.width
+            : (isHorizontal ? 500 : 450),
+        constraints: BoxConstraints(
+          minHeight: isHorizontal ? 350 : 400,
+          maxHeight: isHorizontal ? 400 : 450,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: _cardElevations[index] * 2,
+              offset: Offset(0, _cardElevations[index]),
+            ),
+          ],
+        ),
+        child: isHorizontal
+            ? _buildHorizontalCard(
+                context, index, title, subtitle, description, imagePath)
+            : _buildVerticalCard(
+                context, index, title, subtitle, description, imagePath),
       ),
+    );
+  }
+
+  Widget _buildVerticalCard(
+    BuildContext context,
+    int index,
+    String title,
+    String subtitle,
+    String description,
+    String imagePath,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Icon/Image
-          Container(
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 8,
-                  offset: const Offset(2, 2),
+          Text(
+            title,
+            style: GoogleFonts.baloo2(
+              fontSize: 16,
+              color: Colors.blue.shade900,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            subtitle,
+            style: GoogleFonts.baloo2(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 6),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    description,
+                    style: GoogleFonts.baloo2(
+                      fontSize: 15,
+                      color: Colors.black54,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Learn more →",
+                    style: GoogleFonts.baloo2(
+                      color: Colors.blue.shade900,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ],
             ),
-            child: Image.asset(
-              imagePath,
-              height: 60,
-              fit: BoxFit.cover,
+          ),
+          SizedBox(height: 8),
+          AnimatedScale(
+            scale: _imageScales[index],
+            duration: Duration(milliseconds: 200),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                imagePath,
+                height: 100,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          // Title
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue.shade900,
-            ),
-          ),
-          // Description (Limited to 3 sentences)
-          Text(
-            _limitSentences(description, 3),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black54,
-            ),
-          ),
-          const SizedBox(height: 10),
         ],
       ),
     );
   }
 
-  final _scaleController =
-      ValueNotifier<double>(1.0); // Controller to handle scaling
-
-// Function to limit text to a specific number of sentences
-  String _limitSentences(String text, int sentenceLimit) {
-    List<String> sentences = text.split(RegExp(r'\. ')); // Split into sentences
-    return sentences.take(sentenceLimit).join('. ') +
-        (sentences.length > sentenceLimit ? '.' : '');
+  Widget _buildHorizontalCard(
+    BuildContext context,
+    int index,
+    String title,
+    String subtitle,
+    String description,
+    String imagePath,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.baloo2(
+                    fontSize: 16,
+                    color: Colors.blue.shade900,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.baloo2(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 6),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          description,
+                          style: GoogleFonts.baloo2(
+                            fontSize: 15,
+                            color: Colors.black54,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Learn more →",
+                          style: GoogleFonts.baloo2(
+                            color: Colors.blue.shade900,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 16),
+          AnimatedScale(
+            scale: _imageScales[index],
+            duration: Duration(milliseconds: 200),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                imagePath,
+                height: 300,
+                width: 150,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
-
-// List of Services with images and colors
-  List<Map<String, dynamic>> services = [
-    {
-      "title": "Software Development",
-      "description":
-          "We craft software for web, mobile, and desktop platforms. Our team delivers high-quality and scalable solutions. We turn your ideas into user-friendly applications.",
-      "imagePath": "coding.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Research Implementation",
-      "description":
-          "We conduct ethical and structured research. Our approach ensures valuable and actionable insights. We analyze data to drive informed decision-making.",
-      "imagePath": "search.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Mobile Application",
-      "description":
-          "We develop high-performance mobile apps. Our solutions ensure reliability and user engagement. Optimized for success in a competitive market.",
-      "imagePath": "phone.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Data Hosting",
-      "description":
-          "We offer secure cloud-based hosting solutions. Our services ensure data safety and scalability. Reliable and efficient for modern businesses.",
-      "imagePath": "host.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Data Analytics",
-      "description":
-          "We turn raw data into actionable insights. Our analytics uncover trends and patterns. Helping businesses make data-driven decisions.",
-      "imagePath": "data.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Data Collection",
-      "description":
-          "We streamline mobile and web data collection. Our tools enhance data accuracy and accessibility. Enabling businesses to make informed decisions faster.",
-      "imagePath": "datacollect.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Recruit and Train enumerators",
-      "description":
-          "We can recruit and train enumerators to perform ethical field interviews.",
-      "imagePath": "meeting.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Support & mentorship",
-      "description":
-          "We provide mentorship to bachelors,Masters and phD students with a hands on approach",
-      "imagePath": "cap.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-    {
-      "title": "Adaption and Deployment of research proposal",
-      "description":
-          "Adaption and Deployment of research proposal to local context following all legal procedures",
-      "imagePath": "legal.png",
-      "bgColor": const Color(0xFFFFFFFF),
-    },
-  ];
 }
