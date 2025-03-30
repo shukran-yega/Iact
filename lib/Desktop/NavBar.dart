@@ -59,8 +59,7 @@ class CustomNavigationBar extends StatelessWidget {
                               left: MediaQuery.of(context).size.width * 0.05),
                           child: MouseRegion(
                             cursor: SystemMouseCursors.click,
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 200),
+                            child: Container(
                               padding: EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
@@ -84,10 +83,16 @@ class CustomNavigationBar extends StatelessWidget {
 
                         // Center: TabBar with modern styling
                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
+                          child: Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: 85.0,
+                                right: MediaQuery.of(context).size.width * 0.15,
+                              ),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxWidth: 600,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.9),
                                   borderRadius: BorderRadius.circular(25),
@@ -101,7 +106,7 @@ class CustomNavigationBar extends StatelessWidget {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0, vertical: 10.0),
+                                      vertical: 10.0),
                                   child: TabBar(
                                     indicatorSize: TabBarIndicatorSize.label,
                                     splashBorderRadius:
@@ -128,7 +133,7 @@ class CustomNavigationBar extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ],
@@ -144,7 +149,7 @@ class CustomNavigationBar extends StatelessWidget {
         controller: tabController,
         physics: BouncingScrollPhysics(),
         children: [
-          Homepage(),
+          Homepage(tabController: tabController),
           ServicePage(),
           PortfolioPage(),
           Contactpage(),
@@ -157,16 +162,13 @@ class CustomNavigationBar extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Tab(
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 18),
-              SizedBox(width: 8),
-              Text(text),
-            ],
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18),
+            SizedBox(width: 8),
+            Text(text),
+          ],
         ),
       ),
     );

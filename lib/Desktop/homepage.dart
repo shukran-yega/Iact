@@ -10,7 +10,12 @@ import 'Impact.dart';
 import 'carauselText.dart';
 
 class Homepage extends StatelessWidget {
-  const Homepage({super.key});
+  final TabController tabController;
+
+  const Homepage({
+    super.key,
+    required this.tabController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +146,7 @@ class Homepage extends StatelessWidget {
           InstitutionStats(),
           Padding(
             padding: const EdgeInsets.only(bottom: 50.0),
-            child: ClientLogosGrid(),
+            child: ClientLogosGrid(tabController: tabController),
           ),
           // footer
           IACTFooter()
