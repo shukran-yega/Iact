@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iact/Desktop/portfolio.dart';
 
 class ClientLogosGrid extends StatefulWidget {
   final TabController tabController;
