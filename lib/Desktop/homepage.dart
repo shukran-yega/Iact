@@ -2,6 +2,7 @@ import 'package:animate_gradient/animate_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iact/Desktop/Footer.dart';
+import 'package:iact/Desktop/News.dart';
 import 'package:iact/Desktop/test.dart';
 import 'package:iact/widgets/StyledImageContainers.dart';
 
@@ -130,6 +131,7 @@ class Homepage extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(height: 70),
           // carasuel for services
           Padding(
             padding: EdgeInsets.only(
@@ -142,6 +144,7 @@ class Homepage extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             //width: MediaQuery.of(context).size.width,
           ),
+          News(tabController: tabController),
           //ExpertSection(),
           InstitutionStats(),
           Padding(

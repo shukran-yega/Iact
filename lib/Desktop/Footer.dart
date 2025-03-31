@@ -42,6 +42,12 @@ class IACTFooter extends StatelessWidget {
                     context,
                     "Research reference",
                     () {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            "Download of research reference will start shortly"),
+                        backgroundColor: Colors.blueAccent,
+                        duration: Duration(seconds: 2),
+                      ));
                       const String fileUrl = "assets/IACTProfile.pdf";
                       html.AnchorElement anchor =
                           html.AnchorElement(href: fileUrl)
