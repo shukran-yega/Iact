@@ -22,55 +22,55 @@ class News extends StatelessWidget {
         "title": "Research Innovation",
         "description":
             "IACT launches new data collection platforms integrating AI and machine learning for more efficient  operations.",
-        "image": "assets/computer.jpg"
+        "image": "computer.jpg"
       },
       {
         "title": "Training Excellence",
         "description":
             "Our comprehensive training program equips field researchers with cutting-edge digital tools and research methodologies.",
-        "image": "assets/field3.jpg"
+        "image": "field3.jpg"
       },
       {
         "title": "Tech Solutions",
         "description":
             "IACT develops custom software solutions to streamline data collection and analysis for research institutions.",
-        "image": "assets/PIC2.jpg"
+        "image": "PIC2.jpg"
       },
       {
         "title": "Field Operations",
         "description":
             "Implementing innovative mobile data collection systems across multiple research sites.",
-        "image": "assets/field.jpg"
+        "image": "field.jpg"
       },
       {
         "title": "Cloud Infrastructure",
         "description":
             "Expanding our cloud-based research infrastructure to support large-scale data operations.",
-        "image": "assets/cloud.jpg"
+        "image": "cloud.jpg"
       },
       {
         "title": "Community Impact",
         "description":
             "Supporting local research teams with technology-driven solutions and capacity building.",
-        "image": "assets/field2.jpg"
+        "image": "field2.jpg"
       },
       {
         "title": "Data Security",
         "description":
             "Implementing advanced security protocols for sensitive research data management.",
-        "image": "assets/mobile.jpg"
+        "image": "mobile.jpg"
       },
       {
         "title": "Research Support",
         "description":
             "Providing technical expertise and support for complex research projects.",
-        "image": "assets/field5.jpg"
+        "image": "field5.jpg"
       },
       {
         "title": "Digital Innovation",
         "description":
             "Creating new digital tools to enhance research efficiency and data quality.",
-        "image": "assets/support2.jpg"
+        "image": "support2.jpg"
       },
     ];
 
