@@ -20,10 +20,10 @@ class ExpertSection extends StatelessWidget {
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   return AnimatedBuilder(
-                    animation: Scrollable.of(context)!.position,
+                    animation: Scrollable.of(context).position,
                     builder: (context, child) {
                       double scrollOffset =
-                          Scrollable.of(context)!.position.pixels;
+                          Scrollable.of(context).position.pixels;
                       double move = (scrollOffset * 0.3).clamp(-10, 10);
 
                       return Transform.translate(

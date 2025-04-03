@@ -2,11 +2,10 @@ import 'dart:html' as html show window;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:iact/Desktop/AboutUs.dart';
 import 'package:iact/Desktop/ServicesPage.dart';
 import 'package:iact/Desktop/homepage.dart';
 import 'package:iact/Desktop/portfolio.dart';
-
-import 'ContactPage.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final TabController tabController;
@@ -27,7 +26,7 @@ class CustomNavigationBar extends StatelessWidget {
           floating: true,
           pinned: true,
           expandedHeight: MediaQuery.of(context).size.height * 0.15,
-          collapsedHeight: MediaQuery.of(context).size.height * 0.12,
+          collapsedHeight: MediaQuery.of(context).size.height * 0.15,
           backgroundColor: Colors.transparent,
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -60,28 +59,32 @@ class CustomNavigationBar extends StatelessWidget {
                               left: MediaQuery.of(context).size.width * 0.05),
                           child: InkWell(
                             onTap: () => html.window.location.reload(),
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.blue.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: Offset(0, 2),
+                            child: Stack(
+                              children: [
+                                // Shadow Layer
+                                Positioned(
+                                  top: 4,
+                                  left: 4,
+                                  child: Opacity(
+                                    opacity: 0.3, // Adjust shadow opacity
+                                    child: Image.asset(
+                                      "logo.png",
+                                      height: 80,
+                                      width: 80,
+                                      color: Colors.grey, // Shadow color
+                                    ),
                                   ),
-                                ],
-                              ),
-                              child: Image.asset(
-                                "logo.png",
-                                height: 60,
-                                width: 60,
-                              ),
+                                ),
+                                // Main Image
+                                Image.asset(
+                                  "logo.png",
+                                  height: 80,
+                                  width: 80,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-
                         // Center: TabBar with modern styling
                         Expanded(
                           child: Center(
@@ -129,7 +132,8 @@ class CustomNavigationBar extends StatelessWidget {
                                               .miscellaneous_services_outlined),
                                       _buildTab(
                                           'Portfolio', Icons.work_outline),
-                                      _buildTab('Team', Icons.people_outline),
+                                      _buildTab(
+                                          'About us', Icons.people_outline),
                                     ],
                                   ),
                                 ),
@@ -153,7 +157,7 @@ class CustomNavigationBar extends StatelessWidget {
           Homepage(tabController: tabController),
           ServicePage(),
           PortfolioPage(),
-          Contactpage(),
+          Aboutus()
         ],
       ),
     );

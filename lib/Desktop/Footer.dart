@@ -1,5 +1,3 @@
-import 'dart:html' as html;
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -49,10 +47,6 @@ class IACTFooter extends StatelessWidget {
                         duration: Duration(seconds: 2),
                       ));
                       const String fileUrl = "assets/IACTProfile.pdf";
-                      html.AnchorElement anchor =
-                          html.AnchorElement(href: fileUrl)
-                            ..setAttribute("download", "IACTProfile.pdf")
-                            ..click();
                     },
                   ),
                   _buildHoverableLink(

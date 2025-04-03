@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iact/Desktop/NavBar.dart';
-import 'package:iact/mobile/Landing_page.dart';
+
+import '../mobile/HomePage.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -45,7 +46,7 @@ class _LandingPageState extends State<LandingPage>
           );
         } else {
           // Fallback for mobile layout
-          return LandingPageMobile();
+          return MobileHomePage();
         }
       },
     );
