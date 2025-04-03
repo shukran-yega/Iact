@@ -12,48 +12,24 @@ class Aboutus extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
               Text(
-                'About US',
+                'IACT Team',
                 style: GoogleFonts.baloo2(
                   fontSize: 48,
                   fontWeight: FontWeight.bold,
                   color: Colors.blue.shade900,
                 ),
               ),
-              const SizedBox(height: 40),
-              Text(
-                'The IACT team develops and maintains various tools, algorithms, and software '
-                'related to innovative software solutions. Development is ongoing, and things are changing rapidly. '
-                'This site provides information useful for accessing and using IACT services as well as '
-                'recent publications and updates on what the team has done. All of our software itself '
-                'is developed using modern technologies including Flutter, React, and Node.js. Our applications '
-                'are available through various platforms including web, mobile, and desktop environments.',
-                style: GoogleFonts.baloo2(
-                  fontSize: 16,
-                  height: 1.6,
-                  color: Colors.grey[800],
-                ),
-              ),
               const SizedBox(height: 20),
               Text(
                 'IACT is, in part, a collaborative effort with various industry partners and academic institutions.',
                 style: GoogleFonts.baloo2(
-                  fontSize: 16,
-                  height: 1.6,
+                  fontSize: 24,
+                  height: 1.5,
                   color: Colors.grey[800],
-                ),
-              ),
-              const SizedBox(height: 60),
-              Center(
-                child: Text(
-                  'IACT Team',
-                  style: GoogleFonts.baloo2(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w500,
-                  ),
                 ),
               ),
               const SizedBox(height: 40),
@@ -66,6 +42,39 @@ class Aboutus extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 60),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      'About us',
+                      style: GoogleFonts.baloo2(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '''               The IACT team develops and maintains various tools, algorithms, and software
+                related to innovative software solutions.Development is ongoing, and things are changing rapidly. 
+                This site provides information useful for accessing and using IACT services as well as
+                recent publications and updates on what the team has done.All of our software itself
+                is developed using modern technologies including Flutter, React, and Node.js.Our applications
+                are available through various platforms including web, mobile, and desktop environments.''',
+                    textAlign: TextAlign.justify,
+                    style: GoogleFonts.baloo2(
+                      fontSize: 16,
+                      height: 1.6,
+                      color: Colors.grey[800],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -88,6 +97,12 @@ class Aboutus extends StatelessWidget {
         'image': 'samson.jpg'
       },
       {
+        'name': ' Farida Katunzi',
+        'role': 'Finance Manager',
+        'id': '10',
+        'image': 'farida.jpeg'
+      },
+      {
         'name': 'Jonas Mwambimbi',
         'role': 'Software Architect',
         'id': '3',
@@ -97,19 +112,19 @@ class Aboutus extends StatelessWidget {
         'name': 'Shoko Irema',
         'role': 'UI/UX Designer',
         'id': '4',
-        'image': 'shoko.jpg'
+        'image': 'assets/team/shoko.jpg'
+      },
+      {
+        'name': 'Shukurani Mohamed',
+        'role': 'Mobile Developer',
+        'id': '6',
+        'image': 'assets/team/shukurani.jpg'
       },
       {
         'name': 'Selemani Mmbaga',
         'role': 'Full Stack Developer',
         'id': '5',
         'image': 'assets/team/selemani.jpg'
-      },
-      {
-        'name': 'Shukurani Mohamed',
-        'role': 'Mobile Developer',
-        'id': '6',
-        'image': ''
       },
       {
         'name': 'Samwel Godfrey',
@@ -129,12 +144,7 @@ class Aboutus extends StatelessWidget {
         'id': '9',
         'image': 'assets/team/john.jpg'
       },
-      {
-        'name': ' Farida Katunzi',
-        'role': 'QA Engineer',
-        'id': '10',
-        'image': 'assets/team/farida.jpg'
-      },
+
       {
         'name': 'Carlos Martinez',
         'role': 'Frontend Developer',
@@ -175,7 +185,7 @@ class Aboutus extends StatelessWidget {
             backgroundColor: Colors.blue.shade900,
             content: Text(
                 "${member['name']}'s IACT profile is unavailable right now try again later"),
-            duration: const Duration(seconds: 2),
+            duration: const Duration(seconds: 4),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

@@ -40,11 +40,15 @@ class IACTFooter extends StatelessWidget {
                     context,
                     "Research reference",
                     () {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                             "Download of research reference will start shortly"),
-                        backgroundColor: Colors.blueAccent,
+                        backgroundColor: Colors.blue.shade900,
                         duration: Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ));
                       const String fileUrl = "assets/IACTProfile.pdf";
                     },
@@ -54,10 +58,14 @@ class IACTFooter extends StatelessWidget {
                     "Announcements",
                     () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text("There are no announcements right now"),
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.blue.shade900,
                           duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       );
                     },
@@ -67,10 +75,14 @@ class IACTFooter extends StatelessWidget {
                     "Blog",
                     () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text("Web Blog is currently unavailable"),
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.blue.shade900,
                           duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       );
                     },
@@ -80,10 +92,14 @@ class IACTFooter extends StatelessWidget {
                     "Events",
                     () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text("No events to report, try again later"),
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.blue.shade900,
                           duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       );
                     },
@@ -213,7 +229,7 @@ class IACTFooter extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "Version: 1.0.5",
+                "Version: 1.0.6",
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.white60,

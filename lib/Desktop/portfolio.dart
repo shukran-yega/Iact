@@ -9,7 +9,7 @@ class PortfolioPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 60.0),
+          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -37,7 +37,7 @@ class PortfolioPage extends StatelessWidget {
               Text(
                 "Explore our successful projects and collaborations",
                 style: GoogleFonts.baloo2(
-                  fontSize: 20,
+                  fontSize: 24,
                   color: Colors.black87,
                   height: 1.5,
                 ),
