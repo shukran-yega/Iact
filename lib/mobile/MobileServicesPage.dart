@@ -51,42 +51,42 @@ class MobileServicesPage extends StatelessWidget {
         "subtitle": "Creating Custom tailored software solutions",
         "description":
             "IACT specializes in crafting tailor-made software solutions that empower businesses to streamline processes and achieve their unique goals.",
-        "image": "assets/computer.jpg",
+        "image": "computer.jpg",
       },
       {
         "title": "Research Implementation",
         "subtitle": "Ethical and structured research",
         "description":
             "Ethical research implementation balances integrity and accountability, protecting rights and ensuring transparency.",
-        "image": "assets/field5.jpg",
+        "image": "field5.jpg",
       },
       {
         "title": "Mobile Development",
         "subtitle": "Creating Custom tailored software solutions",
         "description":
             "Mobile development focuses on creating user-friendly, responsive applications tailored for smartphones and tablets.",
-        "image": "assets/mobile.jpg",
+        "image": "mobile.jpg",
       },
       {
         "title": "Data Hosting",
         "subtitle": "Secured Cloud based Hosting",
         "description":
             "Secured cloud-based hosting ensures data protection through encryption, firewalls, and regular backups.",
-        "image": "assets/cloud.jpg",
+        "image": "cloud.jpg",
       },
       {
         "title": "Data Analysis",
         "subtitle": "Performing data analysis",
         "description":
             "Data analysis involves systematically collecting, cleaning, and interpreting data to uncover insights.",
-        "image": "assets/PIC2.jpg",
+        "image": "PIC2.jpg",
       },
       {
         "title": "Data Collection",
         "subtitle": "Ethical Data collection",
         "description":
             "Data collection involves gathering information from various sources using structured methods.",
-        "image": "assets/field.jpg",
+        "image": "field.jpg",
       },
     ];
 

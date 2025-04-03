@@ -49,22 +49,22 @@ class MobilePortfolioPage extends StatelessWidget {
       {
         "title": "Data Collection Platform",
         "category": "Software Development",
-        "image": "assets/field3.jpg",
+        "image": "field3.jpg",
       },
       {
         "title": "Research Analytics Dashboard",
         "category": "Data Analysis",
-        "image": "assets/PIC2.jpg",
+        "image": "PIC2.jpg",
       },
       {
         "title": "Mobile Survey App",
         "category": "Mobile Development",
-        "image": "assets/mobile.jpg",
+        "image": "mobile.jpg",
       },
       {
         "title": "Cloud Infrastructure",
         "category": "Data Hosting",
-        "image": "assets/cloud.jpg",
+        "image": "cloud.jpg",
       },
     ];
 

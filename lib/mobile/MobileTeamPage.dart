@@ -50,17 +50,17 @@ class MobileTeamPage extends StatelessWidget {
       {
         "name": "Research Team",
         "role": "Field Operations",
-        "image": "assets/field2.jpg",
+        "image": "field2.jpg",
       },
       {
         "name": "Development Team",
         "role": "Software Solutions",
-        "image": "assets/computer.jpg",
+        "image": "computer.jpg",
       },
       {
         "name": "Data Team",
         "role": "Analytics & Insights",
-        "image": "assets/PIC2.jpg",
+        "image": "PIC2.jpg",
       },
     ];
 

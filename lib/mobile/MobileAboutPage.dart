@@ -48,60 +48,88 @@ class MobileAboutPage extends StatelessWidget {
   Widget _buildTeamSection() {
     final teamMembers = [
       {
-        "name": "Dr. James Anderson",
-        "role": "Chief Executive Officer",
+        'name': 'Isaac Lyatuu',
+        'role': 'Managing Director',
+        'id': '1',
+        'image': 'isaac.jpg'
       },
       {
-        "name": "Sarah Mitchell",
-        "role": "Head of Research",
+        'name': 'Samson Kiware',
+        'role': 'Principal Researcher',
+        'id': '2',
+        'image': 'samson.jpg'
       },
       {
-        "name": "Michael Chen",
-        "role": "Lead Software Developer",
+        'name': 'Jonas Mwambimbi',
+        'role': 'Software Architect',
+        'id': '3',
+        'image': 'jonas.jpg'
       },
       {
-        "name": "Dr. Emily Carter",
-        "role": "Data Science Director",
+        'name': 'Shoko Irema',
+        'role': 'UI/UX Designer',
+        'id': '4',
+        'image': 'shoko.jpg'
       },
       {
-        "name": "David Kimani",
-        "role": "Field Operations Manager",
+        'name': 'Selemani Mmbaga',
+        'role': 'Full Stack Developer',
+        'id': '5',
+        'image': 'assets/team/selemani.jpg'
       },
       {
-        "name": "Lisa Wong",
-        "role": "UX Research Lead",
+        'name': 'Shukurani Mohamed',
+        'role': 'Mobile Developer',
+        'id': '6',
+        'image': ''
       },
       {
-        "name": "Robert Mbeki",
-        "role": "Senior Developer",
+        'name': 'Samwel Godfrey',
+        'role': 'Backend Engineer',
+        'id': '7',
+        'image': 'assets/team/samwel.jpg'
+      },
+      // {
+      //   'name': 'Imani Irema',
+      //   'role': 'Data Scientist',
+      //   'id': '8',
+      //   'image': 'assets/team/imani.jpg'
+      // },
+      {
+        'name': 'John Smith',
+        'role': 'DevOps Engineer',
+        'id': '9',
+        'image': 'assets/team/john.jpg'
       },
       {
-        "name": "Maria Garcia",
-        "role": "Research Coordinator",
+        'name': ' Farida Katunzi',
+        'role': 'QA Engineer',
+        'id': '10',
+        'image': 'assets/team/farida.jpg'
       },
       {
-        "name": "John Doe",
-        "role": "Systems Architect",
+        'name': 'Carlos Martinez',
+        'role': 'Frontend Developer',
+        'id': '11',
+        'image': 'assets/team/carlos.jpg'
       },
       {
-        "name": "Anna Smith",
-        "role": "Data Analyst",
+        'name': 'Sophie Brown',
+        'role': 'Product Manager',
+        'id': '12',
+        'image': 'assets/team/sophie.jpg'
       },
       {
-        "name": "Peter Zhang",
-        "role": "Mobile Developer",
+        'name': 'Alex Johnson',
+        'role': 'Systems Architect',
+        'id': '13',
+        'image': 'assets/team/alex.jpg'
       },
       {
-        "name": "Grace Ochieng",
-        "role": "Project Manager",
-      },
-      {
-        "name": "Tom Wilson",
-        "role": "Backend Developer",
-      },
-      {
-        "name": "Sophie Chen",
-        "role": "UI/UX Designer",
+        'name': 'Grace Liu',
+        'role': 'Research Engineer',
+        'id': '14',
+        'image': 'assets/team/grace.jpg'
       },
     ];
 

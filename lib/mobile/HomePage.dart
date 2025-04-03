@@ -220,7 +220,7 @@ class _MobileHomePageState extends State<MobileHomePage>
           fit: StackFit.expand,
           children: [
             Image.asset(
-              "assets/experts.jpg",
+              "experts.jpg",
               fit: BoxFit.cover,
             ),
             Container(
@@ -270,17 +270,17 @@ class _MobileHomePageState extends State<MobileHomePage>
       {
         "title": "Research Innovation",
         "description": "IACT launches new AI-driven data collection platforms.",
-        "image": "assets/computer.jpg"
+        "image": "computer.jpg"
       },
       {
         "title": "Training Excellence",
         "description": "Cutting-edge training for field researchers.",
-        "image": "assets/field3.jpg"
+        "image": "field3.jpg"
       },
       {
         "title": "Tech Solutions",
         "description": "Custom software for streamlined data analysis.",
-        "image": "assets/PIC2.jpg"
+        "image": "PIC2.jpg"
       },
     ];
 
