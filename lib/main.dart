@@ -2,40 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iact/Desktop/Landing_page.dart';
 import 'package:iact/mobile/MobileLayout.dart';
-
-import 'mobile/MobilePortfolioPage.dart';
-import 'mobile/MobileServicesPage.dart';
-import 'mobile/MobileTeamPage.dart';
+import 'package:iact/mobile/MobilePortfolioPage.dart';
+import 'package:iact/mobile/MobileServicesPage.dart';
+import 'package:iact/mobile/MobileTeamPage.dart';
+import 'package:iact/mobile/MobileAboutPage.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
+class ResponsiveLayout extends StatelessWidget {
+  final Widget child;
+  const ResponsiveLayout({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Use 1200 as the breakpoint for mobile/desktop
+        if (constraints.maxWidth < 1200) {
+          return MobileLayout(child: child);
+        } else {
+          // For desktop, return the child directly without the mobile layout wrapper
+          return child;
+        }
+      },
+    );
+  }
+}
+
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) =>
-          const LandingPage(),
+    ShellRoute(
+      builder: (context, state, child) => ResponsiveLayout(child: child),
       routes: [
-        // ✅ Move nested routes here!
         GoRoute(
-          path: 'services',
-          builder: (context, state) => MobileLayout(
-            child: const MobileServicesPage(),
-          ),
+          path: '/',
+          builder: (context, state) => const LandingPage(),
         ),
         GoRoute(
-          path: 'portfolio',
-          builder: (context, state) => MobileLayout(
-            child: const MobilePortfolioPage(),
-          ),
+          path: '/services',
+          builder: (context, state) => const MobileServicesPage(),
         ),
         GoRoute(
-          path: 'team',
-          builder: (context, state) => MobileLayout(
-            child: const MobileTeamPage(),
-          ),
+          path: '/portfolio',
+          builder: (context, state) => const MobilePortfolioPage(),
+        ),
+        GoRoute(
+          path: '/team',
+          builder: (context, state) => const MobileTeamPage(),
+        ),
+        GoRoute(
+          path: '/about',
+          builder: (context, state) => const MobileAboutPage(),
         ),
       ],
     ),

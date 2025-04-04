@@ -246,18 +246,15 @@ class IACTFooter extends StatelessWidget {
 
   Widget _buildHoverableLink(
       BuildContext context, String text, VoidCallback onTap) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.white70,
-            ),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.white70,
           ),
         ),
       ),

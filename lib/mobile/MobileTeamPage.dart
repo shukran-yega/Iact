@@ -6,13 +6,15 @@ class MobileTeamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _buildHeader(),
-          _buildTeamGrid(),
-          _buildContactSection(),
-        ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildHeader(),
+            _buildTeamGrid(),
+            _buildContactSection(),
+          ],
+        ),
       ),
     );
   }

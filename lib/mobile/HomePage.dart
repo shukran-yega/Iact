@@ -37,16 +37,16 @@ class _MobileHomePageState extends State<MobileHomePage>
       color: Colors.transparent,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: Icon(Icons.menu, color: Colors.blue.shade900),
-            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-          ),
-          title: Image.asset('logo.png', height: 40),
-          centerTitle: true,
-        ),
+        // appBar: AppBar(
+        //   elevation: 0,
+        //   backgroundColor: Colors.transparent,
+        //   leading: IconButton(
+        //     icon: Icon(Icons.menu, color: Colors.blue.shade900),
+        //     onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+        //   ),
+        //   title: Image.asset('logo.png', height: 40),
+        //   centerTitle: true,
+        // ),
         drawer: _buildDrawer(context),
         body: SingleChildScrollView(
           child: Column(
@@ -71,7 +71,7 @@ class _MobileHomePageState extends State<MobileHomePage>
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue.shade900,
+                color: Colors.blue.shade900.withOpacity(0.1),
               ),
               child: Center(
                 child: Image.asset('logo.png', height: 80),
@@ -533,7 +533,7 @@ class _MobileHomePageState extends State<MobileHomePage>
           ),
           const SizedBox(height: 8),
           Text(
-            "Version: 1.0.5",
+            "Version: 1.0.6",
             style: GoogleFonts.baloo2(
               fontSize: 12,
               color: Colors.white60,
