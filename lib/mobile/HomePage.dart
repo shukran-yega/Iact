@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iact/mobile/MobileClientLogos.dart';
 import 'package:iact/mobile/MobilePortfolioPage.dart';
 import 'package:iact/mobile/MobileServicesPage.dart';
 import 'package:iact/mobile/MobileTeamPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Desktop/Footer.dart';
+import '../Desktop/carauselText.dart';
 
 class MobileHomePage extends StatefulWidget {
   const MobileHomePage({super.key});
@@ -56,9 +58,28 @@ class _MobileHomePageState extends State<MobileHomePage>
           child: Column(
             children: [
               _buildHeroSection(),
+              Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 5, left: 8, right: 8),
+                child: TextCarousel(),
+              ),
               _buildParallaxSection(),
               _buildNewsSection(),
               _buildStatsSection(),
+              // Add the client logos section here
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 40, left: 24, right: 24, bottom: 5),
+                child: MobileClientLogos(),
+              ),
+              TextButton(
+                  onPressed: () {
+                    context.go("/portfolio");
+                  },
+                  child: Text(
+                    "and many more ➡",
+                    style: TextStyle(color: Colors.blue),
+                  )),
+              // create a client view that will use the goRouter like context.go("/portfolio")
               _buildFooter(),
             ],
           ),
