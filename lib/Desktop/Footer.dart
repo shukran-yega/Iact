@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -40,6 +42,7 @@ class IACTFooter extends StatelessWidget {
                     context,
                     "Research reference",
                     () {
+                      downloadPDFWeb();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                             "Download of research reference will start shortly"),
@@ -50,7 +53,6 @@ class IACTFooter extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ));
-                      const String fileUrl = "assets/IACTProfile.pdf";
                     },
                   ),
                   _buildHoverableLink(
@@ -329,4 +331,14 @@ class IACTFooter extends StatelessWidget {
       ),
     );
   }
+}
+
+void downloadPDFWeb() {
+  final String fileUrl = "assets/IACTProfile.pdf";
+
+  // Create an anchor element
+  final anchor = html.AnchorElement(href: fileUrl)
+    ..target = 'blank'
+    ..download = "IACTProfile.pdf"
+    ..click();
 }

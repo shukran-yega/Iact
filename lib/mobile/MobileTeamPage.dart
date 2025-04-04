@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MobileTeamPage extends StatelessWidget {
@@ -11,7 +12,11 @@ class MobileTeamPage extends StatelessWidget {
         child: Column(
           children: [
             _buildHeader(),
-            _buildTeamGrid(),
+            InkWell(
+                onTap: () {
+                  context.go("/about");
+                },
+                child: _buildTeamGrid()),
             _buildContactSection(),
           ],
         ),

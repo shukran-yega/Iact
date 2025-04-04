@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,8 +20,18 @@ class _MobileLayoutState extends State<MobileLayout> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor:
+            Colors.white.withOpacity(0.2), // semi-transparent glass look
         elevation: 0,
+        flexibleSpace: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+            child: Container(
+              color: Colors.white
+                  .withOpacity(0.2), // Optional: overlay for frosty feel
+            ),
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.menu, color: Colors.blue.shade900),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),

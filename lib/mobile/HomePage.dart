@@ -1,10 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iact/mobile/MobilePortfolioPage.dart';
 import 'package:iact/mobile/MobileServicesPage.dart';
 import 'package:iact/mobile/MobileTeamPage.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../Desktop/Footer.dart';
 
 class MobileHomePage extends StatefulWidget {
   const MobileHomePage({super.key});
@@ -133,17 +137,25 @@ class _MobileHomePageState extends State<MobileHomePage>
 
   Widget _buildHeroSection() {
     return Container(
+      height: 370,
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(40),
-          bottomRight: Radius.circular(40),
+          bottomLeft: Radius.circular(250),
+          bottomRight: Radius.circular(250),
         ),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
-            padding: const EdgeInsets.fromLTRB(24, 100, 24, 40),
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
             decoration: BoxDecoration(
-              color: Colors.blue.shade900.withOpacity(0.1),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.white.withOpacity(0.4), // top
+                  Colors.blue.shade900.withOpacity(0.4), // bottom
+                ],
+              ),
               border: Border(
                 bottom: BorderSide(
                   color: Colors.white.withOpacity(0.2),
@@ -270,7 +282,7 @@ class _MobileHomePageState extends State<MobileHomePage>
       {
         "title": "Research Innovation",
         "description": "IACT launches new AI-driven data collection platforms.",
-        "image": "computer.jpg"
+        "image": "field2.jpg"
       },
       {
         "title": "Training Excellence",
@@ -305,55 +317,65 @@ class _MobileHomePageState extends State<MobileHomePage>
   }
 
   Widget _buildNewsCard(Map<String, String> news) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.asset(
-              news["image"]!,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        // navigate to mobile portfolio
+        setState(() {
+          _selectedIndex = 1;
+        });
+        context.go("/Services");
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  news["title"]!,
-                  style: GoogleFonts.baloo2(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  news["description"]!,
-                  style: GoogleFonts.baloo2(
-                    fontSize: 16,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(16)),
+              child: Image.asset(
+                news["image"]!,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    news["title"]!,
+                    style: GoogleFonts.baloo2(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    news["description"]!,
+                    style: GoogleFonts.baloo2(
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -466,10 +488,58 @@ class _MobileHomePageState extends State<MobileHomePage>
                 ),
               ),
               const SizedBox(height: 16),
-              _buildFooterLink("Research reference", () {}),
-              _buildFooterLink("Announcements", () {}),
-              _buildFooterLink("Blog", () {}),
-              _buildFooterLink("Events", () {}),
+              _buildFooterLink("Research reference", () {
+                downloadPDFWeb();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content:
+                      Text("Download of research reference will start shortly"),
+                  backgroundColor: Colors.blue.shade900,
+                  duration: Duration(seconds: 2),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ));
+              }),
+              _buildFooterLink("Announcements", () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("There are no announcements right now"),
+                    backgroundColor: Colors.blue.shade900,
+                    duration: Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+              }),
+              _buildFooterLink("Blog", () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("There are no blogs right now"),
+                    backgroundColor: Colors.blue.shade900,
+                    duration: Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+              }),
+              _buildFooterLink("Events", () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("There are no events right now"),
+                    backgroundColor: Colors.blue.shade900,
+                    duration: Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+              }),
             ],
           ),
           const SizedBox(height: 32),
@@ -488,7 +558,20 @@ class _MobileHomePageState extends State<MobileHomePage>
               const SizedBox(height: 16),
               _buildContactItem(Icons.phone, "+255 743 262 932"),
               _buildContactItem(Icons.email, "support@iact.co.tz"),
-              _buildContactItem(Icons.location_on, "Dar es Salaam, Tanzania"),
+              InkWell(
+                  onTap: () async {
+                    if (!await launchUrl(_url)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Failed to open Google Maps"),
+                          backgroundColor: Colors.redAccent,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
+                  child: _buildContactItem(
+                      Icons.location_on, "Dar es Salaam, Tanzania")),
             ],
           ),
           const SizedBox(height: 32),
@@ -601,3 +684,8 @@ class _MobileHomePageState extends State<MobileHomePage>
     );
   }
 }
+
+final _url = Uri.parse(
+    "https://www.google.com.au/maps/place/PSSSF+COMMERCIAL+COMPLEX/@-6.7791121,39.217825,17.35z/"
+    "data=!4m6!3m5!1s0x185c4f1cfe233113:0xa57f6ec7db3aa101!8m2!3d-6.7794547!"
+    "4d39.217617!16s%2Fg%2F11qm3t8p9j?entry=ttu&g_ep=EgoyMDI1MDMwOC4wIKXMDSoASAFQAw%3D%3D");
