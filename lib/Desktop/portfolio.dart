@@ -70,7 +70,7 @@ class PortfolioPage extends StatelessWidget {
                 "Data Collection on diagnosing energy",
                 "FERN Marketing wished to obtain data on product sales and key performance indicators",
                 "FERN Marketing wished to obtain data on product sales and key performance indicators. We provided data management support—designing and customizing data collection tools, programming of data tools, data hosting, data cleaning, and data processing. We provided an online dashboard to give their clients summarized key performance indicators. Through FERN, we have indirectly worked with telecom companies in Tanzania (Tigo and Vodacom) and other companies such as Philip Morris International Tanzania (PMI).",
-                "PIC2.jpg",
+                "field8.jpg",
                 "toronto.jpg",
                 "Toronto University",
                 isImageLeft: true,
@@ -94,7 +94,7 @@ class PortfolioPage extends StatelessWidget {
                 "Custom dedicated online servers for hosting dedicated online applications such as web and data servers, online repositories, mail clients, and so forth. Our online virtual servers can be configured for direct secure shell connection (SSH) as well as base system modifications (kernel modifications). You can also configure script backups (cron jobs) or a complete snapshot of the server.",
                 "computer.jpg",
                 "aaph.jpg",
-                "AAPH",
+                "African Academy for Public Health",
                 isImageLeft: true,
               ),
               SizedBox(height: 80),
@@ -103,7 +103,7 @@ class PortfolioPage extends StatelessWidget {
                 "Bridge Data Migration (DHIS2 Data Linkage)",
                 "We developed an online bridge application to DHIS2",
                 "With PACT Tanzania, we developed an online bridge application to DHIS2. DHIS2 is a famous data warehouse for online data collection via web forms. DHIS2 can also be configured for different types of data collection including mobile and machine-to-machine using Access Program Interfaces (APIs). Despite wide usage, DHIS2 has flexibility limitations on how to manipulate or modify some specific aspects of its data. With PACT Tanzania, we worked on a custom-designed solution to specifically address this challenge, and we were able to develop a bridge that acts as a pipe for advanced features to DHIS2 data.",
-                "dhis2.png",
+                "dhis2.jpg",
                 "pact.jpg",
                 "PACT",
                 isImageLeft: false,
@@ -126,7 +126,7 @@ class PortfolioPage extends StatelessWidget {
     bool isImageLeft = true,
   }) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final itemHeight = screenHeight * 0.8;
+    final itemHeight = screenHeight * 0.7;
 
     return Container(
       height: itemHeight,
@@ -201,34 +201,25 @@ class PortfolioPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Text(
-                      description,
-                      style: GoogleFonts.baloo2(
-                        fontSize: 16,
-                        color: Colors.black87,
-                        height: 1.6,
-                      ),
+                SingleChildScrollView(
+                  child: Text(
+                    description,
+                    style: GoogleFonts.baloo2(
+                      fontSize: 16,
+                      color: Colors.black87,
+                      height: 1.6,
                     ),
                   ),
                 ),
-                SizedBox(height: 24),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                      width: 1,
-                    ),
-                  ),
+                //SizedBox(height: 24),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 65),
                   child: Row(
                     children: [
                       Container(
-                        width: 50,
-                        height: 50,
+                        width: 70,
+                        height: 70,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,

@@ -64,13 +64,13 @@ class News extends StatelessWidget {
         "title": "Research Support",
         "description":
             "Providing technical expertise and support for complex research projects.",
-        "image": "field5.jpg"
+        "image": "field5_2.jpg"
       },
       {
         "title": "Digital Innovation",
         "description":
             "Creating new digital tools to enhance research efficiency and data quality.",
-        "image": "support2.jpg"
+        "image": "field11_2.jpg"
       },
     ];
 

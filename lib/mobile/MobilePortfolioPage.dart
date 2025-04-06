@@ -99,7 +99,7 @@ class MobilePortfolioPage extends StatelessWidget {
                 "Bridge Data Migration (DHIS2 Data Linkage)",
                 "We developed an online bridge application to DHIS2",
                 "With PACT Tanzania, we developed an online bridge application to DHIS2. DHIS2 is a famous data warehouse for online data collection via web forms. DHIS2 can also be configured for different types of data collection including mobile and machine-to-machine using Access Program Interfaces (APIs). Despite wide usage, DHIS2 has flexibility limitations on how to manipulate or modify some specific aspects of its data. With PACT Tanzania, we worked on a custom-designed solution to specifically address this challenge, and we were able to develop a bridge that acts as a pipe for advanced features to DHIS2 data.",
-                "dhis2.png",
+                "dhis2.jpg",
                 "pact.jpg",
                 "PACT",
               ),

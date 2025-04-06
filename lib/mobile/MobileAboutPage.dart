@@ -82,31 +82,31 @@ are available through various platforms including web, mobile, and desktop envir
     final teamMembers = [
       {
         'name': 'Isaac Lyatuu',
-        'role': 'Managing Director',
+        'role': 'System Architect',
         'id': '1',
         'image': 'isaac.jpg'
       },
       {
-        'name': 'Samson Kiware',
-        'role': 'Principal Researcher',
+        'name': 'Godfrey Siwingwa',
+        'role': 'Field Coordinator',
         'id': '2',
-        'image': 'samson.jpg'
+        'image': ''
       },
       {
         'name': ' Farida Katunzi',
-        'role': 'Finance Manager',
+        'role': 'Finance & Admin',
         'id': '10',
         'image': 'farida.jpeg'
       },
       {
         'name': 'Jonas Mwambimbi',
-        'role': 'Software Architect',
+        'role': 'Systems developer',
         'id': '3',
         'image': 'jonas.jpg'
       },
       {
         'name': 'Shoko Irema',
-        'role': 'UI/UX Designer',
+        'role': 'Product Design',
         'id': '4',
         'image': 'assets/team/shoko.jpg'
       },
@@ -116,44 +116,51 @@ are available through various platforms including web, mobile, and desktop envir
         'id': '6',
         'image': 'assets/team/shukurani.jpg'
       },
-      {
-        'name': 'Selemani Mmbaga',
-        'role': 'Full Stack Developer',
-        'id': '5',
-        'image': 'assets/team/selemani.jpg'
-      },
-      {
-        'name': 'Samwel Godfrey',
-        'role': 'Backend Engineer',
-        'id': '7',
-        'image': 'assets/team/samwel.jpg'
-      },
+      // {
+      //   'name': 'Selemani Mmbaga',
+      //   'role': 'Full Stack Developer',
+      //   'id': '5',
+      //   'image': 'assets/team/selemani.jpg'
+      // },
+      // {
+      //   'name': 'Samwel Godfrey',
+      //   'role': 'Backend Engineer',
+      //   'id': '7',
+      //   'image': 'assets/team/samwel.jpg'
+      // },
+      // {
+      //   'name': 'Imani Irema',
+      //   'role': 'Data Scientist',
+      //   'id': '8',
+      //   'image': 'assets/team/imani.jpg'
+      // },
       {
         'name': 'John Smith',
         'role': 'DevOps Engineer',
         'id': '9',
         'image': 'assets/team/john.jpg'
       },
+
       {
-        'name': 'Carlos Martinez',
+        'name': 'Carlos Stevenson',
         'role': 'Frontend Developer',
         'id': '11',
         'image': 'assets/team/carlos.jpg'
       },
       {
-        'name': 'Sophie Brown',
+        'name': 'Sophie Thompson',
         'role': 'Product Manager',
         'id': '12',
         'image': 'assets/team/sophie.jpg'
       },
       {
-        'name': 'Alex Johnson',
+        'name': 'Alex Brown',
         'role': 'Systems Architect',
         'id': '13',
         'image': 'assets/team/alex.jpg'
       },
       {
-        'name': 'Grace Liu',
+        'name': 'Grace Litu',
         'role': 'Research Engineer',
         'id': '14',
         'image': 'assets/team/grace.jpg'

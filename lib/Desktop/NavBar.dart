@@ -69,8 +69,8 @@ class CustomNavigationBar extends StatelessWidget {
                                     opacity: 0.3, // Adjust shadow opacity
                                     child: Image.asset(
                                       "logo.png",
-                                      height: 80,
-                                      width: 80,
+                                      height: 100,
+                                      width: 100,
                                       color: Colors.grey, // Shadow color
                                     ),
                                   ),
@@ -78,8 +78,8 @@ class CustomNavigationBar extends StatelessWidget {
                                 // Main Image
                                 Image.asset(
                                   "logo.png",
-                                  height: 80,
-                                  width: 80,
+                                  height: 100,
+                                  width: 100,
                                 ),
                               ],
                             ),

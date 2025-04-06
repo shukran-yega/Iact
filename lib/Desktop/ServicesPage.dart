@@ -136,8 +136,10 @@ class _ServicePageState extends State<ServicePage> {
           context,
           3,
           "Data Hosting",
-          "Secured Cloud based Hosting",
-          "Secured cloud-based hosting ensures data protection through encryption, firewalls, and regular backups. It offers scalable solutions with robust security measures to safeguard. Perfect for businesses prioritizing safety and efficiency.",
+          "Virtual Private servers",
+          "Virtual Private Servers (VPS)"
+              "Online machines with Windows and Linux OS"
+              "We help our clients to configure online virtual machines through trusted companies such as Digital Oceans, Contabo & Go Daddy and manage payments in local currency. The virtual machines can be run with Windows or Linux, configured with static IP address, DNS and additional services such as automatic backups, firewalls and remote management.",
           "cloud.jpg",
           isSmallScreen,
         ),
@@ -185,7 +187,7 @@ class _ServicePageState extends State<ServicePage> {
           "Research Deployment",
           "Deploying research proposal to local context",
           "Adaptation and deployment of a research proposal involve tailoring the methodology to fit specific contexts and ensuring its effective implementation. This process prioritizes ethical considerations and systematic execution.",
-          "support2.jpg",
+          "field11_2.jpg",
           isSmallScreen,
         ),
       ],
