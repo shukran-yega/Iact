@@ -155,7 +155,7 @@ class CustomNavigationBar extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         children: [
           Homepage(tabController: tabController),
-          ServicePage(),
+          ServicePage(tabController: tabController),
           PortfolioPage(),
           Aboutus()
         ],

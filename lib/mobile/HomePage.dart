@@ -260,7 +260,7 @@ class _MobileHomePageState extends State<MobileHomePage>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.blue.shade900.withOpacity(0.8),
+                    Colors.blue.shade900.withOpacity(0.1),
                     Colors.blue.shade900.withOpacity(0.3),
                   ],
                   begin: Alignment.bottomCenter,
@@ -591,8 +591,8 @@ class _MobileHomePageState extends State<MobileHomePage>
                       );
                     }
                   },
-                  child: _buildContactItem(
-                      Icons.location_on, "Dar es Salaam, Tanzania")),
+                  child: _buildContactItem(Icons.location_on,
+                      "PSSF 2nd floor Dar es Salaam, Tanzania")),
             ],
           ),
           const SizedBox(height: 32),
@@ -604,8 +604,6 @@ class _MobileHomePageState extends State<MobileHomePage>
               _buildSocialIcon(Icons.facebook),
               const SizedBox(width: 20),
               _buildSocialIcon(Icons.email),
-              const SizedBox(width: 20),
-              _buildSocialIcon(Icons.youtube_searched_for),
             ],
           ),
           const SizedBox(height: 32),
@@ -637,7 +635,7 @@ class _MobileHomePageState extends State<MobileHomePage>
           ),
           const SizedBox(height: 8),
           Text(
-            "Version: 1.0.6",
+            "Version: 1.0.7",
             style: GoogleFonts.baloo2(
               fontSize: 12,
               color: Colors.white60,

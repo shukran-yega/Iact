@@ -36,7 +36,11 @@ class _MobileLayoutState extends State<MobileLayout> {
           icon: Icon(Icons.menu, color: Colors.blue.shade900),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
-        title: Image.asset('logo.png', height: 50),
+        title: InkWell(
+            onTap: () {
+              context.go("/");
+            },
+            child: Image.asset('logo.png', height: 50)),
         centerTitle: true,
       ),
       drawer: _buildDrawer(context),

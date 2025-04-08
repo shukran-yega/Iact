@@ -28,7 +28,7 @@ class MobileTeamPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             "Our Team",

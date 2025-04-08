@@ -16,7 +16,7 @@ class MobileAboutPage extends StatelessWidget {
             children: [
               const SizedBox(height: 40),
               Text(
-                'IACT Team',
+                'The Team',
                 style: GoogleFonts.baloo2(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,

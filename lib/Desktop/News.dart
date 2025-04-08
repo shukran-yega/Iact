@@ -102,7 +102,7 @@ class News extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "IACT",
+                        "Ideas in action",
                         style: GoogleFonts.baloo2(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,

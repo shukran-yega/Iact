@@ -4,11 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 class ParallaxImage extends StatelessWidget {
   final String imagePath;
   final double height;
+  final TabController tabController;
 
   const ParallaxImage({
     Key? key,
     required this.imagePath,
     required this.height, // Ensure height is properly passed from parent
+    required this.tabController,
   }) : super(key: key);
 
   @override
@@ -128,24 +130,29 @@ class ParallaxImage extends StatelessWidget {
                             const SizedBox(width: 12),
                             // Contact text
                             Expanded(
-                              child: RichText(
-                                text: TextSpan(
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                  children: [
-                                    const TextSpan(
-                                        text:
-                                            "To learn more about our portfolio: "),
-                                    TextSpan(
-                                      text: "info@iact.co.tz",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.amberAccent,
-                                      ),
+                              child: InkWell(
+                                onTap: () {
+                                  tabController.animateTo(2);
+                                },
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
                                     ),
-                                  ],
+                                    children: [
+                                      const TextSpan(
+                                          text:
+                                              "To learn more about our portfolio: "),
+                                      TextSpan(
+                                        text: "click here",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.amberAccent,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

@@ -128,8 +128,8 @@ class IACTFooter extends StatelessWidget {
                         );
                       }
                     },
-                    child: _buildContactItem(
-                        Icons.location_on, "Dar es Salaam, Tanzania"),
+                    child: _buildContactItem(Icons.location_on,
+                        "PSSF 2nd floor Dar es Salaam, Tanzania"),
                   ),
                 ],
               ),
@@ -208,12 +208,12 @@ class IACTFooter extends StatelessWidget {
                     Icons.email,
                     "mailto:support@iact.co.tz",
                   ),
-                  const SizedBox(width: 20),
-                  _buildSocialIcon(
-                    context,
-                    Icons.youtube_searched_for,
-                    "https://www.youtube.com/@iact",
-                  ),
+                  // const SizedBox(width: 20),
+                  // _buildSocialIcon(
+                  //   context,
+                  //   Icons.youtube_searched_for,
+                  //   "https://www.youtube.com/@iact",
+                  // ),
                 ],
               ),
 
@@ -231,7 +231,7 @@ class IACTFooter extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "Version: 1.0.6",
+                "Version: 1.0.7",
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.white60,

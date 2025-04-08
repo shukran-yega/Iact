@@ -47,7 +47,7 @@ class _MobileServicesPageState extends State<MobileServicesPage> {
         children: [
           Text.rich(
             TextSpan(
-              text: "From ",
+              text: "Our ",
               style: GoogleFonts.baloo2(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
@@ -55,23 +55,7 @@ class _MobileServicesPageState extends State<MobileServicesPage> {
               ),
               children: [
                 TextSpan(
-                  text: "insights ",
-                  style: GoogleFonts.baloo2(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue.shade900,
-                  ),
-                ),
-                TextSpan(
-                  text: "to",
-                  style: GoogleFonts.baloo2(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                TextSpan(
-                  text: " innovation",
+                  text: "Services ",
                   style: GoogleFonts.baloo2(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -152,14 +136,14 @@ class _MobileServicesPageState extends State<MobileServicesPage> {
         "subtitle": "Support others through mentorship",
         "description":
             "Support and mentorship involve guiding individuals through challenges while fostering their personal and professional growth. It includes providing advice, sharing knowledge, and creating a nurturing environment for development.",
-        "image": "mentors.jpg",
+        "image": "field8.jpg",
       },
       {
         "title": "Research Deployment",
         "subtitle": "Deploying research proposal to local context",
         "description":
             "Adaptation and deployment of a research proposal involve tailoring the methodology to fit specific contexts and ensuring its effective implementation. This process prioritizes ethical considerations and systematic execution.",
-        "image": "support2.jpg",
+        "image": "field11_2.jpg",
       },
     ];
 

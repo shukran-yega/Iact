@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ServicePage extends StatefulWidget {
-  const ServicePage({super.key});
+  final TabController tabController;
+
+  const ServicePage({super.key, required this.tabController});
 
   @override
   State<ServicePage> createState() => _ServicePageState();
@@ -236,8 +238,8 @@ class _ServicePageState extends State<ServicePage> {
         child: isHorizontal
             ? _buildHorizontalCard(
                 context, index, title, subtitle, description, imagePath)
-            : _buildVerticalCard(
-                context, index, title, subtitle, description, imagePath),
+            : _buildVerticalCard(context, index, title, subtitle, description,
+                imagePath, widget.tabController),
       ),
     );
   }
@@ -249,6 +251,7 @@ class _ServicePageState extends State<ServicePage> {
     String subtitle,
     String description,
     String imagePath,
+    TabController tabController,
   ) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -288,7 +291,9 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.tabController.animateTo(2);
+                  },
                   child: Text(
                     "Learn more →",
                     style: GoogleFonts.baloo2(
@@ -369,7 +374,9 @@ class _ServicePageState extends State<ServicePage> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.tabController.animateTo(2);
+                        },
                         child: Text(
                           "Learn more →",
                           style: GoogleFonts.baloo2(
