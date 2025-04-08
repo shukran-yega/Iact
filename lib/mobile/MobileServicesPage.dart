@@ -105,9 +105,10 @@ class _MobileServicesPageState extends State<MobileServicesPage> {
       },
       {
         "title": "Data Hosting",
-        "subtitle": "Secured Cloud based Hosting",
-        "description":
-            "Secured cloud-based hosting ensures data protection through encryption, firewalls, and regular backups. It offers scalable solutions with robust security measures to safeguard. Perfect for businesses prioritizing safety and efficiency.",
+        "subtitle": "Virtual Private servers",
+        "description": "Virtual Private Servers (VPS)"
+            "Online machines with Windows and Linux OS"
+            "We help our clients to configure online virtual machines through trusted companies such as Digital Oceans, Contabo & Go Daddy and manage payments in local currency. The virtual machines can be run with Windows or Linux, configured with static IP address, DNS and additional services such as automatic backups, firewalls and remote management.",
         "image": "cloud.jpg",
       },
       {
