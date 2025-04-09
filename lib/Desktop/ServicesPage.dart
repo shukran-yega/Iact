@@ -179,7 +179,7 @@ class _ServicePageState extends State<ServicePage> {
           "Support and Mentorship",
           "Support others through mentorship",
           "Support and mentorship involve guiding individuals through challenges while fostering their personal and professional growth. It includes providing advice, sharing knowledge, and creating a nurturing environment for development.",
-          "mentors.jpg",
+          "mentors.png",
           isSmallScreen,
           isHorizontal: true,
         ),

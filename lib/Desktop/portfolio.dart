@@ -42,16 +42,45 @@ class PortfolioPage extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
+              SizedBox(height: 80),
+              _buildPortfolioItem(
+                context,
+                "Microbiological water properties assessment",
+                "Impact evaluation of the SCRP in the Simiyu Region",
+                "iAs part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
+                "water.png",
+                "emblem.png",
+                "Ministry of Water - Tanzania with support from KfW Bank ",
+                isImageLeft: false,
+              ),
               SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
                 "Mbunge Live Project Pilot Survey",
                 "Exploring the short term and long term effects of Mbunge live show intervention",
-                "iDeas in Action conducted a two-pilot study for the survey in two constituencies: Tarime Rural and Nzega. The overall purpose of this assignment is to explore the short-term and potential long-term effects of the Mbunge live show intervention. The two pilot episodes were screened live using mobile cinema in 10 wards of each of the MPs' constituencies; the screenings were similar to a village meeting. Pre- and post-interviews were conducted with randomly selected respondents. The research team covered about half of the wards in each constituency using a mixed-method exercise, as appropriate to the theme/topic of exploration.",
+                "iDeas in Action conducted a two-pilot study for the survey in two constituencies: "
+                    "Tarime Rural and Nzega. The overall purpose of this assignment "
+                    "is to explore the short-term and potential long-term effects of the Mbunge live show intervention. The two pilot episodes were screened live using mobile cinema in 10 wards of each of the MPs' constituencies; the screenings were similar to a village meeting. Pre- and post-interviews were conducted with randomly selected respondents. The research team covered about half of the wards in each constituency using a mixed-method exercise, as appropriate to the theme/topic of exploration.",
                 "field.jpg",
                 "twaweza.jpg",
                 "Twaweza",
                 isImageLeft: true,
+              ),
+              SizedBox(height: 80),
+              _buildPortfolioItem(
+                context,
+                "Market Research",
+                "FERN Marketing wished to obtain data on product sales and key performance indicators on selected clients.",
+                "FERN Marketing wished to obtain data on product "
+                    "sales and key performance indicators on selected clients."
+                    " We provided data management support which included to design data collection tools,"
+                    " program digital data captures, online data hosting and data processing "
+                    "including data cleaning and analytical investigations. In addition,"
+                    " we provided online dash board with summary key performance indicators. Through FERN, we also worked (indirectly) with telecom companies Tigo and Vodacom) and Philip Morris International Tanzania (PMI)",
+                "fern_1.png",
+                "fernLogo.png",
+                "Fern",
+                isImageLeft: false,
               ),
               SizedBox(height: 80),
               _buildPortfolioItem(
@@ -68,11 +97,11 @@ class PortfolioPage extends StatelessWidget {
               _buildPortfolioItem(
                 context,
                 "Data Collection on diagnosing energy",
-                "FERN Marketing wished to obtain data on product sales and key performance indicators",
-                "FERN Marketing wished to obtain data on product sales and key performance indicators. We provided data management support—designing and customizing data collection tools, programming of data tools, data hosting, data cleaning, and data processing. We provided an online dashboard to give their clients summarized key performance indicators. Through FERN, we have indirectly worked with telecom companies in Tanzania (Tigo and Vodacom) and other companies such as Philip Morris International Tanzania (PMI).",
+                "A spatial planning approach on energy-efficient and resilient in urban development, Dar es Salaam",
+                "iDeas In Action was engaged to carry out the digitization of the questionnaire/survey and data collection (in the field) for the IGC-Funded Small Project: Diagnosing energy-efficient and resilient urban development in Dar es Salaam. iACT supported field work preparation (i.e., processing COSTECH research permits, introduction letters to local governments and adapting, optimizing and customizing data collection tools), provide help with recruitment and training of field enumerators, translate data collection tools to Kiswahili, provide data management support, and carry out a residential energy use survey for 1328 households in Dar es salaam in eight (8) sampled wards (i.e., Keko, Buguruni, Manzese, Mwananyamala, Sinza, Mbezi beach, Masaki and Kimara) ",
                 "field8.jpg",
                 "toronto.jpg",
-                "Toronto University",
+                "The International Growth Centre (IGC),\nLondon School of Economics & University of Toronto, Canada, 2018",
                 isImageLeft: true,
               ),
               SizedBox(height: 80),
@@ -126,7 +155,7 @@ class PortfolioPage extends StatelessWidget {
     bool isImageLeft = true,
   }) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final itemHeight = screenHeight * 0.7;
+    final itemHeight = screenHeight * 0.73;
 
     return Container(
       height: itemHeight,
@@ -149,7 +178,7 @@ class PortfolioPage extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                height: itemHeight * 0.8,
+                height: itemHeight * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
@@ -259,7 +288,7 @@ class PortfolioPage extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                height: itemHeight * 0.8,
+                height: itemHeight * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [

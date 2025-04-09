@@ -55,9 +55,9 @@ class News extends StatelessWidget {
         "image": "field2.jpg"
       },
       {
-        "title": "Data Security",
+        "title": "Mobile Development",
         "description":
-            "Implementing advanced security protocols for sensitive research data management.",
+            "Using the latest technologies to build custom mobile apps from the ground up.",
         "image": "mobile.jpg"
       },
       {
