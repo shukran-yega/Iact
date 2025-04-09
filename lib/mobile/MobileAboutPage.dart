@@ -174,14 +174,51 @@ are available through various platforms including web, mobile, and desktop envir
 
   Widget _buildTeamMemberCard(
       BuildContext context, Map<String, String> member) {
+    final Map<String, String> profiles = {
+      'Isaac Lyatuu':
+          'BSc. In Computer Science, MSc in Mathematics and PhD. In Epidemiology with over 10 years in Health Systems designs and application, particularly in low-resource settings. Practical experience in data science activities including analysis and graphical presentations, machine learning and software development.',
+      'Godfrey Siwingwa':
+          'Bachelors of Arts in Public Administration with over 5 years of experiences for field implementation working with digital and paper-based data collection teams. Support both, quantitative and qualitative data collections activities, and formal introduction to administrative structures.',
+      'Farida Katunzi':
+          'Bachelor of Arts in Finance and a Master of Arts in Project Planning and Management with 6+ experience managing projects coupled with strong foundation in both financial and project management. Manage compliance with ethical requirements and communications for securing research permits and introduction letters.',
+      'Jonas Mwambimbi':
+          'Full Stack software developer with 4+ experience in python + java development including REStFul API, Systems Gateways and Web-based applications. Experience in Django, NoSQL, Flask, FastAPI and AngularJS.',
+      'Shoko Irema':
+          'BSc. In Mass Communication with 4+ years in design patterns using tools such as Figma, adobe XD and many more',
+      'Shukurani Mohamed':
+          'BSc. in Computer Science with expertise in mobile app development using Flutter. 3+ years of experience in creating cross-platform applications with focus on user experience and performance optimization.',
+      'John Smith':
+          'MSc. in DevOps Engineering with 5+ years of experience in cloud infrastructure, CI/CD pipelines, and containerization. Expert in AWS, Docker, and Kubernetes deployment strategies.',
+      'Carlos Stevenson':
+          'BSc. in Software Engineering with 4+ years of frontend development experience. Specialized in React, Vue.js, and modern JavaScript frameworks. Strong focus on responsive design and user interface optimization.',
+      'Sophie Thompson':
+          'MBA with 6+ years in product management. Experienced in agile methodologies, user research, and product strategy. Successfully led multiple digital product launches and iterations.',
+      'Alex Brown':
+          'PhD in Systems Architecture with 8+ years of experience in designing scalable enterprise solutions. Expert in microservices architecture, cloud computing, and system integration.',
+      'Grace Litu':
+          'MSc. in Research Engineering with 5+ years in data analysis and research methodology. Specialized in quantitative research methods and statistical analysis for social impact studies.',
+    };
+
+    final String bio =
+        profiles[member['name']] ?? 'Profile information coming soon...';
+
     return InkWell(
       onTap: () {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.blue.shade900,
+            closeIconColor: Colors.white,
+            showCloseIcon: true,
+            elevation: 0,
+            margin: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+                vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            backgroundColor: Colors.blue.shade900.withOpacity(0.8),
             content: Text(
-                "${member['name']}'s IACT profile is unavailable right now try again later"),
-            duration: const Duration(seconds: 4),
+              bio,
+              style: TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 8),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
