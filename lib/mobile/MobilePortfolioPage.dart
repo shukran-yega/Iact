@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MobilePortfolioPage extends StatelessWidget {
   const MobilePortfolioPage({super.key});
+
+  Future<void> _launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +67,11 @@ class MobilePortfolioPage extends StatelessWidget {
                 "Mbunge Live Project Pilot Survey",
                 "Exploring the short term and long term effects of Mbunge live show intervention",
                 "iDeas in Action conducted a two-pilot study for the survey in two constituencies: Tarime Rural and Nzega. The overall purpose of this assignment is to explore the short-term and potential long-term effects of the Mbunge live show intervention. The two pilot episodes were screened live using mobile cinema in 10 wards of each of the MPs' constituencies; the screenings were similar to a village meeting. Pre- and post-interviews were conducted with randomly selected respondents. The research team covered about half of the wards in each constituency using a mixed-method exercise, as appropriate to the theme/topic of exploration.",
-                "field.jpg",
+                "field13.png",
                 "twaweza.jpg",
                 "Twaweza",
+                sourceUrl:
+                    'https://twaweza.org/wp-content/uploads/2021/02/Brief_MbungeLive-Brief.pdf',
               ),
               const SizedBox(height: 40),
               _buildPortfolioItem(
@@ -142,8 +152,9 @@ class MobilePortfolioPage extends StatelessWidget {
     String description,
     String imagePath,
     String partnerImage,
-    String partnerName,
-  ) {
+    String partnerName, {
+    String? sourceUrl,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -239,14 +250,60 @@ class MobilePortfolioPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  partnerName,
-                  style: GoogleFonts.baloo2(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue.shade900,
+                Expanded(
+                  child: Text(
+                    partnerName,
+                    style: GoogleFonts.baloo2(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue.shade900,
+                    ),
                   ),
                 ),
+                if (sourceUrl != null) ...[
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: () => _launchUrl(sourceUrl),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.3),
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.link,
+                            size: 16,
+                            color: Colors.blue.shade900,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'View Source',
+                            style: GoogleFonts.baloo2(
+                              fontSize: 14,
+                              color: Colors.blue.shade900,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

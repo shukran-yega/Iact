@@ -91,7 +91,7 @@ class Homepage extends StatelessWidget {
                                 ),
                               ),
                               TextSpan(
-                                text: " innovation",
+                                text: " products",
                                 style: GoogleFonts.baloo2(
                                   fontSize: 50,
                                   fontWeight: FontWeight.bold,
@@ -106,14 +106,15 @@ class Homepage extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
                           textAlign: TextAlign.justify,
-                          "Transforming bold ideas into actionable insights \nthrough innovation and data-driven strategies",
+                          "Transforming bold ideas to breakthrough products, \npowered by innovation and insight",
                           style: GoogleFonts.baloo2(fontSize: 28),
                         ),
                       ),
                       Text(
                         textAlign: TextAlign.justify,
-                        "At IACT, we turn ideas into reality by providing innovative solutions\nthat bridge the gap between technology and community impact. "
-                        "\nwe empower businesses and individuals to bring their visions to life \nwith efficiency and creativity.",
+                        "At iACT, we help our clients to turn ideas into actionable"
+                        " outcomes\nby providing innovative solutions that bridge the gap between\ntechnology and community impact."
+                        "We empower business and\nindividuals to bring their vision to life with efficiency and creativity",
                         style: GoogleFonts.baloo2(
                           fontSize: 18,
                           color: Colors.black87,

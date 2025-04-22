@@ -216,7 +216,7 @@ class _MobileHomePageState extends State<MobileHomePage>
                       ),
                       TextSpan(text: "to "),
                       TextSpan(
-                        text: "innovation",
+                        text: "Products",
                         style: TextStyle(
                           color: Colors.blue.shade900,
                           decoration: TextDecoration.none,

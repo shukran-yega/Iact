@@ -139,6 +139,8 @@ class _ClientLogoItemState extends State<ClientLogoItem> {
               : Matrix4.translationValues(0, 0, 0),
           child: Center(
             child: Image.asset(
+              height: 170,
+              width: 120,
               widget.logoPath,
               fit: BoxFit.fill,
             ),

@@ -79,24 +79,12 @@ are available through various platforms including web, mobile, and desktop envir
   }
 
   List<Widget> _buildTeamMembers(BuildContext context) {
-    final teamMembers = [
+    final coreMembers = [
       {
         'name': 'Isaac Lyatuu',
         'role': 'System Architect',
         'id': '1',
         'image': 'isaac.jpg'
-      },
-      {
-        'name': 'Godfrey Siwingwa',
-        'role': 'Field Coordinator',
-        'id': '2',
-        'image': ''
-      },
-      {
-        'name': ' Farida Katunzi',
-        'role': 'Finance & Admin',
-        'id': '10',
-        'image': 'farida.jpeg'
       },
       {
         'name': 'Jonas Mwambimbi',
@@ -105,42 +93,17 @@ are available through various platforms including web, mobile, and desktop envir
         'image': 'jonas.jpg'
       },
       {
-        'name': 'Shoko Irema',
+        'name': 'Shoko Mohamed',
         'role': 'Product Design',
         'id': '4',
         'image': 'assets/team/shoko.jpg'
       },
-      {
-        'name': 'Shukurani Mohamed',
-        'role': 'Mobile Developer',
-        'id': '6',
-        'image': 'assets/team/shukurani.jpg'
-      },
-      // {
-      //   'name': 'Selemani Mmbaga',
-      //   'role': 'Full Stack Developer',
-      //   'id': '5',
-      //   'image': 'assets/team/selemani.jpg'
-      // },
-      // {
-      //   'name': 'Samwel Godfrey',
-      //   'role': 'Backend Engineer',
-      //   'id': '7',
-      //   'image': 'assets/team/samwel.jpg'
-      // },
-      // {
-      //   'name': 'Imani Irema',
-      //   'role': 'Data Scientist',
-      //   'id': '8',
-      //   'image': 'assets/team/imani.jpg'
-      // },
       {
         'name': 'John Smith',
         'role': 'DevOps Engineer',
         'id': '9',
         'image': 'assets/team/john.jpg'
       },
-
       {
         'name': 'Carlos Stevenson',
         'role': 'Frontend Developer',
@@ -167,9 +130,64 @@ are available through various platforms including web, mobile, and desktop envir
       },
     ];
 
-    return teamMembers
-        .map((member) => _buildTeamMemberCard(context, member))
-        .toList();
+    final partTimeStaff = [
+      {
+        'name': 'Godfrey Siwingwa',
+        'role': 'Field Coordinator',
+        'id': '2',
+        'image': 'Godfrey.jpg'
+      },
+      {
+        'name': 'Farida Katunzi',
+        'role': 'Finance & Admin',
+        'id': '10',
+        'image': 'farida.jpeg'
+      },
+      {
+        'name': 'Shukurani Irema',
+        'role': 'Mobile Developer',
+        'id': '6',
+        'image': 'assets/team/shukurani.jpg'
+      },
+    ];
+
+    return [
+      Text(
+        'Core Team Members',
+        style: GoogleFonts.baloo2(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: Colors.blue.shade900,
+        ),
+      ),
+      const SizedBox(height: 16),
+      Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 24,
+        runSpacing: 24,
+        children: coreMembers
+            .map((member) => _buildTeamMemberCard(context, member))
+            .toList(),
+      ),
+      const SizedBox(height: 32),
+      Text(
+        'Part-Time Members',
+        style: GoogleFonts.baloo2(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: Colors.blue.shade900,
+        ),
+      ),
+      const SizedBox(height: 16),
+      Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 24,
+        runSpacing: 24,
+        children: partTimeStaff
+            .map((member) => _buildTeamMemberCard(context, member))
+            .toList(),
+      ),
+    ];
   }
 
   Widget _buildTeamMemberCard(
@@ -183,9 +201,9 @@ are available through various platforms including web, mobile, and desktop envir
           'Bachelor of Arts in Finance and a Master of Arts in Project Planning and Management with 6+ experience managing projects coupled with strong foundation in both financial and project management. Manage compliance with ethical requirements and communications for securing research permits and introduction letters.',
       'Jonas Mwambimbi':
           'Full Stack software developer with 4+ experience in python + java development including REStFul API, Systems Gateways and Web-based applications. Experience in Django, NoSQL, Flask, FastAPI and AngularJS.',
-      'Shoko Irema':
+      'Shoko Mohamed':
           'BSc. In Mass Communication with 4+ years in design patterns using tools such as Figma, adobe XD and many more',
-      'Shukurani Mohamed':
+      'Shukurani Irema':
           'BSc. in Computer Science with expertise in mobile app development using Flutter. 3+ years of experience in creating cross-platform applications with focus on user experience and performance optimization.',
       'John Smith':
           'MSc. in DevOps Engineering with 5+ years of experience in cloud infrastructure, CI/CD pipelines, and containerization. Expert in AWS, Docker, and Kubernetes deployment strategies.',

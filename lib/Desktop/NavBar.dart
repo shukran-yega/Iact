@@ -63,8 +63,8 @@ class CustomNavigationBar extends StatelessWidget {
                               children: [
                                 // Shadow Layer
                                 Positioned(
-                                  top: 4,
-                                  left: 4,
+                                  top: 2,
+                                  left: 2,
                                   child: Opacity(
                                     opacity: 0.3, // Adjust shadow opacity
                                     child: Image.asset(

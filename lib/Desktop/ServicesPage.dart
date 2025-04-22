@@ -76,7 +76,7 @@ class _ServicePageState extends State<ServicePage> {
                 ),
               ),
               TextSpan(
-                text: " innovation",
+                text: " Products",
                 style: GoogleFonts.baloo2(
                   fontSize: 50,
                   fontWeight: FontWeight.bold,
@@ -129,8 +129,8 @@ class _ServicePageState extends State<ServicePage> {
           context,
           2,
           "Mobile Development",
-          "Creating Custom tailored software solutions",
-          "Mobile development focuses on creating user-friendly, responsive applications tailored for smartphones and tablets. With innovative design and seamless performance, it enhances accessibility and engagement for users. From concept to deployment.",
+          "From Concept to Launch",
+          "We craft intuitive and responsive applications tailored for smartphones and tablets—seamlessly integrated with desktop web platforms. Our approach ensures maximum accessibility, consistent performance across devices, and meaningful user engagement at every touch-point.",
           "mobile.jpg",
           isSmallScreen,
         ),
@@ -159,8 +159,10 @@ class _ServicePageState extends State<ServicePage> {
           context,
           5,
           "Data Collection",
-          "Ethical Data collection",
-          "Data collection involves gathering information from various sources using structured methods, ensuring accuracy and relevance. It serves as the foundation for analysis and decision-making in research and business.",
+          "Data Collection",
+          "Field-work and ground experience"
+              "We employ a diverse range of structured and unstructured data collection methods covering both quantitative and qualitative fieldwork. Our approach ensures accuracy, contextual relevance, and provides a solid foundation for insightful analysis and data-driven decision-making in research and business environments"
+              ".",
           "field.jpg",
           isSmallScreen,
         ),
