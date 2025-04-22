@@ -67,7 +67,7 @@ class _MobileServicesPageState extends State<MobileServicesPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            "Transforming bold ideas into actionable insights through innovation and data-driven strategies",
+            "Transforming bold ideas to breakthrough products, \npowered by innovation and insight",
             textAlign: TextAlign.center,
             style: GoogleFonts.baloo2(
               fontSize: 18,

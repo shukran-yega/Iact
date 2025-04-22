@@ -89,7 +89,7 @@ class _ServicePageState extends State<ServicePage> {
         SizedBox(height: 20),
         Text(
           textAlign: TextAlign.center,
-          "Transforming bold ideas into actionable insights through innovation and data-driven strategies",
+          "Transforming bold ideas to breakthrough products, \npowered by innovation and insight",
           style: GoogleFonts.baloo2(
             fontSize: 24,
             color: Colors.black87,
