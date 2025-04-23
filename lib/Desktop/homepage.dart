@@ -50,7 +50,7 @@ class Homepage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 60.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

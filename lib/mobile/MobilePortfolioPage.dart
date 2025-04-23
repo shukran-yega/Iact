@@ -54,6 +54,16 @@ class MobilePortfolioPage extends StatelessWidget {
               const SizedBox(height: 40),
               _buildPortfolioItem(
                 context,
+                "Scientific Research",
+                "Data collection on water quality assessment for remote sites using LETZTEST mobile equipment",
+                "Ground experience providing water quality assessment solutions using LETZTEST products, a German-based company manufacturing high quality and reliable water testing products. Our approach involves remote sites sample collection and testing using mobile laboratory technology.",
+                "field14.jpg",
+                "emblem.png",
+                "Ministry of Water - Tanzania with support from KfW Bank",
+              ),
+              const SizedBox(height: 40),
+              _buildPortfolioItem(
+                context,
                 "Microbiological water properties assessment",
                 "Exploring the short term and long term effects of Mbunge live show intervention",
                 "iAs part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
@@ -102,10 +112,10 @@ class MobilePortfolioPage extends StatelessWidget {
               _buildPortfolioItem(
                 context,
                 "Data Collection on diagnosing energy",
-                "FERN Marketing wished to obtain data on product sales and key performance indicators",
-                "FERN Marketing wished to obtain data on product sales and key performance indicators. We provided data management support—designing and customizing data collection tools, programming of data tools, data hosting, data cleaning, and data processing. We provided an online dashboard to give their clients summarized key performance indicators. Through FERN, we have indirectly worked with telecom companies in Tanzania (Tigo and Vodacom) and other companies such as Philip Morris International Tanzania (PMI).",
+                "A spatial planning approach on energy-efficient and resilient urban development",
+                "iDeas In Action was engaged to carry out the digitization of the questionnaire/survey and data collection for the IGC-Funded Small Project: Diagnosing energy-efficient and resilient urban development in Dar es Salaam. iACT supported field work preparation (processing COSTECH research permits, introduction letters to local governments and adapting collection tools), recruitment and training of field enumerators, translation of tools to Kiswahili, data management, and conducting a residential energy use survey for 1328 households across eight sampled wards in Dar es Salaam.",
                 "PIC2.jpg",
-                "toronto.jpg",
+                "ut.png",
                 "Toronto University",
               ),
               const SizedBox(height: 40),
@@ -268,7 +278,7 @@ class MobilePortfolioPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.blue.shade900,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: Colors.white.withOpacity(0.3),
@@ -288,14 +298,14 @@ class MobilePortfolioPage extends StatelessWidget {
                           Icon(
                             Icons.link,
                             size: 16,
-                            color: Colors.blue.shade900,
+                            color: Colors.white,
                           ),
                           const SizedBox(width: 8),
                           Text(
                             'View Source',
                             style: GoogleFonts.baloo2(
                               fontSize: 14,
-                              color: Colors.blue.shade900,
+                              color: Colors.white,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

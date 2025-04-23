@@ -17,7 +17,7 @@ class PortfolioPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
+          padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -52,19 +52,28 @@ class PortfolioPage extends StatelessWidget {
               ),
               SizedBox(height: 80),
               _buildPortfolioItem(
+                  context,
+                  "Scientific Research",
+                  "Data collection on water quality assessment for remote sites using LETZTEST mobile equipment's",
+                  "Ground experience to providing water quality assessment solutions using LETZTEST products, a German's based company manufacturing high quality and reliable waster testing products. Our approach involves remote sites sample collection and testing using mobile laboratory technology.",
+                  "field14.jpg",
+                  "emblem.png",
+                  "Ministry of Water - Tanzania with support from KfW Bank"),
+              SizedBox(height: 60),
+              _buildPortfolioItem(
                 context,
                 "Microbiological water properties assessment",
                 "Impact evaluation of the SCRP in the Simiyu Region",
                 "iAs part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
                 "water.png",
                 "emblem.png",
-                "Ministry of Water - Tanzania with support from KfW Bank ",
+                "Ministry of Water - Tanzania with support from KfW Bank",
                 isImageLeft: false,
               ),
               SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
-                "Mbunge Live Project Pilot Survey",
+                "Mbunge Live Project",
                 "Exploring the short term and long term effects of Mbunge live show intervention",
                 "iDeas in Action conducted a two-pilot study for the survey in two constituencies: "
                     "Tarime Rural and Nzega. The overall purpose of this assignment "
@@ -76,11 +85,11 @@ class PortfolioPage extends StatelessWidget {
                 sourceUrl:
                     'https://twaweza.org/wp-content/uploads/2021/02/Brief_MbungeLive-Brief.pdf',
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
                 "Market Research",
-                "FERN Marketing wished to obtain data on product sales and key performance indicators on selected clients.",
+                "Digital data collection on product sales and key performance indicators, Fern marketing Tanzania.",
                 "FERN Marketing wished to obtain data on product "
                     "sales and key performance indicators on selected clients."
                     " We provided data management support which included to design data collection tools,"
@@ -92,7 +101,7 @@ class PortfolioPage extends StatelessWidget {
                 "Fern",
                 isImageLeft: false,
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
                 "Data collection for Transparency for Development",
@@ -103,18 +112,18 @@ class PortfolioPage extends StatelessWidget {
                 "Transparency for Development",
                 isImageLeft: false,
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
                 "Data Collection on diagnosing energy",
                 "A spatial planning approach on energy-efficient and resilient in urban development, Dar es Salaam",
                 "iDeas In Action was engaged to carry out the digitization of the questionnaire/survey and data collection (in the field) for the IGC-Funded Small Project: Diagnosing energy-efficient and resilient urban development in Dar es Salaam. iACT supported field work preparation (i.e., processing COSTECH research permits, introduction letters to local governments and adapting, optimizing and customizing data collection tools), provide help with recruitment and training of field enumerators, translate data collection tools to Kiswahili, provide data management support, and carry out a residential energy use survey for 1328 households in Dar es salaam in eight (8) sampled wards (i.e., Keko, Buguruni, Manzese, Mwananyamala, Sinza, Mbezi beach, Masaki and Kimara) ",
                 "field8.jpg",
-                "toronto.jpg",
+                "ut.png",
                 "The International Growth Centre (IGC),\nLondon School of Economics & University of Toronto, Canada, 2018",
                 isImageLeft: true,
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
                 "Windows-based Online virtual Machine",
@@ -125,7 +134,7 @@ class PortfolioPage extends StatelessWidget {
                 "Ifakara health center",
                 isImageLeft: false,
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
                 "Linux-based Online Virtual Servers",
@@ -136,7 +145,7 @@ class PortfolioPage extends StatelessWidget {
                 "African Academy for Public Health",
                 isImageLeft: true,
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 60),
               _buildPortfolioItem(
                 context,
                 "Bridge Data Migration (DHIS2 Data Linkage)",
@@ -166,11 +175,11 @@ class PortfolioPage extends StatelessWidget {
     String? sourceUrl,
   }) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final itemHeight = screenHeight * 0.73;
+    final itemHeight = screenHeight * 0.65;
 
     return Container(
       height: itemHeight,
-      padding: EdgeInsets.all(24),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -188,28 +197,58 @@ class PortfolioPage extends StatelessWidget {
           if (isImageLeft) ...[
             Expanded(
               flex: 1,
-              child: Container(
-                height: itemHeight * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 15,
-                      offset: Offset(0, 8),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      imagePath,
+                      height: itemHeight * 0.9,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.cover,
                   ),
-                ),
+                  if (sourceUrl != null)
+                    Positioned(
+                      right: 16,
+                      bottom: 16,
+                      child: InkWell(
+                        onTap: () => _launchUrl(sourceUrl),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade900.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.link,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'View Source',
+                                style: GoogleFonts.baloo2(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
-            SizedBox(width: 40),
+            SizedBox(width: 30),
           ],
           Expanded(
             flex: 1,
@@ -224,7 +263,7 @@ class PortfolioPage extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 8),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
@@ -240,7 +279,7 @@ class PortfolioPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 16),
                 SingleChildScrollView(
                   child: Text(
                     description,
@@ -253,12 +292,12 @@ class PortfolioPage extends StatelessWidget {
                 ),
                 Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 65),
+                  padding: const EdgeInsets.only(bottom: 25),
                   child: Row(
                     children: [
                       Container(
-                        width: 70,
-                        height: 70,
+                        width: 60,
+                        height: 60,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
@@ -289,50 +328,6 @@ class PortfolioPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (sourceUrl != null) ...[
-                        SizedBox(width: 12),
-                        GestureDetector(
-                          onTap: () => _launchUrl(sourceUrl),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
-                                width: 1,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 10,
-                                  offset: Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.link,
-                                  size: 16,
-                                  color: Colors.blue.shade900,
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  'View Source',
-                                  style: GoogleFonts.baloo2(
-                                    fontSize: 14,
-                                    color: Colors.blue.shade900,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
                     ],
                   ),
                 ),
@@ -340,28 +335,58 @@ class PortfolioPage extends StatelessWidget {
             ),
           ),
           if (!isImageLeft) ...[
-            SizedBox(width: 40),
+            SizedBox(width: 30),
             Expanded(
               flex: 1,
-              child: Container(
-                height: itemHeight * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 15,
-                      offset: Offset(0, 8),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      imagePath,
+                      height: itemHeight * 0.9,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.cover,
                   ),
-                ),
+                  if (sourceUrl != null)
+                    Positioned(
+                      right: 16,
+                      bottom: 16,
+                      child: InkWell(
+                        onTap: () => _launchUrl(sourceUrl),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade900.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.link,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'View Source',
+                                style: GoogleFonts.baloo2(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ],

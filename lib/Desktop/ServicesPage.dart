@@ -108,11 +108,11 @@ class _ServicePageState extends State<ServicePage> {
       children: [
         _buildServiceCard(
           context,
-          0,
-          "Software Development",
-          "Creating Custom tailored software solutions",
-          "IACT specializes in crafting tailor-made software solutions that empower businesses to streamline processes and achieve their unique goals. We deliver scalable and efficient systems designed to drive success. Your vision, our expertise—seamlessly integrated.",
-          "computer.jpg",
+          5,
+          "Data Collection",
+          "Field-work and ground experience",
+          "We employ a diverse range of structured and unstructured data collection methods covering both quantitative and qualitative fieldwork. Our approach ensures accuracy, contextual relevance, and provides a solid foundation for insightful analysis and data-driven decision-making in research and business environments.",
+          "field.jpg",
           isSmallScreen,
         ),
         _buildServiceCard(
@@ -124,6 +124,15 @@ class _ServicePageState extends State<ServicePage> {
           "field5.jpg",
           isSmallScreen,
           isHorizontal: true,
+        ),
+        _buildServiceCard(
+          context,
+          0,
+          "Software Development",
+          "Creating Custom tailored software solutions",
+          "IACT specializes in crafting tailor-made software solutions that empower businesses to streamline processes and achieve their unique goals. We deliver scalable and efficient systems designed to drive success. Your vision, our expertise—seamlessly integrated.",
+          "computer.jpg",
+          isSmallScreen,
         ),
         _buildServiceCard(
           context,
@@ -157,18 +166,9 @@ class _ServicePageState extends State<ServicePage> {
         ),
         _buildServiceCard(
           context,
-          5,
-          "Data Collection",
-          "Field-work and ground experience",
-          "We employ a diverse range of structured and unstructured data collection methods covering both quantitative and qualitative fieldwork. Our approach ensures accuracy, contextual relevance, and provides a solid foundation for insightful analysis and data-driven decision-making in research and business environments.",
-          "field.jpg",
-          isSmallScreen,
-        ),
-        _buildServiceCard(
-          context,
           6,
           "Recruiting and Training",
-          "Training enumerators to perform ethical interviews",
+          "Training and capacity building",
           "Recruiting and training enumerators involves selecting qualified individuals for data collection tasks and equipping them with the necessary skills. This includes thorough onboarding, clear instructions, and practical training.",
           "field2.jpg",
           isSmallScreen,

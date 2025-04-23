@@ -10,12 +10,12 @@ class MobileClientLogos extends StatefulWidget {
 }
 
 class _MobileClientLogosState extends State<MobileClientLogos> {
-  final List<Map<String, String>> _clients = [
+  final List<Map<String, String>> _logos = [
     {'name': 'Ifakara health center', 'logo': 'ihi.jpg'},
-    {'name': 'Aaph', 'logo': 'aaph.jpg'},
+    {'name': 'Aaph', 'logo': 'aaph.png'},
     {'name': 'Pact', 'logo': 'pact.jpg'},
     {'name': 't4d', 'logo': 't4d.jpg'},
-    {'name': 'Toronto', 'logo': 'toronto.jpg'},
+    {'name': 'Toronto', 'logo': 'ut.png'},
     {'name': 'twaweza', 'logo': 'twaweza.jpg'},
   ];
 
@@ -42,7 +42,7 @@ class _MobileClientLogosState extends State<MobileClientLogos> {
           spacing: 20,
           runSpacing: 20,
           alignment: WrapAlignment.center,
-          children: _clients
+          children: _logos
               .map((client) => MobileClientLogoItem(
                     logoPath: client['logo']!,
                     clientName: client['name']!,

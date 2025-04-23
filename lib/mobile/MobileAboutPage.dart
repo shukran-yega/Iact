@@ -104,7 +104,9 @@ are available through various platforms including web, mobile, and desktop envir
         'role': 'Product Design',
         'id': '4',
         'image': 'assets/team/shoko.jpg',
-        'testimony': '',
+        'testimony':
+            "Working with IAct since early 2024 has been a truly transformative experience for me. As a Product Designer, I’ve gained invaluable skills in both coding and design, expanding my capabilities far beyond what I initially expected. The team at IAct has not only supported my growth within the company but has also exposed me to parts of the tech industry I might never have encountered otherwise."
+                "One of the most rewarding parts of this journey has been IAct’s encouragement and support in helping me develop my own idea and bring it to market. Their belief in my potential and their willingness to invest in my growth has opened doors to exciting new opportunities. I'm incredibly grateful to be part of a company that fosters innovation, learning, and real-world impact.",
       },
       {
         'name': 'John Smith',
@@ -158,7 +160,7 @@ are available through various platforms including web, mobile, and desktop envir
         'id': '10',
         'image': 'farida.jpeg',
         'testimony':
-            "I joined iACT five years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in business and administration. iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity.",
+            "I joined iACT eight years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in Social science (monitering and evaluation). iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity.",
       },
       {
         'name': 'Shukurani Irema',
@@ -409,7 +411,7 @@ are available through various platforms including web, mobile, and desktop envir
                       if (hasTestimony) ...[
                         SizedBox(height: 24),
                         Text(
-                          'Testimony',
+                          'Details',
                           style: GoogleFonts.baloo2(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

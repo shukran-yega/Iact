@@ -15,10 +15,10 @@ class ClientLogosGrid extends StatefulWidget {
 class _ClientLogosGridState extends State<ClientLogosGrid> {
   final List<Map<String, String>> _clients = [
     {'name': 'Ifakara health center', 'logo': 'ihi.jpg'},
-    {'name': 'Aaph', 'logo': 'aaph.jpg'},
+    {'name': 'Aaph', 'logo': 'aaph.png'},
     {'name': 'Pact', 'logo': 'pact.jpg'},
     {'name': 't4d', 'logo': 't4d.jpg'},
-    {'name': 'Toronto', 'logo': 'toronto.jpg'},
+    {'name': 'Toronto', 'logo': 'ut.png'},
     {'name': 'twaweza', 'logo': 'twaweza.jpg'},
   ];
 
@@ -28,12 +28,12 @@ class _ClientLogosGridState extends State<ClientLogosGrid> {
       children: [
         // Section Title
         Padding(
-          padding: const EdgeInsets.only(bottom: 20),
+          padding: const EdgeInsets.only(bottom: 30),
           child: Text(
             'Clients / Partners',
             style: TextStyle(
               color: Colors.teal,
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
             ),
@@ -42,8 +42,8 @@ class _ClientLogosGridState extends State<ClientLogosGrid> {
 
         // Logo Grid
         Wrap(
-          spacing: 50,
-          runSpacing: 20,
+          spacing: 60,
+          runSpacing: 40,
           alignment: WrapAlignment.center,
           children: _clients
               .map((client) => ClientLogoItem(
@@ -96,7 +96,6 @@ class _ClientLogoItemState extends State<ClientLogoItem> {
   bool _isHovered = false;
 
   void _handleClick() {
-    // Use the passed tabController instead of DefaultTabController
     widget.tabController.animateTo(2);
   }
 
@@ -109,8 +108,8 @@ class _ClientLogoItemState extends State<ClientLogoItem> {
         onTap: _handleClick,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          width: 180,
-          height: 100,
+          width: 220,
+          height: 140,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -138,11 +137,23 @@ class _ClientLogoItemState extends State<ClientLogoItem> {
               ? Matrix4.translationValues(0, -5, 0)
               : Matrix4.translationValues(0, 0, 0),
           child: Center(
-            child: Image.asset(
-              height: 170,
-              width: 120,
-              widget.logoPath,
-              fit: BoxFit.fill,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Image.asset(
+                widget.logoPath,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Text(
+                      widget.clientName,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),

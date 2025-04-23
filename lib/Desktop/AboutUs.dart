@@ -9,15 +9,13 @@ class Aboutus extends StatefulWidget {
 }
 
 class _AboutusState extends State<Aboutus> {
-  String? hoveredMemberId;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -110,7 +108,8 @@ class _AboutusState extends State<Aboutus> {
         'role': 'Product Design',
         'id': '4',
         'image': 'assets/team/shoko.jpg',
-        'testimony': '',
+        'testimony': "Working with IAct since early 2024 has been a truly transformative experience for me. As a Product Designer, I’ve gained invaluable skills in both coding and design, expanding my capabilities far beyond what I initially expected. The team at IAct has not only supported my growth within the company but has also exposed me to parts of the tech industry I might never have encountered otherwise."
+        "One of the most rewarding parts of this journey has been IAct’s encouragement and support in helping me develop my own idea and bring it to market. Their belief in my potential and their willingness to invest in my growth has opened doors to exciting new opportunities. I'm incredibly grateful to be part of a company that fosters innovation, learning, and real-world impact.",
       },
       {
         'name': 'John Smith',
@@ -164,7 +163,7 @@ class _AboutusState extends State<Aboutus> {
         'id': '10',
         'image': 'farida.jpeg',
         'testimony':
-            "I joined iACT five years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in business and administration. iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity.",
+            "I joined iACT eight years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in Social science (monitering and evaluation). iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity.",
       },
       {
         'name': 'Shukurani Irema',
@@ -248,185 +247,130 @@ class _AboutusState extends State<Aboutus> {
 
     final String bio =
         profiles[member['name']] ?? 'Profile information coming soon...';
-    final String memberId = member['id'] ?? '';
     final String testimony = member['testimony'] ?? '';
-    final bool isHovered = hoveredMemberId == memberId;
     final bool hasTestimony = testimony.isNotEmpty;
 
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() {
-          hoveredMemberId = memberId;
-        });
-      },
-      onExit: (_) {
-        setState(() {
-          hoveredMemberId = null;
-        });
-      },
-      child: Stack(
-        children: [
-          Container(
-            width: 200,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.grey[200],
-                  child: ClipOval(
-                    child: SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: member['image'] != null
-                          ? Image.asset(
-                              member['image']!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Icon(
-                                  Icons.person,
-                                  size: 60,
-                                  color: Colors.grey,
-                                );
-                              },
-                            )
-                          : Icon(
-                              Icons.person,
-                              size: 60,
-                              color: Colors.grey,
-                            ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              closeIconColor: Colors.white,
+              showCloseIcon: true,
+              elevation: 0,
+              margin: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.12,
+                  vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Education & Experience',
+                    style: GoogleFonts.baloo2(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  member['name']!,
-                  style: GoogleFonts.baloo2(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue.shade900,
+                  const SizedBox(height: 8),
+                  Text(
+                    bio,
+                    style: GoogleFonts.baloo2(
+                      fontSize: 16,
+                      color: Colors.white,
+                      height: 1.5,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  member['role']!,
-                  style: GoogleFonts.baloo2(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                  if (hasTestimony) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      'Details',
+                      style: GoogleFonts.baloo2(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      testimony,
+                      style: GoogleFonts.baloo2(
+                        fontSize: 16,
+                        color: Colors.white,
+                        height: 1.5,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              duration: const Duration(seconds: 8),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
+          );
+        },
+        child: Container(
+          width: 200,
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.grey[200],
+                child: ClipOval(
+                  child: SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: member['image'] != null
+                        ? Image.asset(
+                            member['image']!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.person,
+                                size: 60,
+                                color: Colors.grey,
+                              );
+                            },
+                          )
+                        : Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.grey,
+                          ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                member['name']!,
+                style: GoogleFonts.baloo2(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue.shade900,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                member['role']!,
+                style: GoogleFonts.baloo2(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
-          if (isHovered && hasTestimony)
-            Positioned.fill(
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 200),
-                opacity: isHovered ? 1.0 : 0.0,
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          closeIconColor: Colors.white,
-                          showCloseIcon: true,
-                          elevation: 0,
-                          margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.12,
-                              vertical: 10),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 20),
-                          backgroundColor:
-                              Colors.blue.shade900.withOpacity(0.8),
-                          content: Text(
-                            bio,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          duration: const Duration(seconds: 8),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade900.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Testimony',
-                            style: GoogleFonts.baloo2(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Text(
-                                testimony,
-                                style: GoogleFonts.baloo2(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  height: 1.5,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          if (!hasTestimony)
-            Positioned.fill(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        closeIconColor: Colors.white,
-                        showCloseIcon: true,
-                        elevation: 0,
-                        margin: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.12,
-                            vertical: 10),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                        backgroundColor: Colors.blue.shade900.withOpacity(0.8),
-                        content: Text(
-                          bio,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        duration: const Duration(seconds: 8),
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
