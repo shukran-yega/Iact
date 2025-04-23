@@ -231,7 +231,7 @@ class IACTFooter extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "Version: 1.1.0",
+                "Version: 1.1.5",
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.white60,
