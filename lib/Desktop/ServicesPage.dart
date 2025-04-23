@@ -159,10 +159,8 @@ class _ServicePageState extends State<ServicePage> {
           context,
           5,
           "Data Collection",
-          "Data Collection",
-          "Field-work and ground experience"
-              "We employ a diverse range of structured and unstructured data collection methods covering both quantitative and qualitative fieldwork. Our approach ensures accuracy, contextual relevance, and provides a solid foundation for insightful analysis and data-driven decision-making in research and business environments"
-              ".",
+          "Field-work and ground experience",
+          "We employ a diverse range of structured and unstructured data collection methods covering both quantitative and qualitative fieldwork. Our approach ensures accuracy, contextual relevance, and provides a solid foundation for insightful analysis and data-driven decision-making in research and business environments.",
           "field.jpg",
           isSmallScreen,
         ),

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Aboutus extends StatelessWidget {
+class Aboutus extends StatefulWidget {
   const Aboutus({super.key});
+
+  @override
+  State<Aboutus> createState() => _AboutusState();
+}
+
+class _AboutusState extends State<Aboutus> {
+  String? hoveredMemberId;
 
   @override
   Widget build(BuildContext context) {
@@ -88,49 +95,57 @@ class Aboutus extends StatelessWidget {
         'name': 'Isaac Lyatuu',
         'role': 'System Architect',
         'id': '1',
-        'image': 'isaac.jpg'
+        'image': 'isaac.jpg',
+        'testimony': '',
       },
       {
         'name': 'Jonas Mwambimbi',
         'role': 'Systems developer',
         'id': '3',
-        'image': 'jonas.jpg'
+        'image': 'jonas.jpg',
+        'testimony': '',
       },
       {
         'name': 'Shoko Mohamed',
         'role': 'Product Design',
         'id': '4',
-        'image': 'assets/team/shoko.jpg'
+        'image': 'assets/team/shoko.jpg',
+        'testimony': '',
       },
       {
         'name': 'John Smith',
         'role': 'DevOps Engineer',
         'id': '9',
-        'image': 'assets/team/john.jpg'
+        'image': 'assets/team/john.jpg',
+        'testimony': '',
       },
       {
         'name': 'Carlos Stevenson',
         'role': 'Frontend Developer',
         'id': '11',
-        'image': 'assets/team/carlos.jpg'
+        'image': 'assets/team/carlos.jpg',
+        'testimony': '',
       },
       {
         'name': 'Sophie Thompson',
         'role': 'Product Manager',
         'id': '12',
-        'image': 'assets/team/sophie.jpg'
+        'image': 'assets/team/sophie.jpg',
+        'testimony': '',
       },
       {
         'name': 'Alex Brown',
         'role': 'Systems Architect',
         'id': '13',
-        'image': 'assets/team/alex.jpg'
+        'image': 'assets/team/alex.jpg',
+        'testimony': '',
       },
       {
         'name': 'Grace Litu',
         'role': 'Research Engineer',
         'id': '14',
-        'image': 'assets/team/grace.jpg'
+        'image': 'assets/team/grace.jpg',
+        'testimony': '',
       },
     ];
 
@@ -139,19 +154,25 @@ class Aboutus extends StatelessWidget {
         'name': 'Godfrey Siwingwa',
         'role': 'Field Coordinator',
         'id': '2',
-        'image': 'Godfrey.jpg'
+        'image': 'Godfrey.jpg',
+        'testimony':
+            "With hands-on experience supervising and implementing projects across Tanzania, I've witnessed firsthand how ideas—often starting as voices from individuals or communities—are captured through surveys and interviews, transformed into digital solutions, and ultimately inform decision-making at various levels. For me, this is the true meaning of turning ideas into action. iACT has given me the platform to be part of this journey, and I take great pride in contributing to meaningful impact.",
       },
       {
         'name': 'Farida Katunzi',
         'role': 'Finance & Admin',
         'id': '10',
-        'image': 'farida.jpeg'
+        'image': 'farida.jpeg',
+        'testimony':
+            "I joined iACT five years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in business and administration. iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity.",
       },
       {
         'name': 'Shukurani Irema',
-        'role': 'Mobile Developer',
+        'role': 'Software Developer',
         'id': '6',
-        'image': 'assets/team/shukurani.jpg'
+        'image': 'assets/team/shukurani.jpg',
+        'testimony':
+            "As part of my BSc degree requirements, I undertook an internship with iACT, where I was entrusted with revamping their website to reflect recent company developments and enhance its professional appeal. Throughout the process, I received invaluable technical mentorship that not only helped me meet my academic goals but also provided hands-on experience with real-world projects. It was a true example of turning ideas into action",
       },
     ];
 
@@ -178,7 +199,7 @@ class Aboutus extends StatelessWidget {
       const SizedBox(height: 40),
       Center(
         child: Text(
-          'Part-Time Members',
+          'Turning ideas into Action',
           style: GoogleFonts.baloo2(
             fontSize: 32,
             fontWeight: FontWeight.bold,
@@ -227,85 +248,185 @@ class Aboutus extends StatelessWidget {
 
     final String bio =
         profiles[member['name']] ?? 'Profile information coming soon...';
+    final String memberId = member['id'] ?? '';
+    final String testimony = member['testimony'] ?? '';
+    final bool isHovered = hoveredMemberId == memberId;
+    final bool hasTestimony = testimony.isNotEmpty;
 
-    return InkWell(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            closeIconColor: Colors.white,
-            showCloseIcon: true,
-            elevation: 0,
-            margin: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.12,
-                vertical: 10),
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            backgroundColor: Colors.blue.shade900.withOpacity(0.8),
-            content: Text(
-              bio,
-              style: TextStyle(color: Colors.white),
-            ),
-            duration: const Duration(seconds: 8),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() {
+          hoveredMemberId = memberId;
+        });
       },
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        width: 200,
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: Colors.grey[200],
-              child: ClipOval(
-                child: SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: member['image'] != null
-                      ? Image.asset(
-                          member['image']!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Icon(
+      onExit: (_) {
+        setState(() {
+          hoveredMemberId = null;
+        });
+      },
+      child: Stack(
+        children: [
+          Container(
+            width: 200,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 60,
+                  backgroundColor: Colors.grey[200],
+                  child: ClipOval(
+                    child: SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: member['image'] != null
+                          ? Image.asset(
+                              member['image']!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.grey,
+                                );
+                              },
+                            )
+                          : Icon(
                               Icons.person,
                               size: 60,
                               color: Colors.grey,
-                            );
-                          },
-                        )
-                      : Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Colors.grey,
+                            ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  member['name']!,
+                  style: GoogleFonts.baloo2(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.blue.shade900,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  member['role']!,
+                  style: GoogleFonts.baloo2(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          if (isHovered && hasTestimony)
+            Positioned.fill(
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: isHovered ? 1.0 : 0.0,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          closeIconColor: Colors.white,
+                          showCloseIcon: true,
+                          elevation: 0,
+                          margin: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.12,
+                              vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 20),
+                          backgroundColor:
+                              Colors.blue.shade900.withOpacity(0.8),
+                          content: Text(
+                            bio,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          duration: const Duration(seconds: 8),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade900.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Testimony',
+                            style: GoogleFonts.baloo2(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Text(
+                                testimony,
+                                style: GoogleFonts.baloo2(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  height: 1.5,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
-            Text(
-              member['name']!,
-              style: GoogleFonts.baloo2(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.blue.shade900,
+          if (!hasTestimony)
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        closeIconColor: Colors.white,
+                        showCloseIcon: true,
+                        elevation: 0,
+                        margin: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.12,
+                            vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        backgroundColor: Colors.blue.shade900.withOpacity(0.8),
+                        content: Text(
+                          bio,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        duration: const Duration(seconds: 8),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 4),
-            Text(
-              member['role']!,
-              style: GoogleFonts.baloo2(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }

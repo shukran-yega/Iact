@@ -227,7 +227,7 @@ class _MobileHomePageState extends State<MobileHomePage>
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  "Transforming bold ideas into actionable insights through innovation and data-driven strategies.",
+                  "Transforming bold ideas to breakthrough products, powered by innovation and insight",
                   style: GoogleFonts.baloo2(
                     fontSize: 18,
                     color: Colors.blue.shade900.withOpacity(0.6),
@@ -635,7 +635,7 @@ class _MobileHomePageState extends State<MobileHomePage>
           ),
           const SizedBox(height: 8),
           Text(
-            "Version: 1.0.8",
+            "Version: 1.1.0",
             style: GoogleFonts.baloo2(
               fontSize: 12,
               color: Colors.white60,

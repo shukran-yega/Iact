@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MobileAboutPage extends StatelessWidget {
+class MobileAboutPage extends StatefulWidget {
   const MobileAboutPage({super.key});
 
+  @override
+  State<MobileAboutPage> createState() => _MobileAboutPageState();
+}
+
+class _MobileAboutPageState extends State<MobileAboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,49 +89,57 @@ are available through various platforms including web, mobile, and desktop envir
         'name': 'Isaac Lyatuu',
         'role': 'System Architect',
         'id': '1',
-        'image': 'isaac.jpg'
+        'image': 'isaac.jpg',
+        'testimony': '',
       },
       {
         'name': 'Jonas Mwambimbi',
         'role': 'Systems developer',
         'id': '3',
-        'image': 'jonas.jpg'
+        'image': 'jonas.jpg',
+        'testimony': '',
       },
       {
         'name': 'Shoko Mohamed',
         'role': 'Product Design',
         'id': '4',
-        'image': 'assets/team/shoko.jpg'
+        'image': 'assets/team/shoko.jpg',
+        'testimony': '',
       },
       {
         'name': 'John Smith',
         'role': 'DevOps Engineer',
         'id': '9',
-        'image': 'assets/team/john.jpg'
+        'image': 'assets/team/john.jpg',
+        'testimony': '',
       },
       {
         'name': 'Carlos Stevenson',
         'role': 'Frontend Developer',
         'id': '11',
-        'image': 'assets/team/carlos.jpg'
+        'image': 'assets/team/carlos.jpg',
+        'testimony': '',
       },
       {
         'name': 'Sophie Thompson',
         'role': 'Product Manager',
         'id': '12',
-        'image': 'assets/team/sophie.jpg'
+        'image': 'assets/team/sophie.jpg',
+        'testimony': '',
       },
       {
         'name': 'Alex Brown',
         'role': 'Systems Architect',
         'id': '13',
-        'image': 'assets/team/alex.jpg'
+        'image': 'assets/team/alex.jpg',
+        'testimony': '',
       },
       {
         'name': 'Grace Litu',
         'role': 'Research Engineer',
         'id': '14',
-        'image': 'assets/team/grace.jpg'
+        'image': 'assets/team/grace.jpg',
+        'testimony': '',
       },
     ];
 
@@ -135,19 +148,25 @@ are available through various platforms including web, mobile, and desktop envir
         'name': 'Godfrey Siwingwa',
         'role': 'Field Coordinator',
         'id': '2',
-        'image': 'Godfrey.jpg'
+        'image': 'Godfrey.jpg',
+        'testimony':
+            "With hands-on experience supervising and implementing projects across Tanzania, I've witnessed firsthand how ideas—often starting as voices from individuals or communities—are captured through surveys and interviews, transformed into digital solutions, and ultimately inform decision-making at various levels. For me, this is the true meaning of turning ideas into action. iACT has given me the platform to be part of this journey, and I take great pride in contributing to meaningful impact.",
       },
       {
         'name': 'Farida Katunzi',
         'role': 'Finance & Admin',
         'id': '10',
-        'image': 'farida.jpeg'
+        'image': 'farida.jpeg',
+        'testimony':
+            "I joined iACT five years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in business and administration. iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity.",
       },
       {
         'name': 'Shukurani Irema',
-        'role': 'Mobile Developer',
+        'role': 'Software Developer',
         'id': '6',
-        'image': 'assets/team/shukurani.jpg'
+        'image': 'assets/team/shukurani.jpg',
+        'testimony':
+            "As part of my BSc degree requirements, I undertook an internship with iACT, where I was entrusted with revamping their website to reflect recent company developments and enhance its professional appeal. Throughout the process, I received invaluable technical mentorship that not only helped me meet my academic goals but also provided hands-on experience with real-world projects. It was a true example of turning ideas into action",
       },
     ];
 
@@ -171,7 +190,7 @@ are available through various platforms including web, mobile, and desktop envir
       ),
       const SizedBox(height: 32),
       Text(
-        'Part-Time Members',
+        'Turning ideas into Action',
         style: GoogleFonts.baloo2(
           fontSize: 28,
           fontWeight: FontWeight.bold,
@@ -219,30 +238,13 @@ are available through various platforms including web, mobile, and desktop envir
 
     final String bio =
         profiles[member['name']] ?? 'Profile information coming soon...';
+    final String testimony = member['testimony'] ?? '';
+    final bool hasTestimony = testimony.isNotEmpty;
 
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            closeIconColor: Colors.white,
-            showCloseIcon: true,
-            elevation: 0,
-            margin: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.05,
-                vertical: 10),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            backgroundColor: Colors.blue.shade900.withOpacity(0.8),
-            content: Text(
-              bio,
-              style: TextStyle(color: Colors.white),
-            ),
-            duration: const Duration(seconds: 8),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        );
+        _showMemberDetailBottomSheet(
+            context, member, bio, testimony, hasTestimony);
       },
       borderRadius: BorderRadius.circular(10),
       child: Container(
@@ -297,6 +299,151 @@ are available through various platforms including web, mobile, and desktop envir
               textAlign: TextAlign.center,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showMemberDetailBottomSheet(
+    BuildContext context,
+    Map<String, String> member,
+    String bio,
+    String testimony,
+    bool hasTestimony,
+  ) {
+    showModalBottomSheet(
+      isDismissible: true,
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.8,
+        maxChildSize: 0.9,
+        minChildSize: 0.5,
+        builder: (_, controller) => Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 60,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              SizedBox(height: 24),
+              CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.grey[200],
+                child: ClipOval(
+                  child: SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: member['image'] != null
+                        ? Image.asset(
+                            member['image']!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.person,
+                                size: 60,
+                                color: Colors.grey,
+                              );
+                            },
+                          )
+                        : Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.grey,
+                          ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                member['name']!,
+                style: GoogleFonts.baloo2(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade900,
+                ),
+              ),
+              SizedBox(height: 6),
+              Text(
+                member['role']!,
+                style: GoogleFonts.baloo2(
+                  fontSize: 18,
+                  color: Colors.grey[700],
+                ),
+              ),
+              SizedBox(height: 24),
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: controller,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Profile',
+                        style: GoogleFonts.baloo2(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue.shade900,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        bio,
+                        style: GoogleFonts.baloo2(
+                          fontSize: 16,
+                          height: 1.5,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                      if (hasTestimony) ...[
+                        SizedBox(height: 24),
+                        Text(
+                          'Testimony',
+                          style: GoogleFonts.baloo2(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue.shade900,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.blue.shade100,
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            testimony,
+                            style: GoogleFonts.baloo2(
+                              fontSize: 16,
+                              height: 1.5,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
