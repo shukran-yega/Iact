@@ -9,6 +9,97 @@ class MobileAboutPage extends StatefulWidget {
 }
 
 class _MobileAboutPageState extends State<MobileAboutPage> {
+  final List<Map<String, String>> coreMembers = [
+    {
+      'name': 'Isaac Lyatuu',
+      'role': 'System Architect',
+      'id': '1',
+      'image': 'isaac.jpg',
+      'testimony': '',
+    },
+    {
+      'name': 'Jonas Mwambimbi',
+      'role': 'Systems developer',
+      'id': '3',
+      'image': 'jonas.jpg',
+      'testimony': '',
+    },
+    {
+      'name': 'Shoko Mohamed',
+      'role': 'Product Design',
+      'id': '4',
+      'image': 'assets/team/shoko.jpg',
+      'testimony':
+          "Working with IAct since early 2024 has been a truly transformative experience for me. As a Product Designer, I've gained invaluable skills in both coding and design, expanding my capabilities far beyond what I initially expected. The team at IAct has not only supported my growth within the company but has also exposed me to parts of the tech industry I might never have encountered otherwise."
+              "One of the most rewarding parts of this journey has been IAct's encouragement and support in helping me develop my own idea and bring it to market. Their belief in my potential and their willingness to invest in my growth has opened doors to exciting new opportunities. I'm incredibly grateful to be part of a company that fosters innovation, learning, and real-world impact.",
+    },
+    {
+      'name': 'Felix Ruben',
+      'role': 'DevOps Engineer',
+      'id': '9',
+      'image': 'assets/team/john.jpg',
+      'testimony': '',
+    },
+    {
+      'name': 'Janice Stephen',
+      'role': 'Product Manager',
+      'id': '12',
+      'image': 'assets/team/sophie.jpg',
+      'testimony': '',
+    },
+    {
+      'name': 'Carlos Stevenson',
+      'role': 'Frontend Developer',
+      'id': '11',
+      'image': 'assets/team/carlos.jpg',
+      'testimony': '',
+    },
+    {
+      'name': 'Alex Brown',
+      'role': 'Systems Architect',
+      'id': '13',
+      'image': 'assets/team/alex.jpg',
+      'testimony': '',
+    },
+    {
+      'name': 'Grace Litu',
+      'role': 'Research Engineer',
+      'id': '14',
+      'image': 'assets/team/grace.jpg',
+      'testimony': '',
+    },
+  ];
+
+  final List<Map<String, String>> partTimeStaff = [
+    {
+      'name': 'Godfrey Siwingwa',
+      'role': 'Field Coordinator',
+      'id': '2',
+      'image': 'Godfrey.jpg',
+      'testimony':
+          "With hands-on experience supervising and implementing projects across Tanzania, I've witnessed firsthand how ideas—often starting as voices from individuals or communities—are captured through surveys and interviews, transformed into digital solutions, and ultimately inform decision-making at various levels. For me, this is the true meaning of turning ideas into action. iACT has given me the platform to be part of this journey, and I take great pride in contributing to meaningful impact."
+              "\n\nBsc of Arts in Public Administration - G.Siwingwa",
+    },
+    {
+      'name': 'Farida Katunzi',
+      'role': 'Finance & Admin',
+      'id': '10',
+      'image': 'farida.jpeg',
+      'testimony':
+          "I joined iACT eight years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in Social science (monitering and evaluation). iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity."
+              "\n\nBSc of Arts in Finance - F.Katunzi\nMSc of Arts in project planning - F.Katunzi\nPhd in progress",
+    },
+    {
+      'name': 'Shukurani Irema',
+      'role': 'Software Developer',
+      'id': '6',
+      'image': 'assets/team/shukurani.jpg',
+      'testimony':
+          "As part of my BSc degree requirements, I undertook an internship with iACT, where I was entrusted with revamping their website to reflect recent company developments and enhance its professional appeal. Throughout the process, I received invaluable technical mentorship that not only helped me meet my academic goals but also provided hands-on experience with real-world projects. It was a true example of turning ideas into action"
+              '\n\nBSc in Computer Science - S.Irema',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +139,25 @@ class _MobileAboutPageState extends State<MobileAboutPage> {
                 ),
               ),
               const SizedBox(height: 40),
+              Text(
+                'Turning ideas into Action',
+                style: GoogleFonts.baloo2(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade900,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 24,
+                runSpacing: 24,
+                children: partTimeStaff
+                    .map((member) => _buildTeamMemberCard(context, member))
+                    .toList(),
+              ),
+              const SizedBox(height: 40),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -84,94 +194,6 @@ are available through various platforms including web, mobile, and desktop envir
   }
 
   List<Widget> _buildTeamMembers(BuildContext context) {
-    final coreMembers = [
-      {
-        'name': 'Isaac Lyatuu',
-        'role': 'System Architect',
-        'id': '1',
-        'image': 'isaac.jpg',
-        'testimony': '',
-      },
-      {
-        'name': 'Jonas Mwambimbi',
-        'role': 'Systems developer',
-        'id': '3',
-        'image': 'jonas.jpg',
-        'testimony': '',
-      },
-      {
-        'name': 'Shoko Mohamed',
-        'role': 'Product Design',
-        'id': '4',
-        'image': 'assets/team/shoko.jpg',
-        'testimony':
-            "Working with IAct since early 2024 has been a truly transformative experience for me. As a Product Designer, I’ve gained invaluable skills in both coding and design, expanding my capabilities far beyond what I initially expected. The team at IAct has not only supported my growth within the company but has also exposed me to parts of the tech industry I might never have encountered otherwise."
-                "One of the most rewarding parts of this journey has been IAct’s encouragement and support in helping me develop my own idea and bring it to market. Their belief in my potential and their willingness to invest in my growth has opened doors to exciting new opportunities. I'm incredibly grateful to be part of a company that fosters innovation, learning, and real-world impact.",
-      },
-      {
-        'name': 'John Smith',
-        'role': 'DevOps Engineer',
-        'id': '9',
-        'image': 'assets/team/john.jpg',
-        'testimony': '',
-      },
-      {
-        'name': 'Carlos Stevenson',
-        'role': 'Frontend Developer',
-        'id': '11',
-        'image': 'assets/team/carlos.jpg',
-        'testimony': '',
-      },
-      {
-        'name': 'Sophie Thompson',
-        'role': 'Product Manager',
-        'id': '12',
-        'image': 'assets/team/sophie.jpg',
-        'testimony': '',
-      },
-      {
-        'name': 'Alex Brown',
-        'role': 'Systems Architect',
-        'id': '13',
-        'image': 'assets/team/alex.jpg',
-        'testimony': '',
-      },
-      {
-        'name': 'Grace Litu',
-        'role': 'Research Engineer',
-        'id': '14',
-        'image': 'assets/team/grace.jpg',
-        'testimony': '',
-      },
-    ];
-
-    final partTimeStaff = [
-      {
-        'name': 'Godfrey Siwingwa',
-        'role': 'Field Coordinator',
-        'id': '2',
-        'image': 'Godfrey.jpg',
-        'testimony':
-            "With hands-on experience supervising and implementing projects across Tanzania, I've witnessed firsthand how ideas—often starting as voices from individuals or communities—are captured through surveys and interviews, transformed into digital solutions, and ultimately inform decision-making at various levels. For me, this is the true meaning of turning ideas into action. iACT has given me the platform to be part of this journey, and I take great pride in contributing to meaningful impact.",
-      },
-      {
-        'name': 'Farida Katunzi',
-        'role': 'Finance & Admin',
-        'id': '10',
-        'image': 'farida.jpeg',
-        'testimony':
-            "I joined iACT eight years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in Social science (monitering and evaluation). iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity.",
-      },
-      {
-        'name': 'Shukurani Irema',
-        'role': 'Software Developer',
-        'id': '6',
-        'image': 'assets/team/shukurani.jpg',
-        'testimony':
-            "As part of my BSc degree requirements, I undertook an internship with iACT, where I was entrusted with revamping their website to reflect recent company developments and enhance its professional appeal. Throughout the process, I received invaluable technical mentorship that not only helped me meet my academic goals but also provided hands-on experience with real-world projects. It was a true example of turning ideas into action",
-      },
-    ];
-
     return [
       Text(
         'Core Team Members',
@@ -191,23 +213,6 @@ are available through various platforms including web, mobile, and desktop envir
             .toList(),
       ),
       const SizedBox(height: 32),
-      Text(
-        'Turning ideas into Action',
-        style: GoogleFonts.baloo2(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Colors.blue.shade900,
-        ),
-      ),
-      const SizedBox(height: 16),
-      Wrap(
-        alignment: WrapAlignment.center,
-        spacing: 24,
-        runSpacing: 24,
-        children: partTimeStaff
-            .map((member) => _buildTeamMemberCard(context, member))
-            .toList(),
-      ),
     ];
   }
 
@@ -226,11 +231,11 @@ are available through various platforms including web, mobile, and desktop envir
           'BSc. In Mass Communication with 4+ years in design patterns using tools such as Figma, adobe XD and many more',
       'Shukurani Irema':
           'BSc. in Computer Science with expertise in mobile app development using Flutter. 3+ years of experience in creating cross-platform applications with focus on user experience and performance optimization.',
-      'John Smith':
+      'Felix Ruben':
           'MSc. in DevOps Engineering with 5+ years of experience in cloud infrastructure, CI/CD pipelines, and containerization. Expert in AWS, Docker, and Kubernetes deployment strategies.',
       'Carlos Stevenson':
           'BSc. in Software Engineering with 4+ years of frontend development experience. Specialized in React, Vue.js, and modern JavaScript frameworks. Strong focus on responsive design and user interface optimization.',
-      'Sophie Thompson':
+      'Janice Stephen':
           'MBA with 6+ years in product management. Experienced in agile methodologies, user research, and product strategy. Successfully led multiple digital product launches and iterations.',
       'Alex Brown':
           'PhD in Systems Architecture with 8+ years of experience in designing scalable enterprise solutions. Expert in microservices architecture, cloud computing, and system integration.',

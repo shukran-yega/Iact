@@ -301,19 +301,22 @@ class _MobileHomePageState extends State<MobileHomePage>
   Widget _buildNewsSection() {
     final List<Map<String, String>> newsItems = [
       {
-        "title": "Research Innovation",
-        "description": "IACT launches new AI-driven data collection platforms.",
-        "image": "field2.jpg"
+        "title": "Scientific Research",
+        "description":
+            "Data collection on water quality assessment for remote sites using LETZTEST mobile equipment",
+        "image": "field14.jpg"
       },
       {
-        "title": "Training Excellence",
-        "description": "Cutting-edge training for field researchers.",
-        "image": "field3.jpg"
+        "title": "Microbiological water properties assessment",
+        "description":
+            "Exploring the short term and long term effects of Mbunge live show intervention",
+        "image": "water.png"
       },
       {
-        "title": "Tech Solutions",
-        "description": "Custom software for streamlined data analysis.",
-        "image": "PIC2.jpg"
+        "title": "Market Research",
+        "description":
+            "FERN Marketing wished to obtain data on product sales and key performance indicators on selected clients",
+        "image": "fern_1.png"
       },
     ];
 
@@ -402,25 +405,13 @@ class _MobileHomePageState extends State<MobileHomePage>
   }
 
   Widget _buildStatsSection() {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          _buildStatItem("15+", "Projects", Icons.work),
-          _buildStatItem("13+", "Clients", Icons.people),
-          _buildStatItem("5+", "Years", Icons.calendar_today),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String number, String label, IconData icon) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -429,25 +420,82 @@ class _MobileHomePageState extends State<MobileHomePage>
           ),
         ],
       ),
-      child: Row(
+      child: Column(
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.blue.shade900,
-            child: Icon(icon, color: Colors.white),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(number,
+          Text.rich(
+            TextSpan(
+              text: "Our ",
+              style: GoogleFonts.baloo2(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              children: [
+                TextSpan(
+                  text: "Impact",
                   style: GoogleFonts.baloo2(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue.shade900)),
-              Text(label,
-                  style:
-                      GoogleFonts.baloo2(fontSize: 16, color: Colors.black87)),
-            ],
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue.shade900,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 30),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Flexible(
+                      child: _buildStatItem(
+                          "10+", "Creative Staff", Icons.people)),
+                  Flexible(
+                      child: _buildStatItem("15+", "Projects", Icons.task_alt)),
+                  Flexible(
+                      child: _buildStatItem("13+", "Clients", Icons.handshake)),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem(String number, String label, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(0.2),
+              border: Border.all(color: Colors.blue.shade900, width: 1.5),
+            ),
+            child: Icon(icon, color: Colors.blue.shade900, size: 24),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            number,
+            style: GoogleFonts.baloo2(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue.shade900,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: GoogleFonts.baloo2(
+              fontSize: 14,
+              color: Colors.black87,
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

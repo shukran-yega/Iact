@@ -26,12 +26,10 @@ class CompaniesWorkedWith extends StatelessWidget {
         ),
 
         // Logos and Text Overlapping the Container
-        Positioned(left: 10, top: 25, child: _companyLogo("ihi.jpg")),
-        Positioned(right: 10, top: 20, child: _companyLogo("aaph.png")),
-        Positioned(right: 100, top: 100, child: _companyLogo("pact.jpg")),
-        Positioned(left: 40, bottom: 40, child: _companyLogo("t4d.jpg")),
-        Positioned(left: 150, top: 15, child: _companyLogo("ut.png")),
-        Positioned(right: 40, bottom: 10, child: _companyLogo("twaweza.jpg")),
+        Positioned(left: 20, bottom: 50, child: _companyLogo("ihi.jpg")),
+        Positioned(left: 85, top: 15, child: _companyLogo("pact.jpg")),
+        Positioned(left: 150, top: 15, child: _companyLogo("toronto.jpg")),
+        Positioned(left: 215, top: 15, child: _companyLogo("twaweza.jpg")),
 
         // Happy Customers Text
         Positioned(

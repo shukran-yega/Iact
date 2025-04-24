@@ -20,6 +20,7 @@ class _ClientLogosGridState extends State<ClientLogosGrid> {
     {'name': 't4d', 'logo': 't4d.jpg'},
     {'name': 'Toronto', 'logo': 'ut.png'},
     {'name': 'twaweza', 'logo': 'twaweza.jpg'},
+    {'name': 'Apotheker', 'logo': 'apo.jpeg'},
   ];
 
   @override
