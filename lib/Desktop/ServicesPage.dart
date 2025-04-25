@@ -120,7 +120,7 @@ class _ServicePageState extends State<ServicePage> {
           1,
           "Research Implementation",
           "Ethical and structured research",
-          "Ethical research implementation balances integrity and accountability, protecting rights and ensuring transparency. By following clear objectives and systematic methodologies, it delivers meaningful, impactful results while upholding established guidelines",
+          "Ethical research implementation balances integrity and accountability, protecting rights and ensuring transparency. By following clear objectives and systematic methodologies, it delivers meaningful, impactful results while upholding established guidelines.",
           "field5.jpg",
           isSmallScreen,
           isHorizontal: true,
@@ -148,9 +148,9 @@ class _ServicePageState extends State<ServicePage> {
           3,
           "Data Hosting",
           "Virtual Private servers",
-          "Virtual Private Servers (VPS)"
-              "Online machines with Windows and Linux OS"
-              "We help our clients to configure online virtual machines through trusted companies such as Digital Oceans, Contabo & Go Daddy and manage payments in local currency. The virtual machines can be run with Windows or Linux, configured with static IP address, DNS and additional services such as automatic backups, firewalls and remote management.",
+          "Virtual Private Servers (VPS). "
+              "Online machines with Windows and Linux OS. "
+              "We help our clients to configure online virtual machines through trusted companies such as Digital Oceans, Contabo & Go Daddy and manage payments in local currency. The virtual machines can be run with Windows or Linux, configured with static IP address, DNS and additional services such as automatic backups, firewalls and remote management.",
           "cloud.jpg",
           isSmallScreen,
         ),

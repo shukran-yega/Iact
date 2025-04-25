@@ -93,7 +93,7 @@ class _MobileServicesPageState extends State<MobileServicesPage> {
         "title": "Research Implementation",
         "subtitle": "Ethical and structured research",
         "description":
-            "Ethical research implementation balances integrity and accountability, protecting rights and ensuring transparency. By following clear objectives and systematic methodologies, it delivers meaningful, impactful results while upholding established guidelines",
+            "Ethical research implementation balances integrity and accountability, protecting rights and ensuring transparency. By following clear objectives and systematic methodologies, it delivers meaningful, impactful results while upholding established guidelines.",
         "image": "field5.jpg",
       },
       {
@@ -106,9 +106,9 @@ class _MobileServicesPageState extends State<MobileServicesPage> {
       {
         "title": "Data Hosting",
         "subtitle": "Virtual Private servers",
-        "description": "Virtual Private Servers (VPS)"
-            "Online machines with Windows and Linux OS"
-            "We help our clients to configure online virtual machines through trusted companies such as Digital Oceans, Contabo & Go Daddy and manage payments in local currency. The virtual machines can be run with Windows or Linux, configured with static IP address, DNS and additional services such as automatic backups, firewalls and remote management.",
+        "description": "Virtual Private Servers (VPS). "
+            "Online machines with Windows and Linux OS. "
+            "We help our clients to configure online virtual machines through trusted companies such as Digital Oceans, Contabo & Go Daddy and manage payments in local currency. The virtual machines can be run with Windows or Linux, configured with static IP address, DNS and additional services such as automatic backups, firewalls and remote management.",
         "image": "cloud.jpg",
       },
       {

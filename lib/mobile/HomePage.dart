@@ -345,9 +345,9 @@ class _MobileHomePageState extends State<MobileHomePage>
       onTap: () {
         // navigate to mobile portfolio
         setState(() {
-          _selectedIndex = 1;
+          _selectedIndex = 2;
         });
-        context.go("/Services");
+        context.go("/portfolio");
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),

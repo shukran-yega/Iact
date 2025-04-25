@@ -108,9 +108,7 @@ class _AboutusState extends State<Aboutus> {
         'role': 'Product Design',
         'id': '4',
         'image': 'assets/team/shoko.jpg',
-        'testimony':
-            "Working with IAct since early 2024 has been a truly transformative experience for me. As a Product Designer, I’ve gained invaluable skills in both coding and design, expanding my capabilities far beyond what I initially expected. The team at IAct has not only supported my growth within the company but has also exposed me to parts of the tech industry I might never have encountered otherwise."
-                "One of the most rewarding parts of this journey has been IAct’s encouragement and support in helping me develop my own idea and bring it to market. Their belief in my potential and their willingness to invest in my growth has opened doors to exciting new opportunities. I'm incredibly grateful to be part of a company that fosters innovation, learning, and real-world impact.",
+        'testimony': "",
       },
       {
         'name': 'Felix Ruben',
@@ -155,21 +153,24 @@ class _AboutusState extends State<Aboutus> {
         'role': 'Field Coordinator',
         'id': '2',
         'image': 'Godfrey.jpg',
-        'testimony': "",
+        'testimony':
+            "",
       },
       {
         'name': 'Farida Katunzi',
         'role': 'Finance & Admin',
         'id': '10',
         'image': 'farida.jpeg',
-        'testimony': "",
+        'testimony':
+            "",
       },
       {
         'name': 'Shukurani Irema',
         'role': 'Software Developer',
         'id': '6',
         'image': 'assets/team/shukurani.jpg',
-        'testimony': "",
+        'testimony':
+            "",
       },
     ];
 
@@ -223,12 +224,12 @@ class _AboutusState extends State<Aboutus> {
           'BSc. In Computer Science, MSc in Mathematics and PhD. In Epidemiology with over 10 years in Health Systems designs and application, particularly in low-resource settings. Practical experience in data science activities including analysis and graphical presentations, machine learning and software development.',
       'Godfrey Siwingwa':
           "With hands-on experience supervising and implementing projects across Tanzania, I've witnessed firsthand how ideas—often starting as voices from individuals or communities—are captured through surveys and interviews, transformed into digital solutions, and ultimately inform decision-making at various levels. For me, this is the true meaning of turning ideas into action. iACT has given me the platform to be part of this journey, and I take great pride in contributing to meaningful impact."
-              "\n\nBsc of Arts in Public Administration - G.Siwingwa",
+              "\n\nBSc of Arts in Public Administration - G.Siwingwa",
       'Farida Katunzi':
-          "I joined iACT eight years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in Social science (monitering and evaluation). iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity."
-              "\n\nBSc of Arts in Finance - F.Katunzi\nMSc of Arts in project planning - F.Katunzi\nPhd in progress",
+          "I joined iACT eight years ago, primarily supporting office operations and project implementation. The diverse exposure inspired me to pursue further education in Social science (monitoring and evaluation). iACT believed in my vision and supported it—both financially through tuition assistance and by offering the flexibility to balance work and school. This experience truly brought my ideas to life, and I'm deeply grateful for the opportunity."
+              "\n\nBSc of Arts in Finance - F.Katunzi\nMSc of Arts in project planning - F.Katunzi\nPhD in progress",
       'Jonas Mwambimbi':
-          'Full Stack software developer with 4+ experience in python + java development including REStFul API, Systems Gateways and Web-based applications. Experience in Django, NoSQL, Flask, FastAPI and AngularJS.',
+          'Full Stack software developer with 4+ experience in python + java development including RESTful API, Systems Gateways and Web-based applications. Experience in Django, NoSQL, Flask, FastAPI and AngularJS.',
       'Shoko Mohamed':
           'BSc. in Mass Communication with 4+ years of experience crafting intuitive and impactful designs using tools like Figma, Adobe XD, and more. Passionate about visual storytelling and user-centered design.',
       'Shukurani Irema':

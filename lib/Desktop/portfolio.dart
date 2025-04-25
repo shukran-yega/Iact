@@ -55,9 +55,9 @@ class PortfolioPage extends StatelessWidget {
               _buildPortfolioItem(
                   context,
                   "Scientific Research",
-                  "Data collection on water quality assessment for remote sites using LETZTEST mobile equipment's",
+                  "Data collection on water quality assessment for remote sites using LETZTEST mobile equipment",
                   "Ground experience to providing water quality assessment solutions using "
-                      "LETZTEST|https://letztest.com/ products, a German's based company manufacturing high quality and reliable waster testing products. "
+                      "LETZTEST|https://letztest.com/ products, a German-based company manufacturing high quality and reliable water testing products. "
                       "Our approach involves remote sites sample collection and testing using mobile laboratory technology.",
                   "field14.jpg",
                   "emblem.png",
