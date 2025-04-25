@@ -66,7 +66,7 @@ class MobilePortfolioPage extends StatelessWidget {
                 context,
                 "Microbiological water properties assessment",
                 "Exploring the short term and long term effects of Mbunge live show intervention",
-                "iAs part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
+                "As part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
                 "water.png",
                 "twaweza.jpg",
                 "Twaweza",
@@ -87,7 +87,7 @@ class MobilePortfolioPage extends StatelessWidget {
               _buildPortfolioItem(
                 context,
                 "Market Research",
-                "FERN Marketing wished to obtain data on product sales and key performance indicators on selected clients.",
+                "Digital data collection on product sales and key performance indicators, Fern marketing Tanzania.",
                 "FERN Marketing wished to obtain data on product "
                     "sales and key performance indicators on selected clients."
                     " We provided data management support which included to design data collection tools,"

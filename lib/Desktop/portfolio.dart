@@ -64,7 +64,7 @@ class PortfolioPage extends StatelessWidget {
                 context,
                 "Microbiological water properties assessment",
                 "Impact evaluation of the SCRP in the Simiyu Region",
-                "iAs part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
+                "As part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
                 "water.png",
                 "emblem.png",
                 "Ministry of Water - Tanzania with support from KfW Bank",

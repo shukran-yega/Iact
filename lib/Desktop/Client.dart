@@ -17,10 +17,10 @@ class _ClientLogosGridState extends State<ClientLogosGrid> {
     {'name': 'Ifakara health center', 'logo': 'ihi.jpg'},
     {'name': 'Aaph', 'logo': 'aaph.png'},
     {'name': 'Pact', 'logo': 'pact.jpg'},
-    {'name': 't4d', 'logo': 't4d.jpg'},
     {'name': 'Toronto', 'logo': 'ut.png'},
     {'name': 'twaweza', 'logo': 'twaweza.jpg'},
     {'name': 'Apotheker', 'logo': 'apo.jpeg'},
+    {'name': 't4d', 'logo': 't4d.jpg'},
   ];
 
   @override
@@ -43,8 +43,8 @@ class _ClientLogosGridState extends State<ClientLogosGrid> {
 
         // Logo Grid
         Wrap(
-          spacing: 60,
-          runSpacing: 40,
+          spacing: 20,
+          runSpacing: 20,
           alignment: WrapAlignment.center,
           children: _clients
               .map((client) => ClientLogoItem(
@@ -109,7 +109,7 @@ class _ClientLogoItemState extends State<ClientLogoItem> {
         onTap: _handleClick,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          width: 220,
+          width: 170,
           height: 140,
           decoration: BoxDecoration(
             color: Colors.white,

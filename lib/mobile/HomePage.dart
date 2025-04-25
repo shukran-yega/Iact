@@ -683,7 +683,7 @@ class _MobileHomePageState extends State<MobileHomePage>
           ),
           const SizedBox(height: 8),
           Text(
-            "Version: 1.1.5",
+            "Version: 1.2.0",
             style: GoogleFonts.baloo2(
               fontSize: 12,
               color: Colors.white60,
