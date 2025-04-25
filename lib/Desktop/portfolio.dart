@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/gestures.dart';
 
 class PortfolioPage extends StatelessWidget {
   const PortfolioPage({super.key});
@@ -55,7 +56,9 @@ class PortfolioPage extends StatelessWidget {
                   context,
                   "Scientific Research",
                   "Data collection on water quality assessment for remote sites using LETZTEST mobile equipment's",
-                  "Ground experience to providing water quality assessment solutions using LETZTEST products, a German's based company manufacturing high quality and reliable waster testing products. Our approach involves remote sites sample collection and testing using mobile laboratory technology.",
+                  "Ground experience to providing water quality assessment solutions using "
+                      "LETZTEST|https://letztest.com/ products, a German's based company manufacturing high quality and reliable waster testing products. "
+                      "Our approach involves remote sites sample collection and testing using mobile laboratory technology.",
                   "field14.jpg",
                   "emblem.png",
                   "Ministry of Water - Tanzania with support from KfW Bank"),
@@ -64,7 +67,9 @@ class PortfolioPage extends StatelessWidget {
                 context,
                 "Microbiological water properties assessment",
                 "Impact evaluation of the SCRP in the Simiyu Region",
-                "As part of the pre-study exercise conducted for the impact evaluation of the Simiyu Climate Resilience Project (SCRP), iACT conducted guided field data collection on water samples and perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
+                "As part of the pre-study exercise conducted for the impact evaluation of the "
+                    "Simiyu Climate Resilience Project|https://www.simiyu-cr-project.org/index.php/en/ (SCRP), iACT conducted guided field data collection on water samples and "
+                    "perform pre-processing to support investigation for physical, chemical and microbiological water properties of the 272 sampled water sources scattered around 90 villages in the Simiyu Region. ",
                 "water.png",
                 "emblem.png",
                 "Ministry of Water - Tanzania with support from KfW Bank",
@@ -177,6 +182,112 @@ class PortfolioPage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final itemHeight = screenHeight * 0.65;
 
+    // Process description text for hyperlinks
+    final List<TextSpan> descriptionTextSpans = [];
+
+    // Handle special case for Simiyu Climate Resilience Project
+    if (description.contains('Simiyu Climate Resilience Project|')) {
+      // Split by the link pattern
+      final regex = RegExp(r'Simiyu Climate Resilience Project\|([^\s]+)');
+      final match = regex.firstMatch(description);
+
+      if (match != null) {
+        final url = match.group(1)!;
+        final parts = description.split(regex);
+
+        // Add text before the link
+        if (parts[0].isNotEmpty) {
+          descriptionTextSpans.add(
+            TextSpan(
+              text: parts[0],
+              style: GoogleFonts.baloo2(
+                fontSize: 16,
+                color: Colors.black87,
+                height: 1.6,
+              ),
+            ),
+          );
+        }
+
+        // Add the linked text
+        descriptionTextSpans.add(
+          TextSpan(
+            text: "Simiyu Climate Resilience Project",
+            style: GoogleFonts.baloo2(
+              fontSize: 16,
+              color: Colors.blue.shade900,
+              decoration: TextDecoration.underline,
+              height: 1.6,
+            ),
+            recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url),
+          ),
+        );
+
+        // Add text after the link
+        if (parts.length > 1 && parts[1].isNotEmpty) {
+          descriptionTextSpans.add(
+            TextSpan(
+              text: parts[1],
+              style: GoogleFonts.baloo2(
+                fontSize: 16,
+                color: Colors.black87,
+                height: 1.6,
+              ),
+            ),
+          );
+        }
+      }
+    } else if (description.contains('|')) {
+      final parts = description.split(' ');
+      for (int i = 0; i < parts.length; i++) {
+        if (parts[i].contains('|')) {
+          final linkParts = parts[i].split('|');
+          final text = linkParts[0];
+          final url = linkParts[1];
+          descriptionTextSpans.add(
+            TextSpan(
+              text: text,
+              style: GoogleFonts.baloo2(
+                fontSize: 16,
+                color: Colors.blue.shade900,
+                decoration: TextDecoration.underline,
+                height: 1.6,
+              ),
+              recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url),
+            ),
+          );
+          // Add space if it's not the last word
+          if (i < parts.length - 1) {
+            descriptionTextSpans.add(TextSpan(text: ' '));
+          }
+        } else {
+          // Add the regular word
+          descriptionTextSpans.add(
+            TextSpan(
+              text: parts[i] + (i < parts.length - 1 ? ' ' : ''),
+              style: GoogleFonts.baloo2(
+                fontSize: 16,
+                color: Colors.black87,
+                height: 1.6,
+              ),
+            ),
+          );
+        }
+      }
+    } else {
+      // Regular text without links
+      descriptionTextSpans.add(
+        TextSpan(
+          text: description,
+          style: GoogleFonts.baloo2(
+            fontSize: 16,
+            color: Colors.black87,
+            height: 1.6,
+          ),
+        ),
+      );
+    }
+
     return Container(
       height: itemHeight,
       padding: EdgeInsets.all(20),
@@ -281,12 +392,9 @@ class PortfolioPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 SingleChildScrollView(
-                  child: Text(
-                    description,
-                    style: GoogleFonts.baloo2(
-                      fontSize: 16,
-                      color: Colors.black87,
-                      height: 1.6,
+                  child: RichText(
+                    text: TextSpan(
+                      children: descriptionTextSpans,
                     ),
                   ),
                 ),
