@@ -145,8 +145,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                                           'Portfolio', Icons.work_outline),
                                       _buildTab(
                                           'About us', Icons.people_outline),
-                                      _buildTab(
-                                          'Staff', Icons.admin_panel_settings), // this only appears if the bool isSigned in becomes true 
+                                      
                                           
                                     ],
                                   ),
@@ -190,7 +189,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           ServicePage(tabController: widget.tabController),
           PortfolioPage(),
           Aboutus(),
-          Staffpanel()
+        
         ],
       ),
     );

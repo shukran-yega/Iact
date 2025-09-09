@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:iact/Desktop/NavBar.dart';
+import 'package:iact/Desktop/staffPanel.dart';
 
 bool _obscurePassword = true; // initial state
 
@@ -163,6 +164,10 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
                         if (resp.statusCode == 200) {
                           isSigned = true;
                           Navigator.of(context).pop();
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Staffpanel();
+                          }));
                         } else if (resp.statusCode == 401) {
                           _errorMessage = 'Invalid credentials';
                         } else {

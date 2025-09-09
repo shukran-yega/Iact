@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:iact/Desktop/Landing_page.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:http/http.dart' as http;
+import 'dart:html' as html; // needed to open files in a new browser tab
 
-// A simple data model for our documents
+// Document data model
 class Document {
   int id;
   String title;
-
   Document({required this.id, required this.title});
 }
 
@@ -18,47 +20,64 @@ class Staffpanel extends StatefulWidget {
   State<Staffpanel> createState() => _StaffpanelState();
 }
 
-bool loading = false;
-Uint8List? _imageBytes;
-
 class _StaffpanelState extends State<Staffpanel> {
-  // Use a list of Document objects for better data management
-  final List<Document> _documents = List.generate(
-    12,
-    (index) => Document(id: index, title: 'Document #${index + 1}'),
-  );
+  List<Document> _documents = [];
+  bool _loading = false;
 
-  // Function to add a new document
+  @override
+  void initState() {
+    super.initState();
+    _fetchDocuments(); // load documents from backend on start
+  }
 
-  void _pickImage() async {
+  // Fetch documents from backend
+  // Fetch documents from backend
+  Future<void> _fetchDocuments() async {
     try {
-      // Pick an image or PDF as bytes
-      final Uint8List? imageBytes = await ImagePickerWeb.getImageAsBytes();
-      if (imageBytes != null) {
-        setState(() {
-          _imageBytes = imageBytes;
-          loading = true; // show loader while uploading
-        });
+      final response =
+          await http.get(Uri.parse('http://127.0.0.1:8000/documents/'));
+      print('Response body: ${response.body}');
 
-        // Prepare multipart HTTP request
+      if (response.statusCode == 200) {
+        final List<dynamic> docsJson = jsonDecode(response.body);
+
+        setState(() {
+          _documents = docsJson
+              .map((json) => Document(
+                    id: json['id'],
+                    title: json['filename'], // ✅ use 'filename' from backend
+                  ))
+              .toList();
+        });
+      } else {
+        print('Failed to fetch documents: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching documents: $e');
+    }
+  }
+
+  // Pick and upload a file
+  void _pickAndUploadFile() async {
+    try {
+      final Uint8List? fileBytes = await ImagePickerWeb.getImageAsBytes();
+      if (fileBytes != null) {
+        setState(() => _loading = true);
+
         var request = http.MultipartRequest(
           'POST',
-          Uri.parse(
-              'http://127.0.0.1:8000/documents/upload/'), // your backend endpoint
+          Uri.parse('http://127.0.0.1:8000/documents/upload/'),
         );
 
         request.files.add(
-          http.MultipartFile.fromBytes('file', imageBytes,
+          http.MultipartFile.fromBytes('file', fileBytes,
               filename: 'upload_file'),
         );
 
-        // Add any extra fields (e.g., owner_id)
-        request.fields['owner_id'] = '1'; // replace with actual staff/user id
+        request.fields['owner_id'] = '1'; // replace with actual user id
 
-        // Send the request
         var response = await request.send();
-
-        setState(() => loading = false);
+        setState(() => _loading = false);
 
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -67,6 +86,7 @@ class _StaffpanelState extends State<Staffpanel> {
               backgroundColor: Colors.green,
             ),
           );
+          _fetchDocuments(); // refresh the document grid
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -77,7 +97,7 @@ class _StaffpanelState extends State<Staffpanel> {
         }
       }
     } catch (e) {
-      setState(() => loading = false);
+      setState(() => _loading = false);
       print('Error picking/uploading file: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -86,8 +106,9 @@ class _StaffpanelState extends State<Staffpanel> {
         ),
       );
     }
-  } // Function to delete a document by its ID
+  }
 
+  // Delete a document locally (you can add backend deletion later)
   void _deleteDocument(int id) {
     setState(() {
       _documents.removeWhere((doc) => doc.id == id);
@@ -100,54 +121,38 @@ class _StaffpanelState extends State<Staffpanel> {
     );
   }
 
-  // Function to view a document
-  void _viewDocument(String title) {
-    // A simple dialog to simulate viewing a document
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Viewing Document'),
-        content: Text('You are now viewing the contents of "$title".'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Close', style: TextStyle(color: Colors.blue[900])),
-          ),
-        ],
-      ),
-    );
+  void _viewDocument(String filename) {
+    final url = 'http://127.0.0.1:8000/documents/file/$filename';
+    html.window.open(url, '_blank'); // opens file in a new browser tab
   }
 
   @override
   Widget build(BuildContext context) {
-    // Define the primary theme color for easy reuse
-    const Color primaryColor = Color(0xFF0D47A1); // This is Colors.blue[900]
+    const Color primaryColor = Color(0xFF0D47A1);
 
     return Scaffold(
-      backgroundColor: Colors.grey[100], // A light background for contrast
+      backgroundColor: Colors.grey[100],
       body: Row(
         children: [
-          // Section 1: Left-side navigation/description panel
           _buildSidePanel(primaryColor),
-
-          // Section 2: Right-side main UI with the document grid
           _buildMainContent(primaryColor),
         ],
       ),
-      // Floating Action Button to add new documents
       floatingActionButton: FloatingActionButton(
-        onPressed: _pickImage,
+        onPressed: _pickAndUploadFile,
         backgroundColor: primaryColor,
         tooltip: 'Add New Document',
-        child: const Icon(Icons.add, color: Colors.white),
+        child: _loading
+            ? const CircularProgressIndicator(color: Colors.white)
+            : const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 
-  // Widget for the left-side panel
+  // Left side panel
   Widget _buildSidePanel(Color primaryColor) {
     return Container(
-      width: 280, // A fixed width for the side panel
+      width: 280,
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -197,6 +202,33 @@ class _StaffpanelState extends State<Staffpanel> {
               subtitle: 'Remove documents you no longer need.',
               color: primaryColor,
             ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 40.0,
+                top: 30,
+              ),
+              child: TextButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[900], // blue shade 900
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: () {
+                  html.window.location.reload();
+                },
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
             const Spacer(),
             const Text(
               '© 2025 Document Corp.',
@@ -208,7 +240,6 @@ class _StaffpanelState extends State<Staffpanel> {
     );
   }
 
-  // Helper for creating list tiles in the side panel
   Widget _buildInfoTile(
       {required IconData icon,
       required String title,
@@ -235,17 +266,17 @@ class _StaffpanelState extends State<Staffpanel> {
     );
   }
 
-  // Widget for the main content area (the grid)
+  // Main content (grid)
   Widget _buildMainContent(Color primaryColor) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 250.0, // Max width of each item
-            mainAxisSpacing: 20.0, // Spacing between rows
-            crossAxisSpacing: 20.0, // Spacing between columns
-            childAspectRatio: 0.85, // Aspect ratio of items
+            maxCrossAxisExtent: 250,
+            mainAxisSpacing: 20,
+            crossAxisSpacing: 20,
+            childAspectRatio: 0.85,
           ),
           itemCount: _documents.length,
           itemBuilder: (context, index) {
@@ -263,7 +294,7 @@ class _StaffpanelState extends State<Staffpanel> {
   }
 }
 
-// A stateless widget for the document card to keep the code clean
+// Document Card widget
 class DocumentCard extends StatelessWidget {
   final Document document;
   final Color primaryColor;
@@ -285,24 +316,16 @@ class DocumentCard extends StatelessWidget {
       shadowColor: Colors.blue.withOpacity(0.1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.article_outlined,
-              size: 60,
-              color: primaryColor,
-            ),
+            Icon(Icons.article_outlined, size: 60, color: primaryColor),
             const SizedBox(height: 20),
             Text(
               document.title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -311,14 +334,12 @@ class DocumentCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // Clean button for "View"
                 IconButton(
                   icon: const Icon(Icons.visibility_outlined),
                   color: primaryColor,
                   tooltip: 'View Document',
                   onPressed: onView,
                 ),
-                // Clean button for "Delete"
                 IconButton(
                   icon: const Icon(Icons.delete_outline),
                   color: Colors.redAccent,
