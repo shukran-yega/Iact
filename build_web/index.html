@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A revamp for the official website for IACT.">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="iact">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>iact</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Import a modern Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #3399ff; /* Updated for ripple background */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Inter', Arial, sans-serif; /* Modern font */
+      letter-spacing: 0.01em;
+      color: #183153;
+    }
+
+    #loading-screen {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      /* Make the loading screen background semi-transparent so the ripple background is visible */
+      background: rgba(255, 255, 255, 0.85); /* Changed from #ffffff */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      /* Allow pointer events only for loading screen content, not the background */
+      pointer-events: auto;
+    }
+
+    .logo-container {
+      position: relative;
+      width: 150px; /* Slightly larger for impact */
+      height: 150px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px; /* Added padding for more space around the logo */
+      /* Glassmorphism effect for modern look */
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 32px;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      transition: box-shadow 0.3s;
+    }
+
+    .logo-container:hover {
+      box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.22);
+    }
+
+    .logo {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+      animation: pulse 2s infinite;
+      border-radius: 24px;
+      box-shadow: 0 4px 24px 0 rgba(51, 153, 255, 0.18);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .loading-text {
+      color: #183153; /* Deeper blue for contrast */
+      font-size: 1.2rem; /* Larger and more modern */
+      font-weight: 700;
+      margin-top: 18px;
+      letter-spacing: 0.02em;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(51,153,255,0.10);
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in forwards;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+
+    .loading-bar {
+      width: 220px;
+      height: 5px;
+      background: linear-gradient(90deg, #e3f2fd 0%, #b3e0ff 100%);
+      border-radius: 3px;
+      margin-top: 24px;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in forwards;
+      box-shadow: 0 2px 8px 0 rgba(51,153,255,0.10);
+    }
+
+    .loading-progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #3399ff 0%, #1a237e 100%);
+      border-radius: 3px;
+      animation: progress 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes progress {
+      0% { width: 0%; }
+      50% { width: 100%; }
+      100% { width: 0%; }
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in forwards;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #1a237e;
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+
+    .dot:nth-child(1) { animation-delay: 0s; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Ripple background animation styles */
+    .ripple-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: ripple 15s infinite;
+      box-shadow: 0px 0px 1px 0px #508fb9;
+    }
+    .small {
+      width: 200px;
+      height: 200px;
+      left: -100px;
+      bottom: -100px;
+    }
+    .medium {
+      width: 400px;
+      height: 400px;
+      left: -200px;
+      bottom: -200px;
+    }
+    .large {
+      width: 600px;
+      height: 600px;
+      left: -300px;
+      bottom: -300px;
+    }
+    .xlarge {
+      width: 800px;
+      height: 800px;
+      left: -400px;
+      bottom: -400px;
+    }
+    .xxlarge {
+      width: 1000px;
+      height: 1000px;
+      left: -500px;
+      bottom: -500px;
+    }
+    .shade1 { opacity: 0.2; }
+    .shade2 { opacity: 0.5; }
+    .shade3 { opacity: 0.7; }
+    .shade4 { opacity: 0.8; }
+    .shade5 { opacity: 0.9; }
+    @keyframes ripple {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(0.8); }
+    }
+  </style>
+</head>
+<body>
+<!-- Animated ripple background (replaces SVG wave) -->
+<div class="ripple-background">
+  <div class="circle xxlarge shade1"></div>
+  <div class="circle xlarge shade2"></div>
+  <div class="circle large shade3"></div>
+  <div class="circle medium shade4"></div>
+  <div class="circle small shade5"></div>
+</div>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="logo-container" style="margin-bottom:10px;">
+    <img src="assets/logo.png" alt="IACT Logo" class="logo">
+  </div>
+  <div id="loading-text" class="loading-text" style="margin-top:10px;">Loading...</div>
+ 
+ 
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script>
+  // List of interactive loading phrases (updated to reflect IACT's focus)
+  const loadingPhrases = [
+    'Training intelligent models...',
+    'Researching new frontiers...',
+    'Generating breakthrough ideas...',
+    'Analyzing data for insights...',
+    'Innovating with machine learning...',
+    'Collaborating on research...',
+    'Building smarter solutions...',
+    'Exploring AI possibilities...',
+    'Empowering creativity with AI...',
+    'Transforming ideas into impact...'
+  ];
+  // Select a random phrase
+  const randomPhrase = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
+  // Set the loading text and fade it in
+  const loadingText = document.getElementById('loading-text');
+  loadingText.textContent = randomPhrase;
+  loadingText.style.opacity = 0;
+  setTimeout(() => {
+    loadingText.style.transition = 'opacity 1s';
+    loadingText.style.opacity = 1;
+  }, 200);
+  // Remove loading screen when Flutter is loaded
+  window.addEventListener('flutter-first-frame', function () {
+    document.getElementById('loading-screen').style.display = 'none';
+  });
+  // Load Lottie gears animation
+  try {
+    lottie.loadAnimation({
+      container: document.getElementById('lottie-gears'), // the dom element
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/gears.json' // the path to the animation json
+    });
+  } catch (error) {
+    // Print any error code to the terminal crucial for debugging
+    console.error('Lottie load error:', error);
+  }
+</script>
+
+<script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

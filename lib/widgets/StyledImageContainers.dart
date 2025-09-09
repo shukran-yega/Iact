@@ -54,8 +54,11 @@ class _StyledImageGridState extends State<StyledImageGrid>
       parent: _controller3,
       curve: Curves.easeIn,
     );
-
-    _startAnimations();
+    try {
+      _startAnimations();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void _startAnimations() {
@@ -121,7 +124,7 @@ class _StyledImageGridState extends State<StyledImageGrid>
   Widget _buildSecondContainer(String imagePath) => _buildContainer(
       imagePath,
       MediaQuery.of(context).size.width * 0.2,
-      MediaQuery.of(context).size.height * 0.35, // Adjusted dynamically
+      MediaQuery.of(context).size.height * 0.346, // Adjusted dynamically
       BorderRadius.only(
         topLeft: Radius.circular(25),
         topRight: Radius.circular(25),
@@ -132,7 +135,7 @@ class _StyledImageGridState extends State<StyledImageGrid>
   Widget _buildThirdContainer(String imagePath) => _buildContainer(
       imagePath,
       MediaQuery.of(context).size.width * 0.2,
-      MediaQuery.of(context).size.height * 0.25, // Adjusted dynamically
+      MediaQuery.of(context).size.height * 0.24, // Adjusted dynamically
 
       BorderRadius.only(
         topLeft: Radius.circular(25),

@@ -107,42 +107,42 @@ class _AboutusState extends State<Aboutus> {
         'name': 'Shoko Mohamed',
         'role': 'Product Design',
         'id': '4',
-        'image': 'assets/team/shoko.jpg',
+        'image': 'team/shoko.jpg',
         'testimony': "",
       },
       {
         'name': 'Felix Ruben',
         'role': 'DevOps Engineer',
         'id': '9',
-        'image': 'assets/team/john.jpg',
+        'image': 'team/john.jpg',
         'testimony': '',
       },
       {
         'name': 'Janice Stephen',
         'role': 'Product Manager',
         'id': '12',
-        'image': 'assets/team/sophie.jpg',
+        'image': 'team/sophie.jpg',
         'testimony': '',
       },
       {
         'name': 'Carlos Stevenson',
         'role': 'Frontend Developer',
         'id': '11',
-        'image': 'assets/team/carlos.jpg',
+        'image': 'team/carlos.jpg',
         'testimony': '',
       },
       {
         'name': 'Alex Brown',
         'role': 'Systems Architect',
         'id': '13',
-        'image': 'assets/team/alex.jpg',
+        'image': 'team/alex.jpg',
         'testimony': '',
       },
       {
         'name': 'Grace Litu',
         'role': 'Research Engineer',
         'id': '14',
-        'image': 'assets/team/grace.jpg',
+        'image': 'team/grace.jpg',
         'testimony': '',
       },
     ];
@@ -153,24 +153,21 @@ class _AboutusState extends State<Aboutus> {
         'role': 'Field Coordinator',
         'id': '2',
         'image': 'Godfrey.jpg',
-        'testimony':
-            "",
+        'testimony': "",
       },
       {
         'name': 'Farida Katunzi',
         'role': 'Finance & Admin',
         'id': '10',
         'image': 'farida.jpeg',
-        'testimony':
-            "",
+        'testimony': "",
       },
       {
         'name': 'Shukurani Irema',
         'role': 'Software Developer',
         'id': '6',
-        'image': 'assets/team/shukurani.jpg',
-        'testimony':
-            "",
+        'image': 'team/shukurani.jpg',
+        'testimony': "",
       },
     ];
 

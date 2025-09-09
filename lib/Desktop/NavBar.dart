@@ -6,15 +6,26 @@ import 'package:iact/Desktop/AboutUs.dart';
 import 'package:iact/Desktop/ServicesPage.dart';
 import 'package:iact/Desktop/homepage.dart';
 import 'package:iact/Desktop/portfolio.dart';
+import 'package:iact/Desktop/staffPanel.dart';
+import 'package:iact/widgets/StaffLoginPopup.dart';
 
-class CustomNavigationBar extends StatelessWidget {
+
+bool isSigned = false; // check for authenticated user
+class CustomNavigationBar extends StatefulWidget {
   final TabController tabController;
 
-  const CustomNavigationBar({
+  CustomNavigationBar({
     Key? key,
     required this.tabController,
   }) : super(key: key);
 
+  @override
+  State<CustomNavigationBar> createState() => _CustomNavigationBarState();
+}
+
+class _CustomNavigationBarState extends State<CustomNavigationBar> {
+  
+  //used to check if user is authorized and can upload into a backend
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
@@ -60,26 +71,26 @@ class CustomNavigationBar extends StatelessWidget {
                           child: InkWell(
                             onTap: () => html.window.location.reload(),
                             child: Stack(
+                              alignment: Alignment.center,
                               children: [
-                                // Shadow Layer
+                                // Realistic Shadow Layer: more offset, blurred, and semi-transparent
                                 Positioned(
-                                  top: 1.5,
-                                  left: 1.5,
-                                  child: Opacity(
-                                    opacity: 0.3, // Adjust shadow opacity
-                                    child: Image.asset(
-                                      "logo.png",
-                                      height: 100,
-                                      width: 100,
-                                      color: Colors.grey, // Shadow color
-                                    ),
+                                  top: 2, // More offset down
+                                  left: 2, // More offset right
+                                  child: Image.asset(
+                                    "logo.png",
+                                    height: 70,
+                                    width: 70,
+                                    color: Colors.black
+                                        .withOpacity(0.18), // Soft, dark shadow
+                                    // You can use a blurred version of the logo for even more realism
                                   ),
                                 ),
-                                // Main Image
+                                // Main Logo Image
                                 Image.asset(
                                   "logo.png",
-                                  height: 100,
-                                  width: 100,
+                                  height: 70,
+                                  width: 70,
                                 ),
                               ],
                             ),
@@ -115,7 +126,7 @@ class CustomNavigationBar extends StatelessWidget {
                                     indicatorSize: TabBarIndicatorSize.label,
                                     splashBorderRadius:
                                         BorderRadius.circular(50),
-                                    controller: tabController,
+                                    controller: widget.tabController,
                                     isScrollable: true,
                                     indicatorColor: Colors.blue.shade900,
                                     labelStyle: const TextStyle(
@@ -134,6 +145,9 @@ class CustomNavigationBar extends StatelessWidget {
                                           'Portfolio', Icons.work_outline),
                                       _buildTab(
                                           'About us', Icons.people_outline),
+                                      _buildTab(
+                                          'Staff', Icons.admin_panel_settings), // this only appears if the bool isSigned in becomes true 
+                                          
                                     ],
                                   ),
                                 ),
@@ -141,6 +155,24 @@ class CustomNavigationBar extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40, bottom: 3),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.person,
+                              color: Colors.blue.shade900,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                            return const StaffLoginPopup();
+                             },
+                            );
+                              
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -151,13 +183,14 @@ class CustomNavigationBar extends StatelessWidget {
         ),
       ],
       body: TabBarView(
-        controller: tabController,
+        controller: widget.tabController,
         physics: BouncingScrollPhysics(),
         children: [
-          Homepage(tabController: tabController),
-          ServicePage(tabController: tabController),
+          Homepage(tabController: widget.tabController),
+          ServicePage(tabController: widget.tabController),
           PortfolioPage(),
-          Aboutus()
+          Aboutus(),
+          Staffpanel()
         ],
       ),
     );

@@ -142,7 +142,7 @@ class Homepage extends StatelessWidget {
           // services offered
           ParallaxImage(
             imagePath: "experts.jpg",
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height + 30,
             tabController: tabController,
             //width: MediaQuery.of(context).size.width,
           ),

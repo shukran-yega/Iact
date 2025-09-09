@@ -40,7 +40,7 @@ class IACTFooter extends StatelessWidget {
                   sectionTitle("Quick Links"),
                   _buildHoverableLink(
                     context,
-                    "Research reference",
+                    "Download Company profile",
                     () {
                       downloadPDFWeb();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

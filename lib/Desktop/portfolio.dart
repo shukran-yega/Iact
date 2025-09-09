@@ -53,6 +53,7 @@ class PortfolioPage extends StatelessWidget {
               ),
               SizedBox(height: 80),
               _buildPortfolioItem(
+                  isImageLeft: false,
                   context,
                   "Scientific Research",
                   "Data collection on water quality assessment for remote sites using LETZTEST mobile equipment",
@@ -73,7 +74,7 @@ class PortfolioPage extends StatelessWidget {
                 "water.png",
                 "emblem.png",
                 "Ministry of Water - Tanzania with support from KfW Bank",
-                isImageLeft: false,
+                isImageLeft: true,
               ),
               SizedBox(height: 60),
               _buildPortfolioItem(
@@ -86,7 +87,7 @@ class PortfolioPage extends StatelessWidget {
                 "field13.png",
                 "twaweza.jpg",
                 "Twaweza",
-                isImageLeft: true,
+                isImageLeft: false,
                 sourceUrl:
                     'https://twaweza.org/wp-content/uploads/2021/02/Brief_MbungeLive-Brief.pdf',
               ),
@@ -104,7 +105,7 @@ class PortfolioPage extends StatelessWidget {
                 "fern_1.png",
                 "fernLogo.png",
                 "Fern",
-                isImageLeft: false,
+                isImageLeft: true,
               ),
               SizedBox(height: 60),
               _buildPortfolioItem(
@@ -176,18 +177,13 @@ class PortfolioPage extends StatelessWidget {
     String imagePath,
     String partnerImage,
     String partnerName, {
-    bool isImageLeft = true,
+    bool isImageLeft = false,
     String? sourceUrl,
   }) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final itemHeight = screenHeight * 0.65;
-
-    // Process description text for hyperlinks
+    // Build the text spans for the description (keeps your existing link parsing logic)
     final List<TextSpan> descriptionTextSpans = [];
 
-    // Handle special case for Simiyu Climate Resilience Project
     if (description.contains('Simiyu Climate Resilience Project|')) {
-      // Split by the link pattern
       final regex = RegExp(r'Simiyu Climate Resilience Project\|([^\s]+)');
       final match = regex.firstMatch(description);
 
@@ -195,21 +191,16 @@ class PortfolioPage extends StatelessWidget {
         final url = match.group(1)!;
         final parts = description.split(regex);
 
-        // Add text before the link
         if (parts[0].isNotEmpty) {
           descriptionTextSpans.add(
             TextSpan(
               text: parts[0],
               style: GoogleFonts.baloo2(
-                fontSize: 16,
-                color: Colors.black87,
-                height: 1.6,
-              ),
+                  fontSize: 16, color: Colors.black87, height: 1.6),
             ),
           );
         }
 
-        // Add the linked text
         descriptionTextSpans.add(
           TextSpan(
             text: "Simiyu Climate Resilience Project",
@@ -223,16 +214,12 @@ class PortfolioPage extends StatelessWidget {
           ),
         );
 
-        // Add text after the link
         if (parts.length > 1 && parts[1].isNotEmpty) {
           descriptionTextSpans.add(
             TextSpan(
               text: parts[1],
               style: GoogleFonts.baloo2(
-                fontSize: 16,
-                color: Colors.black87,
-                height: 1.6,
-              ),
+                  fontSize: 16, color: Colors.black87, height: 1.6),
             ),
           );
         }
@@ -256,250 +243,206 @@ class PortfolioPage extends StatelessWidget {
               recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url),
             ),
           );
-          // Add space if it's not the last word
-          if (i < parts.length - 1) {
+          if (i < parts.length - 1)
             descriptionTextSpans.add(TextSpan(text: ' '));
-          }
         } else {
-          // Add the regular word
           descriptionTextSpans.add(
             TextSpan(
               text: parts[i] + (i < parts.length - 1 ? ' ' : ''),
               style: GoogleFonts.baloo2(
-                fontSize: 16,
-                color: Colors.black87,
-                height: 1.6,
-              ),
+                  fontSize: 16, color: Colors.black87, height: 1.6),
             ),
           );
         }
       }
     } else {
-      // Regular text without links
       descriptionTextSpans.add(
         TextSpan(
           text: description,
           style: GoogleFonts.baloo2(
-            fontSize: 16,
-            color: Colors.black87,
-            height: 1.6,
-          ),
+              fontSize: 16, color: Colors.black87, height: 1.6),
         ),
       );
     }
 
     return Container(
-      height: itemHeight,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 20,
-            offset: Offset(0, 10),
-          ),
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 20,
+              offset: Offset(0, 10))
         ],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (isImageLeft) ...[
-            Expanded(
-              flex: 1,
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      imagePath,
-                      height: itemHeight * 0.9,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+      child: LayoutBuilder(builder: (context, constraints) {
+        final isNarrow =
+            constraints.maxWidth < 900; // threshold for responsive switch
+
+        // Image box (keeps intrinsic constraints but allows expansion in wide layout)
+        Widget imageBox = ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: 420,
+            // allow full width on narrow, constrain on wide via Flexible below
+            maxWidth: isNarrow ? double.infinity : constraints.maxWidth * 0.45,
+          ),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: SizedBox.expand(
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.cover,
                   ),
-                  if (sourceUrl != null)
-                    Positioned(
-                      right: 16,
-                      bottom: 16,
-                      child: InkWell(
-                        onTap: () => _launchUrl(sourceUrl),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.link,
-                                size: 16,
+                ),
+              ),
+              if (sourceUrl != null)
+                Positioned(
+                  right: 12,
+                  bottom: 12,
+                  child: InkWell(
+                    onTap: () => _launchUrl(sourceUrl),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade900.withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.link, size: 16, color: Colors.white),
+                          const SizedBox(width: 8),
+                          Text(
+                            'View Source',
+                            style: GoogleFonts.baloo2(
+                                fontSize: 14,
                                 color: Colors.white,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'View Source',
-                                style: GoogleFonts.baloo2(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                                fontWeight: FontWeight.w500),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                ],
+                  ),
+                ),
+            ],
+          ),
+        );
+
+        // Details column (title, subtitle, description, partner)
+        Widget detailsColumn = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.baloo2(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            SizedBox(height: 8),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                  color: Colors.blue.shade50,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Text(
+                subtitle,
+                style: GoogleFonts.baloo2(
+                    fontSize: 18,
+                    color: Colors.blue.shade900,
+                    fontWeight: FontWeight.w500),
               ),
             ),
-            SizedBox(width: 30),
-          ],
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            SizedBox(height: 16),
+            // Description: allow wrapping and multiple lines; use Text.rich so recognizers work and text wraps
+            Text.rich(
+              TextSpan(children: descriptionTextSpans),
+              softWrap: true,
+            ),
+            SizedBox(height: 18),
+            // Partner row
+            Row(
               children: [
-                Text(
-                  title,
-                  style: GoogleFonts.baloo2(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 8),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  width: 60,
+                  height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(8),
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5))
+                      ]),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.asset(partnerImage, fit: BoxFit.cover),
                   ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
                   child: Text(
-                    subtitle,
+                    partnerName,
                     style: GoogleFonts.baloo2(
-                      fontSize: 18,
-                      color: Colors.blue.shade900,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                SingleChildScrollView(
-                  child: RichText(
-                    text: TextSpan(
-                      children: descriptionTextSpans,
-                    ),
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 25),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.asset(
-                            partnerImage,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          partnerName,
-                          style: GoogleFonts.baloo2(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blue.shade900,
-                          ),
-                        ),
-                      ),
-                    ],
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blue.shade900),
                   ),
                 ),
               ],
             ),
-          ),
-          if (!isImageLeft) ...[
-            SizedBox(width: 30),
-            Expanded(
-              flex: 1,
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      imagePath,
-                      height: itemHeight * 0.9,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  if (sourceUrl != null)
-                    Positioned(
-                      right: 16,
-                      bottom: 16,
-                      child: InkWell(
-                        onTap: () => _launchUrl(sourceUrl),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade900.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.link,
-                                size: 16,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'View Source',
-                                style: GoogleFonts.baloo2(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
           ],
-        ],
-      ),
+        );
+
+        if (isNarrow) {
+          // On narrow screens respect isImageLeft by controlling order
+          // NOTE: isImageLeft == true means image should appear on the right
+          // (so show details first, image second). When false show image first.
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: isImageLeft
+                ? [
+                    detailsColumn,
+                    SizedBox(height: 20),
+                    imageBox,
+                  ]
+                : [
+                    imageBox,
+                    SizedBox(height: 20),
+                    detailsColumn,
+                  ],
+          );
+        } else {
+          // Wide: use Flexible so both sides size predictably
+          final imageSide = Flexible(flex: 45, child: imageBox);
+          final detailsSide = Flexible(
+              flex: 55,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 0, right: 0),
+                child: detailsColumn,
+              ));
+
+          // When isImageLeft == true we want the image on the right,
+          // therefore the left side must be the details and the right side the image.
+          final left = isImageLeft ? detailsSide : imageSide;
+          final right = isImageLeft ? imageSide : detailsSide;
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              left,
+              SizedBox(width: 30),
+              right,
+            ],
+          );
+        }
+      }),
     );
   }
 }

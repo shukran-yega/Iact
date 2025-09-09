@@ -114,13 +114,6 @@ class News extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              Text(
-                "Innovation in Research Technology",
-                style: GoogleFonts.baloo2(
-                  fontSize: 20,
-                  color: Colors.black54,
-                ),
-              ),
             ],
           ),
         ),
@@ -141,7 +134,7 @@ class News extends StatelessWidget {
         TextButton(
           onPressed: _navigateToServices,
           child: Text(
-            "View all updates →",
+            "All services →",
             style: GoogleFonts.baloo2(
               fontSize: 16,
               color: Colors.blue.shade900,
