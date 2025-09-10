@@ -100,6 +100,29 @@ async def get_document_file(filename: str):
         raise HTTPException(status_code=404, detail="File not found")
     return FileResponse(file_path, filename=filename)
 
+from fastapi import status
+
+# ------------------ Document delete endpoint ------------------
+@app.delete("/documents/{doc_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_document(doc_id: int, db: Session = Depends(get_db)):
+    """Delete a document file and its DB record"""
+    # Find the document in the DB
+    db_doc = db.query(models.Document).filter(models.Document.id == doc_id).first()
+    if not db_doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    # Delete the file from disk if it exists
+    file_path = os.path.join(UPLOAD_FOLDER, db_doc.filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    # Delete record from DB
+    db.delete(db_doc)
+    db.commit()
+
+    return {"detail": f"Document {doc_id} deleted successfully"}
+
+
 
 # ------------------ Health check ------------------
 @app.get("/")
