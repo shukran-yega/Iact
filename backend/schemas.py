@@ -26,14 +26,19 @@ class UserLoginResponse(BaseModel):
         orm_mode = True
         
 
+from pydantic import BaseModel
+
 class DocumentCreate(BaseModel):
     filename: str
     content: str
-    owner_id: int
+    owner: str
+    uploaded_at: str  # string to avoid DateTime issues
 
 class DocumentOut(BaseModel):
     id: int
     filename: str
-    owner_id: int
+    owner: str
+    uploaded_at: str
+
     class Config:
         orm_mode = True

@@ -1,0 +1,30 @@
+# Start from Python slim (we will install nginx here too)
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    nginx supervisor gcc libpq-dev && \
+    pip install --no-cache-dir fastapi uvicorn sqlalchemy passlib[bcrypt] python-multipart psycopg2-binary && \
+    mkdir -p /app/backend/uploads /var/log/supervisor
+
+# Copy backend
+COPY backend/ ./backend/
+
+# Copy Flutter web build
+COPY build/web /usr/share/nginx/html
+COPY assets /usr/share/nginx/html/assets
+
+# Copy Nginx config
+COPY nginx.conf /etc/nginx/sites-enabled/default
+
+# Copy supervisord config
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Expose ports
+EXPOSE 80 8000
+
+# Start supervisor
+CMD ["/usr/bin/supervisord", "-n"]

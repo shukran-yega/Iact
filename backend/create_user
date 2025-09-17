@@ -1,0 +1,24 @@
+# create_default_user.py
+from sqlalchemy.orm import Session
+from database import SessionLocal, Base, engine
+from models import User
+from passlib.hash import bcrypt
+
+# Create tables (if not already created)
+Base.metadata.create_all(bind=engine)
+
+# Start a DB session
+db: Session = SessionLocal()
+
+# Create default user
+user = User(
+    username="0001",
+    password=bcrypt.hash("welcome2iact"),  # change to whatever password you want
+    role="admin"
+)
+
+db.add(user)
+db.commit()
+db.close()
+
+print("Default user created: username='admin', password='admin123'")
