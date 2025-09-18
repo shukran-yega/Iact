@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 COPY backend/ ./backend/
 
 # Copy Flutter web build
-COPY build/web /usr/share/nginx/html
+COPY build_web/web /usr/share/nginx/html
 COPY assets /usr/share/nginx/html/assets
 
 # Copy Nginx config
