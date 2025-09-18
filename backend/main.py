@@ -190,6 +190,6 @@ def delete_document(doc_id: int, db: Session = Depends(get_db)):
 
 
 # ------------------ Health check ------------------
-@app.get("/")
+@app.get("/health")
 def health():
     return {"status": "ok"}
