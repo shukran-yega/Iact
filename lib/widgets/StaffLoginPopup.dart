@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:iact/Desktop/NavBar.dart';
 import 'package:iact/Desktop/staffPanel.dart';
+import 'dart:html' as html;
 
 bool _obscurePassword = true; // initial state
 
@@ -147,8 +148,8 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
                       }
 
                       try {
-                        final uri =
-                            Uri.parse('http://127.0.0.1:8000/auth/login');
+                        final uri = Uri.parse(
+                            '${html.window.location.origin}/auth/login');
 
                         final resp = await http.post(
                           uri,
