@@ -43,7 +43,7 @@ class _StaffpanelState extends State<Staffpanel> {
   Future<void> _fetchDocuments() async {
     // Fetch documents list from backend and update UI; print any errors.
     try {
-      final uri = Uri.parse('http://127.0.0.1:8000/documents/');
+      final uri = Uri.parse('${html.window.location.origin}/documents/');
       final response = await http.get(uri);
       print(
           '[GET /documents/] status=${response.statusCode} body=${response.body}');
@@ -145,7 +145,7 @@ class _StaffpanelState extends State<Staffpanel> {
       // Build multipart request for upload
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://127.0.0.1:8000/documents/upload/'),
+        Uri.parse('${html.window.location.origin}/documents/upload/'),
       );
 
       // Ensure filename ends with .pdf for consistent server and browser handling
@@ -201,7 +201,7 @@ class _StaffpanelState extends State<Staffpanel> {
   Future<void> _deleteDocument(int id) async {
     // Delete a document by id; log details for troubleshooting.
     try {
-      final uri = Uri.parse('http://127.0.0.1:8000/documents/$id');
+      final uri = Uri.parse('${html.window.location.origin}/documents/$id');
       final response = await http.delete(uri);
       print(
           '[DELETE /documents/{id}] status=${response.statusCode} body=${response.body}');
@@ -237,7 +237,7 @@ class _StaffpanelState extends State<Staffpanel> {
   }
 
   void _viewDocument(String filename) {
-    final url = 'http://127.0.0.1:8000/documents/file/$filename';
+    final url = '${html.window.location.origin}/documents/file/$filename';
     html.window.open(url, '_blank'); // opens file in a new browser tab
   }
 
