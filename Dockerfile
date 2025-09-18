@@ -32,7 +32,7 @@ COPY nginx.conf /etc/nginx/sites-enabled/default
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Expose ports
-EXPOSE 80 8000
+EXPOSE 80
 
 # Start supervisor
 CMD ["/usr/bin/supervisord", "-n"]
