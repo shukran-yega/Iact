@@ -16,6 +16,14 @@ COPY backend/ ./backend/
 # Copy Flutter web build
 COPY build_web/web /usr/share/nginx/html
 COPY assets /usr/share/nginx/html/assets
+COPY test.html /usr/share/nginx/html/test.html
+
+# Create nginx log directory
+RUN mkdir -p /var/log/nginx
+
+# Set proper permissions
+RUN chown -R www-data:www-data /usr/share/nginx/html
+RUN chmod -R 755 /usr/share/nginx/html
 
 # Copy Nginx config
 COPY nginx.conf /etc/nginx/sites-enabled/default
