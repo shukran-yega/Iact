@@ -76,20 +76,33 @@ class _StaffpanelState extends State<Staffpanel> {
   }
 
   Future<void> _fetchFolders() async {
-    try {
-      final uri = Uri.parse('$_baseUrl/folders/');
-      final response = await http.get(uri);
-      if (response.statusCode == 200) {
+  try {
+    final uri = Uri.parse('$_baseUrl/folders/');
+    final response = await http.get(uri);
+    
+    print('[GET /folders/] status=${response.statusCode} body=${response.body}');
+    
+    if (response.statusCode == 200) {
+      // Check if response is actually JSON
+      if (response.body.trim().startsWith('[') || response.body.trim().startsWith('{')) {
         final List<dynamic> list = jsonDecode(response.body);
         if (!mounted) return;
         setState(() {
           _folders = list.map((j) => Folder(id: j['id'], name: j['name'])).toList();
         });
+      } else {
+        print('[GET /folders/] Response is not JSON: ${response.body}');
+        _showSnackBar('Server returned invalid response');
       }
-    } catch (e) {
-      _showSnackBar('Error fetching folders: $e');
+    } else {
+      print('[GET /folders/] Error: ${response.statusCode}');
+      _showSnackBar('Failed to fetch folders: ${response.statusCode}');
     }
+  } catch (e) {
+    print('[GET /folders/] exception=$e');
+    _showSnackBar('Error fetching folders: $e');
   }
+}
 
   Future<void> _fetchDocuments({required int folderId}) async {
     try {
