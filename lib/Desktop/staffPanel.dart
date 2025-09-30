@@ -2,51 +2,99 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:http/http.dart' as http;
-import 'dart:html' as html; // needed to open files in a new browser tab
+import 'dart:html' as html;
 
 // Document data model
 class Document {
-  // Unique id
   int id;
-  // Filename displayed as title
   String title;
-  // Owner from backend
   String owner;
-  // Uploaded at (raw string from backend)
   String uploadedAt;
-  Document(
-      {required this.id,
-      required this.title,
-      required this.owner,
-      required this.uploadedAt});
+  Document({
+    required this.id,
+    required this.title,
+    required this.owner,
+    required this.uploadedAt,
+  });
+}
+
+// Folder data model
+class Folder {
+  final int id;
+  final String name;
+  Folder({required this.id, required this.name});
+}
+
+// User data model
+class User {
+  final int id;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String role;
+  User({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.role,
+  });
 }
 
 class Staffpanel extends StatefulWidget {
-  const Staffpanel({super.key});
+  final String firstName;
+  final String role;
+  const Staffpanel({Key? key, required this.firstName, required this.role})
+      : super(key: key);
 
   @override
   State<Staffpanel> createState() => _StaffpanelState();
 }
 
 class _StaffpanelState extends State<Staffpanel> {
+  List<Folder> _folders = [];
+  int? _currentFolderId;
+  String? _currentFolderName;
   List<Document> _documents = [];
+  List<User> _users = [];
   bool _loading = false;
+  bool _leftSidebarExpanded = true;
+  bool _rightSidebarExpanded = false;
+  String _rightSidebarMode = 'none'; // 'upload', 'users', 'newStaff', 'newFolder'
 
   @override
   void initState() {
     super.initState();
-    _fetchDocuments(); // load documents from backend on start
+    _fetchFolders();
   }
 
-  // Fetch documents from backend
-  // Fetch documents from backend
-  Future<void> _fetchDocuments() async {
-    // Fetch documents list from backend and update UI; print any errors.
+  String get _baseUrl {
+    return html.window.location.hostname == 'localhost' ||
+            html.window.location.hostname == '127.0.0.1'
+        ? 'http://127.0.0.1:8000'
+        : html.window.location.origin;
+  }
+
+  Future<void> _fetchFolders() async {
     try {
-      final uri = Uri.parse('${html.window.location.origin}/documents/');
+      final uri = Uri.parse('$_baseUrl/folders/');
       final response = await http.get(uri);
-      print(
-          '[GET /documents/] status=${response.statusCode} body=${response.body}');
+      if (response.statusCode == 200) {
+        final List<dynamic> list = jsonDecode(response.body);
+        if (!mounted) return;
+        setState(() {
+          _folders = list.map((j) => Folder(id: j['id'], name: j['name'])).toList();
+        });
+      }
+    } catch (e) {
+      _showSnackBar('Error fetching folders: $e');
+    }
+  }
+
+  Future<void> _fetchDocuments({required int folderId}) async {
+    try {
+      final uri = Uri.parse('$_baseUrl/documents/?folder_id=$folderId');
+      final response = await http.get(uri);
       if (response.statusCode == 200) {
         final List<dynamic> docsJson = jsonDecode(response.body);
         if (!mounted) return;
@@ -60,185 +108,192 @@ class _StaffpanelState extends State<Staffpanel> {
                   ))
               .toList();
         });
-      } else {
-        print(
-            '[GET /documents/] error status=${response.statusCode} body=${response.body}');
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content:
-                  Text('Failed to fetch documents: ${response.statusCode}')),
-        );
       }
     } catch (e) {
-      print('[GET /documents/] exception=$e');
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching documents: $e')),
-      );
+      _showSnackBar('Error fetching documents: $e');
     }
   }
 
-  // Pick and upload a file
-  Future<void> _pickAndUploadFile() async {
-    final fileBytes = await ImagePickerWeb.getImageAsBytes();
-    if (fileBytes == null) return;
-
-    // Ask user for metadata
-    String? filename;
-    String? owner;
-
-    await showDialog(
-      context: context,
-      builder: (context) {
-        final filenameController = TextEditingController();
-        final ownerController = TextEditingController();
-        return AlertDialog(
-          title: const Text("File Details"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: filenameController,
-                decoration: const InputDecoration(labelText: "File name"),
-              ),
-              TextField(
-                controller: ownerController,
-                decoration: const InputDecoration(labelText: "Owner"),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Cancel"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                filename = filenameController.text.trim();
-                owner = ownerController.text.trim();
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (filename == null ||
-        owner == null ||
-        filename!.isEmpty ||
-        owner!.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Upload cancelled: missing details")),
-      );
-      return;
+  Future<void> _fetchUsers() async {
+    try {
+      final uri = Uri.parse('$_baseUrl/users/');
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        List<dynamic> usersJson = jsonDecode(response.body);
+        if (!mounted) return;
+        setState(() {
+          _users = usersJson
+              .map((u) => User(
+                    id: u['id'],
+                    firstName: u['first_name'],
+                    lastName: u['last_name'],
+                    email: u['email'] ?? '',
+                    role: u['role'] ?? 'N/A',
+                  ))
+              .toList();
+        });
+      }
+    } catch (e) {
+      _showSnackBar('Error fetching users: $e');
     }
+  }
 
-    if (!mounted) return;
+  Future<void> _deleteUser(int userId) async {
+    try {
+      final uri = Uri.parse('$_baseUrl/users/$userId');
+      final response = await http.delete(uri);
+      if (response.statusCode == 204) {
+        setState(() {
+          _users.removeWhere((u) => u.id == userId);
+        });
+        _showSnackBar('User deleted successfully');
+      } else {
+        _showSnackBar('Failed to delete user');
+      }
+    } catch (e) {
+      _showSnackBar('Error deleting user: $e');
+    }
+  }
+
+  Future<void> _uploadFile({
+    required List<int> fileBytes,
+    required String filename,
+    required String owner,
+  }) async {
+    if (_currentFolderId == null) return;
+
     setState(() => _loading = true);
 
     try {
-      // Build multipart request for upload
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('${html.window.location.origin}/documents/upload/'),
+        Uri.parse('$_baseUrl/documents/upload/'),
       );
 
-      // Ensure filename ends with .pdf for consistent server and browser handling
-      if (filename != null && !filename!.toLowerCase().endsWith('.pdf')) {
-        print('[UPLOAD INFO] Appending .pdf to filename "$filename"');
-        filename = '${filename!}.pdf';
+      if (!filename.toLowerCase().endsWith('.pdf')) {
+        filename = '$filename.pdf';
       }
 
-      // Attach file bytes and metadata fields
       request.files.add(
-        http.MultipartFile.fromBytes(
-          'file',
-          fileBytes,
-          filename: filename,
-        ),
+        http.MultipartFile.fromBytes('file', fileBytes, filename: filename),
       );
-      request.fields['filename'] = filename!;
-      request.fields['owner'] = owner!;
+      request.fields['filename'] = filename;
+      request.fields['owner'] = owner;
+      request.fields['folder_id'] = _currentFolderId!.toString();
 
-      // Send and convert streamed response to Response to read body
       var streamed = await request.send();
       var response = await http.Response.fromStream(streamed);
+
       if (!mounted) return;
       setState(() => _loading = false);
 
-      print(
-          '[POST /documents/upload/] status=${response.statusCode} body=${response.body}');
-
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("File uploaded successfully!")),
-        );
-        _fetchDocuments();
+        _showSnackBar('File uploaded successfully!');
+        _fetchDocuments(folderId: _currentFolderId!);
+        setState(() {
+          _rightSidebarExpanded = false;
+          _rightSidebarMode = 'none';
+        });
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  "Upload failed: ${response.statusCode} ${response.body}")),
-        );
+        _showSnackBar('Upload failed: ${response.statusCode}');
       }
     } catch (e) {
-      if (mounted) {
-        setState(() => _loading = false);
-      }
-      print('[POST /documents/upload/] exception=$e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error uploading file: $e")),
-      );
+      if (mounted) setState(() => _loading = false);
+      _showSnackBar('Error uploading file: $e');
     }
   }
 
-  // Delete a document both locally and on backend
   Future<void> _deleteDocument(int id) async {
-    // Delete a document by id; log details for troubleshooting.
     try {
-      final uri = Uri.parse('${html.window.location.origin}/documents/$id');
+      final uri = Uri.parse('$_baseUrl/documents/$id');
       final response = await http.delete(uri);
-      print(
-          '[DELETE /documents/{id}] status=${response.statusCode} body=${response.body}');
-
       if (response.statusCode == 204) {
         setState(() {
           _documents.removeWhere((doc) => doc.id == id);
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Document deleted successfully.'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        _showSnackBar('Document deleted successfully');
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-                Text('Delete failed: ${response.statusCode} ${response.body}'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
+        _showSnackBar('Delete failed');
       }
     } catch (e) {
-      print('[DELETE /documents/{id}] exception=$e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error deleting document: $e'),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
+      _showSnackBar('Error deleting document: $e');
     }
   }
 
   void _viewDocument(String filename) {
-    final url = '${html.window.location.origin}/documents/file/$filename';
-    html.window.open(url, '_blank'); // opens file in a new browser tab
+    final url = '$_baseUrl/documents/file/$filename';
+    html.window.open(url, '_blank');
+  }
+
+  Future<void> _createFolder(String name) async {
+    try {
+      final uri = Uri.parse('$_baseUrl/folders/');
+      final resp = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'name': name}),
+      );
+      if (resp.statusCode == 200) {
+        _showSnackBar('Folder created');
+        _fetchFolders();
+        setState(() {
+          _rightSidebarExpanded = false;
+          _rightSidebarMode = 'none';
+        });
+      } else {
+        _showSnackBar('Failed to create folder');
+      }
+    } catch (e) {
+      _showSnackBar('Error creating folder: $e');
+    }
+  }
+
+  Future<void> _deleteFolder(int folderId) async {
+    try {
+      final uri = Uri.parse('$_baseUrl/folders/$folderId');
+      final response = await http.delete(uri);
+      if (response.statusCode == 204) {
+        await _fetchFolders();
+        _showSnackBar('Folder deleted');
+      } else {
+        _showSnackBar('Failed to delete folder');
+      }
+    } catch (e) {
+      _showSnackBar('Error deleting folder: $e');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
+    );
+  }
+
+  String _formatUploadDate(String uploadedAt) {
+    try {
+      final datePart = uploadedAt.split(' ').first;
+      final dt = DateTime.parse(datePart);
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return '${dt.day.toString().padLeft(2, '0')} ${months[dt.month - 1]} ${dt.year}';
+    } catch (e) {
+      return uploadedAt.split(' ').first;
+    }
+  }
+
+  void _openRightSidebar(String mode) {
+    setState(() {
+      if (_rightSidebarMode == mode && _rightSidebarExpanded) {
+        _rightSidebarExpanded = false;
+        _rightSidebarMode = 'none';
+      } else {
+        _rightSidebarMode = mode;
+        _rightSidebarExpanded = true;
+        if (mode == 'users') {
+          _fetchUsers();
+        }
+      }
+    });
   }
 
   @override
@@ -249,306 +304,957 @@ class _StaffpanelState extends State<Staffpanel> {
       backgroundColor: Colors.grey[100],
       body: Row(
         children: [
-          _buildSidePanel(primaryColor),
-          _buildMainContent(primaryColor),
+          // Left Sidebar
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: _leftSidebarExpanded ? 280 : 70,
+            color: Colors.white,
+            child: _buildLeftSidebar(primaryColor),
+          ),
+          // Main Content
+          Expanded(child: _buildMainContent(primaryColor)),
+          // Right Sidebar
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            width: _rightSidebarExpanded ? 380 : 0,
+            child: _rightSidebarExpanded
+                ? _buildRightSidebar(primaryColor)
+                : const SizedBox(),
+          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _pickAndUploadFile,
-        backgroundColor: primaryColor,
-        tooltip: 'Add New Document',
-        child: _loading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 
-  // Left side panel
-  Widget _buildSidePanel(Color primaryColor) {
-    return Container(
-      width: 280,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+  Widget _buildLeftSidebar(Color primaryColor) {
+    return Column(
+      children: [
+        // Header
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(
+                  _leftSidebarExpanded ? Icons.menu_open : Icons.menu,
+                  color: primaryColor,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _leftSidebarExpanded = !_leftSidebarExpanded;
+                  });
+                },
+              ),
+              if (_leftSidebarExpanded) ...[
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'iACT Portal',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        if (_leftSidebarExpanded) const Divider(),
+        
+        // User info
+        if (_leftSidebarExpanded)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.dashboard_customize, color: primaryColor, size: 32),
-                const SizedBox(width: 12),
                 Text(
-                  'Staff Portal',
-                  style: TextStyle(
-                    fontSize: 24,
+                  'Welcome,',
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                ),
+                Text(
+                  widget.firstName,
+                  style: const TextStyle(
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    widget.role.toUpperCase(),
+                    style: const TextStyle(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            const Divider(),
-            const SizedBox(height: 20),
-            const Text(
-              'Manage your documents efficiently and securely. Use the panel on the right to view and manage all available files.',
-              style:
-                  TextStyle(fontSize: 16, color: Colors.black54, height: 1.5),
-            ),
-            const SizedBox(height: 30),
-            _buildInfoTile(
-              icon: Icons.add_circle_outline,
-              title: 'Add Documents',
-              subtitle: 'Use the \'+\' button to add a new file.',
-              color: primaryColor,
-            ),
-            const SizedBox(height: 20),
-            _buildInfoTile(
-              icon: Icons.visibility_outlined,
-              title: 'View Documents',
-              subtitle: 'Click the view icon on any document.',
-              color: primaryColor,
-            ),
-            const SizedBox(height: 20),
-            _buildInfoTile(
-              icon: Icons.delete_sweep_outlined,
-              title: 'Delete Documents',
-              subtitle: 'Remove documents you no longer need.',
-              color: primaryColor,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 40.0,
-                top: 30,
-              ),
-              child: TextButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[900], // blue shade 900
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  html.window.location.reload();
+          ),
+        
+        const SizedBox(height: 20),
+        
+        // Navigation items
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              _buildNavItem(
+                icon: Icons.folder_outlined,
+                label: 'Folders',
+                isActive: _currentFolderId == null,
+                onTap: () {
+                  setState(() {
+                    _currentFolderId = null;
+                    _currentFolderName = null;
+                    _documents = [];
+                  });
                 },
-                child: const Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+              ),
+              _buildNavItem(
+                icon: Icons.upload_file,
+                label: 'Upload Document',
+                onTap: () => _openRightSidebar('upload'),
+              ),
+              _buildNavItem(
+                icon: Icons.create_new_folder,
+                label: 'New Folder',
+                onTap: () => _openRightSidebar('newFolder'),
+              ),
+              _buildNavItem(
+                icon: Icons.person_add,
+                label: 'Add Staff',
+                onTap: () => _openRightSidebar('newStaff'),
+              ),
+              _buildNavItem(
+                icon: Icons.supervised_user_circle,
+                label: 'Manage Users',
+                onTap: () => _openRightSidebar('users'),
+              ),
+            ],
+          ),
+        ),
+        
+        // Logout button
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _leftSidebarExpanded
+              ? ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    minimumSize: const Size(double.infinity, 45),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () => html.window.location.reload(),
+                  icon: const Icon(Icons.logout, color: Colors.white),
+                  label: const Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              : IconButton(
+                  icon: const Icon(Icons.logout),
+                  color: primaryColor,
+                  onPressed: () => html.window.location.reload(),
+                ),
+        ),
+        
+        if (_leftSidebarExpanded)
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'v1.0.0',
+              style: TextStyle(fontSize: 11, color: Colors.grey[400]),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    bool isActive = false,
+    required VoidCallback onTap,
+  }) {
+    const Color primaryColor = Color(0xFF0D47A1);
+    final isExpanded = _leftSidebarExpanded;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: isActive ? primaryColor.withOpacity(0.1) : Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: isActive ? primaryColor : Colors.grey[700],
+          size: 24,
+        ),
+        title: isExpanded
+            ? Text(
+                label,
+                style: TextStyle(
+                  color: isActive ? primaryColor : Colors.grey[700],
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                  fontSize: 14,
+                ),
+              )
+            : null,
+        onTap: onTap,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: isExpanded ? 16 : 12,
+          vertical: 4,
+        ),
+        dense: true,
+      ),
+    );
+  }
+
+  Widget _buildMainContent(Color primaryColor) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Breadcrumb
+          if (_currentFolderId != null)
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _currentFolderId = null;
+                      _currentFolderName = null;
+                      _documents = [];
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.arrow_back, size: 20, color: primaryColor),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'Folders',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                if (_currentFolderName != null) ...[
+                  const SizedBox(width: 8),
+                  Icon(Icons.chevron_right, size: 20, color: Colors.grey[400]),
+                  const SizedBox(width: 8),
+                  Text(
+                    _currentFolderName!,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          
+          const SizedBox(height: 16),
+          
+          // Content
+          Expanded(
+            child: _currentFolderId == null
+                ? _buildFoldersGrid(primaryColor)
+                : _buildDocumentsGrid(primaryColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFoldersGrid(Color primaryColor) {
+    if (_folders.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.folder_off_outlined, size: 72, color: Colors.grey[300]),
+            const SizedBox(height: 16),
+            const Text(
+              'No folders yet',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Create a folder to get started',
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () => _openRightSidebar('newFolder'),
+              icon: const Icon(Icons.add),
+              label: const Text('Create Folder'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               ),
             ),
-            const Spacer(),
-            const Text(
-              '© 2025 Document Corp.',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            )
           ],
+        ),
+      );
+    }
+
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 250,
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
+        childAspectRatio: 1.2,
+      ),
+      itemCount: _folders.length,
+      itemBuilder: (context, index) {
+        final folder = _folders[index];
+        return _buildFolderCard(folder, primaryColor);
+      },
+    );
+  }
+
+  Widget _buildFolderCard(Folder folder, Color primaryColor) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () {
+          setState(() {
+            _currentFolderId = folder.id;
+            _currentFolderName = folder.name;
+            _documents = [];
+          });
+          _fetchDocuments(folderId: folder.id);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(Icons.folder, size: 36, color: Colors.amber[700]),
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                    onPressed: () => _deleteFolder(folder.id),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Text(
+                folder.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildInfoTile(
-      {required IconData icon,
-      required String title,
-      required String subtitle,
-      required Color color}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, color: color, size: 28),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16)),
-              const SizedBox(height: 4),
-              Text(subtitle, style: const TextStyle(color: Colors.black54)),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  // Helper: format 'YYYY-MM-DD HH:MM:SS' -> 'DD Mon YYYY'
-  String _formatUploadDate(String uploadedAt) {
-    try {
-      final datePart = uploadedAt.split(' ').first;
-      final dt = DateTime.parse(datePart);
-      const months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-      ];
-      final day = dt.day.toString().padLeft(2, '0');
-      final month = months[dt.month - 1];
-      final year = dt.year.toString();
-      return '$day $month $year';
-    } catch (e) {
-      print('[DATE FORMAT ERROR] uploadedAt="$uploadedAt" err=$e');
-      return uploadedAt.split(' ').first;
-    }
-  }
-
-  // Main content (grid)
-  Widget _buildMainContent(Color primaryColor) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: _documents.isEmpty
-            // Empty state when there are no documents uploaded yet
-            ? Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(Icons.cloud_off_outlined,
-                        size: 72, color: Colors.black26),
-                    SizedBox(height: 16),
-                    Text(
-                      'No files uploaded yet',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      'Upload your first PDF to the Iact servers.',
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
-                    ),
-                  ],
-                ),
-              )
-            // Grid of documents when available
-            : GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 250,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                  childAspectRatio: 0.85,
-                ),
-                itemCount: _documents.length,
-                itemBuilder: (context, index) {
-                  final document = _documents[index];
-                  return DocumentCard(
-                    document: document,
-                    primaryColor: primaryColor,
-                    formattedDate: _formatUploadDate(document.uploadedAt),
-                    onView: () => _viewDocument(document.title),
-                    onDelete: () => _deleteDocument(document.id),
-                  );
-                },
+  Widget _buildDocumentsGrid(Color primaryColor) {
+    if (_documents.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.description_outlined, size: 72, color: Colors.grey[300]),
+            const SizedBox(height: 16),
+            const Text(
+              'No documents yet',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Upload your first document to this folder',
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () => _openRightSidebar('upload'),
+              icon: const Icon(Icons.upload_file),
+              label: const Text('Upload Document'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 250,
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
+        childAspectRatio: 0.85,
       ),
+      itemCount: _documents.length,
+      itemBuilder: (context, index) {
+        final document = _documents[index];
+        return _buildDocumentCard(document, primaryColor);
+      },
     );
   }
-}
 
-// Document Card widget
-class DocumentCard extends StatelessWidget {
-  final Document document;
-  final Color primaryColor;
-  final String formattedDate;
-  final VoidCallback onView;
-  final VoidCallback onDelete;
-
-  const DocumentCard({
-    super.key,
-    required this.document,
-    required this.primaryColor,
-    required this.formattedDate,
-    required this.onView,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildDocumentCard(Document document, Color primaryColor) {
     return Card(
-      elevation: 4,
-      shadowColor: Colors.blue.withOpacity(0.1),
+      elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.article_outlined, size: 60, color: primaryColor),
-            const SizedBox(height: 20),
+            Icon(Icons.picture_as_pdf, size: 50, color: Colors.red[400]),
+            const SizedBox(height: 12),
             Text(
               document.title,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.person_outline,
-                    size: 16, color: Colors.black54),
-                const SizedBox(width: 6),
+                Icon(Icons.person_outline, size: 14, color: Colors.grey[600]),
+                const SizedBox(width: 4),
                 Flexible(
                   child: Text(
                     document.owner,
-                    style: const TextStyle(fontSize: 13, color: Colors.black87),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.event_note_outlined,
-                    size: 16, color: Colors.black54),
-                const SizedBox(width: 6),
-                Text(
-                  formattedDate,
-                  style: const TextStyle(fontSize: 12, color: Colors.black54),
-                ),
-              ],
+            Text(
+              _formatUploadDate(document.uploadedAt),
+              style: TextStyle(fontSize: 11, color: Colors.grey[500]),
             ),
             const Spacer(),
             const Divider(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
                   icon: const Icon(Icons.visibility_outlined),
                   color: primaryColor,
-                  tooltip: 'View Document',
-                  onPressed: onView,
+                  onPressed: () => _viewDocument(document.title),
+                  tooltip: 'View',
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete_outline),
                   color: Colors.redAccent,
-                  tooltip: 'Delete Document',
-                  onPressed: onDelete,
+                  onPressed: () => _deleteDocument(document.id),
+                  tooltip: 'Delete',
                 ),
               ],
-            )
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildRightSidebar(Color primaryColor) {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          // Header
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: primaryColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    _getRightSidebarTitle(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () {
+                    setState(() {
+                      _rightSidebarExpanded = false;
+                      _rightSidebarMode = 'none';
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          // Content
+          Expanded(
+            child: _buildRightSidebarContent(primaryColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getRightSidebarTitle() {
+    switch (_rightSidebarMode) {
+      case 'upload':
+        return 'Upload Document';
+      case 'users':
+        return 'Manage Users';
+      case 'newStaff':
+        return 'Add New Staff';
+      case 'newFolder':
+        return 'Create Folder';
+      default:
+        return '';
+    }
+  }
+
+  Widget _buildRightSidebarContent(Color primaryColor) {
+    switch (_rightSidebarMode) {
+      case 'upload':
+        return _buildUploadForm(primaryColor);
+      case 'users':
+        return _buildUsersPanel();
+      case 'newStaff':
+        return _buildNewStaffForm(primaryColor);
+      case 'newFolder':
+        return _buildNewFolderForm(primaryColor);
+      default:
+        return const SizedBox();
+    }
+  }
+
+  Widget _buildUploadForm(Color primaryColor) {
+    if (_currentFolderId == null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.folder_open, size: 64, color: Colors.grey[400]),
+              const SizedBox(height: 16),
+              Text(
+                'Please open a folder first',
+                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    final filenameController = TextEditingController();
+    final ownerController = TextEditingController();
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Uploading to: $_currentFolderName',
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          ),
+          const SizedBox(height: 24),
+          TextField(
+            controller: filenameController,
+            decoration: InputDecoration(
+              labelText: 'File Name',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              prefixIcon: const Icon(Icons.description),
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: ownerController,
+            decoration: InputDecoration(
+              labelText: 'Owner',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              prefixIcon: const Icon(Icons.person),
+            ),
+          ),
+          const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton.icon(
+              onPressed: _loading
+                  ? null
+                  : () async {
+                      final filename = filenameController.text.trim();
+                      final owner = ownerController.text.trim();
+
+                      if (filename.isEmpty || owner.isEmpty) {
+                        _showSnackBar('Please fill in all fields');
+                        return;
+                      }
+
+                      final fileBytes = await ImagePickerWeb.getImageAsBytes();
+                      if (fileBytes == null) return;
+
+                      await _uploadFile(
+                        fileBytes: fileBytes,
+                        filename: filename,
+                        owner: owner,
+                      );
+                    },
+              icon: _loading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Icon(Icons.upload_file),
+              label: Text(_loading ? 'Uploading...' : 'Select & Upload File'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUsersPanel() {
+    if (_users.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: _users.length,
+      itemBuilder: (context, index) {
+        final user = _users[index];
+        Color roleColor;
+        switch (user.role.toLowerCase()) {
+          case 'admin':
+          case 'manager':
+            roleColor = Colors.blueAccent;
+            break;
+          case 'employee':
+            roleColor = Colors.green;
+            break;
+          default:
+            roleColor = Colors.grey;
+        }
+
+        return Card(
+          margin: const EdgeInsets.only(bottom: 12),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: roleColor.withOpacity(0.15),
+                      child: Icon(Icons.person, color: roleColor),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${user.firstName} ${user.lastName}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            user.email,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: roleColor.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        user.role.toUpperCase(),
+                        style: TextStyle(
+                          color: roleColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                      onPressed: () async {
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: const Text('Delete User'),
+                            content: Text(
+                              'Are you sure you want to delete ${user.firstName} ${user.lastName}?',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(ctx, false),
+                                child: const Text('Cancel'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () => Navigator.pop(ctx, true),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent,
+                                  foregroundColor: Colors.white,
+                                ),
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirm == true) {
+                          await _deleteUser(user.id);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildNewStaffForm(Color primaryColor) {
+    final firstNameController = TextEditingController();
+    final lastNameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    String selectedRole = 'employee';
+
+    return StatefulBuilder(
+      builder: (context, setFormState) {
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: firstNameController,
+                decoration: InputDecoration(
+                  labelText: 'First Name',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  prefixIcon: const Icon(Icons.person_outline),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: lastNameController,
+                decoration: InputDecoration(
+                  labelText: 'Last Name',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  prefixIcon: const Icon(Icons.person_outline),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  prefixIcon: const Icon(Icons.email_outlined),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  prefixIcon: const Icon(Icons.lock_outline),
+                ),
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                value: selectedRole,
+                decoration: InputDecoration(
+                  labelText: 'Role',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  prefixIcon: const Icon(Icons.work_outline),
+                ),
+                items: const [
+                  DropdownMenuItem(value: 'admin', child: Text('Admin')),
+                  DropdownMenuItem(value: 'manager', child: Text('Manager')),
+                  DropdownMenuItem(value: 'employee', child: Text('Employee')),
+                ],
+                onChanged: (value) {
+                  setFormState(() {
+                    selectedRole = value!;
+                  });
+                },
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    final firstName = firstNameController.text.trim();
+                    final lastName = lastNameController.text.trim();
+                    final email = emailController.text.trim();
+                    final password = passwordController.text.trim();
+
+                    if (firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty) {
+                      _showSnackBar('Please fill in all fields');
+                      return;
+                    }
+
+                    try {
+                      final uri = Uri.parse('$_baseUrl/users/');
+                      final response = await http.post(
+                        uri,
+                        headers: {'Content-Type': 'application/json'},
+                        body: jsonEncode({
+                          'first_name': firstName,
+                          'last_name': lastName,
+                          'email': email,
+                          'password': password,
+                          'role': selectedRole,
+                        }),
+                      );
+
+                      if (response.statusCode == 200) {
+                        _showSnackBar('Staff member added successfully');
+                        setState(() {
+                          _rightSidebarExpanded = false;
+                          _rightSidebarMode = 'none';
+                        });
+                      } else {
+                        _showSnackBar('Failed to add staff member');
+                      }
+                    } catch (e) {
+                      _showSnackBar('Error: $e');
+                    }
+                  },
+                  icon: const Icon(Icons.person_add),
+                  label: const Text('Add Staff Member'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildNewFolderForm(Color primaryColor) {
+    final folderNameController = TextEditingController();
+
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            controller: folderNameController,
+            decoration: InputDecoration(
+              labelText: 'Folder Name',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              prefixIcon: const Icon(Icons.folder_outlined),
+            ),
+          ),
+          const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                final name = folderNameController.text.trim();
+                if (name.isEmpty) {
+                  _showSnackBar('Please enter a folder name');
+                  return;
+                }
+                _createFolder(name);
+              },
+              icon: const Icon(Icons.create_new_folder),
+              label: const Text('Create Folder'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

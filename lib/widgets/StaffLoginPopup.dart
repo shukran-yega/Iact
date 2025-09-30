@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:iact/Desktop/NavBar.dart';
 import 'package:iact/Desktop/staffPanel.dart';
@@ -19,6 +18,22 @@ class StaffLoginPopup extends StatefulWidget {
 class _StaffLoginPopupState extends State<StaffLoginPopup> {
   bool _loading = false;
   String? _errorMessage;
+  late TextEditingController idController;
+  late TextEditingController passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    idController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    idController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +48,71 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
   }
 
   Widget contentBox(BuildContext context) {
-    // Controller for the ID text field
-    final TextEditingController idController = TextEditingController();
-    // Controller for the password text field
-    final TextEditingController passwordController = TextEditingController();
+    void doLogin() async {
+      setState(() {
+        _loading = true;
+        _errorMessage = null;
+      });
+
+      final email = idController.text.trim();
+      final password = passwordController.text;
+
+      if (email.isEmpty || password.isEmpty) {
+        setState(() {
+          _errorMessage = 'Please enter both email and password.';
+          _loading = false;
+        });
+        return;
+      }
+
+      try {
+        final baseUrl = html.window.location.hostname == 'localhost' ||
+                html.window.location.hostname == '127.0.0.1'
+            ? 'http://127.0.0.1:8000'
+            : html.window.location.origin;
+        final uri = Uri.parse('$baseUrl/auth/login');
+
+        print('[LOGIN] Attempting login with email: $email');
+        final resp = await http.post(
+          uri,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'email': email, 'password': password}),
+        );
+
+        print(
+            '[LOGIN] Response status: \\${resp.statusCode}, body: \\${resp.body}');
+
+        setState(() {
+          _loading = false;
+        });
+
+        if (resp.statusCode == 200) {
+          final userData = jsonDecode(resp.body);
+          print(
+              '[LOGIN SUCCESS] User logged in: \\${userData['first_name']} \\${userData['last_name']}');
+
+          isSigned = true;
+          Navigator.of(context).pop();
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return Staffpanel(
+              firstName: userData['first_name'] ?? '',
+              role: userData['role'] ?? '',
+            );
+          }));
+        } else if (resp.statusCode == 401) {
+          _errorMessage = 'Invalid email or password';
+        } else if (resp.statusCode == 500) {
+          _errorMessage = 'Server error. Please try again.';
+        } else {
+          _errorMessage = 'Login failed: \\${resp.statusCode}';
+        }
+      } catch (e) {
+        setState(() {
+          _loading = false;
+          _errorMessage = 'Network error: $e';
+        });
+      }
+    }
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.2,
@@ -60,7 +136,7 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
           children: <Widget>[
             // Title for the popup
             const Text(
-              "Staff Login v0.0.3",
+              "Staff Login v0.0.4",
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.w700,
@@ -68,25 +144,25 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20.0),
-            // ID text field
+            // Email text field
             TextField(
               controller: idController,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 focusColor: Colors.blue.shade900,
-                labelText: "Staff ID",
+                labelText: "Email Address",
+                hintText: "Enter your email address",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 prefixIcon: const Icon(
-                  Icons.person,
+                  Icons.email,
                   color: Colors.blue,
                 ),
               ),
             ),
             const SizedBox(height: 16.0),
             // Password text field
-            // Inside your StatefulWidget
-
             TextField(
               controller: passwordController,
               obscureText: _obscurePassword,
@@ -94,12 +170,10 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
               decoration: InputDecoration(
                 focusColor: Colors.blue.shade900,
                 labelText: "Password",
-                // optional: label text color
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 prefixIcon: const Icon(Icons.lock, color: Colors.blue),
-                // Add a suffix icon to toggle visibility
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -107,11 +181,12 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _obscurePassword = !_obscurePassword; // toggle visibility
+                      _obscurePassword = !_obscurePassword;
                     });
                   },
                 ),
               ),
+              onSubmitted: (_) => doLogin(),
             ),
 
             const SizedBox(height: 24.0),
@@ -128,59 +203,7 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
 
             // Login button
             ElevatedButton(
-              onPressed: _loading
-                  ? null
-                  : () async {
-                      setState(() {
-                        _loading = true;
-                        _errorMessage = null;
-                      });
-
-                      final staffId = idController.text.trim();
-                      final password = passwordController.text;
-
-                      if (staffId.isEmpty || password.isEmpty) {
-                        setState(() {
-                          _errorMessage = 'Please enter both ID and password.';
-                          _loading = false;
-                        });
-                        return;
-                      }
-
-                      try {
-                        final uri = Uri.parse(
-                            '${html.window.location.origin}/auth/login');
-
-                        final resp = await http.post(
-                          uri,
-                          headers: {'Content-Type': 'application/json'},
-                          body: jsonEncode(
-                              {'username': staffId, 'password': password}),
-                        );
-
-                        setState(() {
-                          _loading = false;
-                        });
-
-                        if (resp.statusCode == 200) {
-                          isSigned = true;
-                          Navigator.of(context).pop();
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return Staffpanel();
-                          }));
-                        } else if (resp.statusCode == 401) {
-                          _errorMessage = 'Invalid credentials';
-                        } else {
-                          _errorMessage = 'Server error: ${resp.statusCode}';
-                        }
-                      } catch (e) {
-                        setState(() {
-                          _loading = false;
-                          _errorMessage = 'Network error: $e';
-                        });
-                      }
-                    },
+              onPressed: _loading ? null : doLogin,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue.shade900,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
