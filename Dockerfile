@@ -7,7 +7,7 @@ WORKDIR /app
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     nginx supervisor gcc libpq-dev && \
-    pip install --no-cache-dir fastapi uvicorn sqlalchemy passlib[bcrypt] python-multipart psycopg2-binary && \
+    pip install --no-cache-dir fastapi uvicorn[standard] sqlalchemy passlib==1.7.4 bcrypt==4.0.1 python-multipart psycopg2-binary python-jose[cryptography] && \
     mkdir -p /var/log/supervisor
 
 # Copy backend
