@@ -7,8 +7,12 @@ WORKDIR /app
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     nginx supervisor gcc libpq-dev && \
-    pip install --no-cache-dir fastapi uvicorn sqlalchemy passlib[bcrypt] python-multipart psycopg2-binary && \
+    pip install --no-cache-dir fastapi uvicorn[standard] sqlalchemy passlib[bcrypt] python-multipart psycopg2-binary python-jose[cryptography] && \
     mkdir -p /app/backend/uploads /var/log/supervisor
+
+# Create and set permissions for uploads directory
+RUN mkdir -p /app/backend/uploads && \
+    chmod 777 /app/backend/uploads
 
 # Copy backend
 COPY backend/ ./backend/
