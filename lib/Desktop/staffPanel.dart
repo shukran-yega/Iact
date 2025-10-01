@@ -187,9 +187,18 @@ class _StaffpanelState extends State<Staffpanel> {
   }) async {
     if (_currentFolderId == null) return;
 
+    // Check file size (50MB limit)
+    final fileSizeInMB = fileBytes.length / (1024 * 1024);
+    if (fileSizeInMB > 50) {
+      _showSnackBar('File size exceeds 50MB limit');
+      return;
+    }
+
     setState(() => _loading = true);
 
     try {
+      print('[UPLOAD] Starting upload of ${filename} (${fileSizeInMB.toStringAsFixed(2)}MB)');
+      
       var request = http.MultipartRequest(
         'POST',
         Uri.parse('$_baseUrl/documents/upload/'),
@@ -206,8 +215,11 @@ class _StaffpanelState extends State<Staffpanel> {
       request.fields['owner'] = owner;
       request.fields['folder_id'] = _currentFolderId!.toString();
 
+      print('[UPLOAD] Sending request for ${filename}');
       var streamed = await request.send();
       var response = await http.Response.fromStream(streamed);
+      
+      print('[UPLOAD] Response status: ${response.statusCode}, body: ${response.body}');
 
       if (!mounted) return;
       setState(() => _loading = false);
@@ -219,10 +231,13 @@ class _StaffpanelState extends State<Staffpanel> {
           _rightSidebarExpanded = false;
           _rightSidebarMode = 'none';
         });
+      } else if (response.statusCode == 413) {
+        _showSnackBar('File too large. Maximum size is 50MB');
       } else {
-        _showSnackBar('Upload failed: ${response.statusCode}');
+        _showSnackBar('Upload failed: ${response.statusCode}. ${response.body}');
       }
     } catch (e) {
+      print('[UPLOAD ERROR] $e');
       if (mounted) setState(() => _loading = false);
       _showSnackBar('Error uploading file: $e');
     }
@@ -1061,7 +1076,7 @@ class _StaffpanelState extends State<Staffpanel> {
                             ),
                           ),
                           Text(
-                            user.id.toString(),
+                            'ID: '+user.id.toString(),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[900],

@@ -29,8 +29,9 @@ RUN mkdir -p /var/log/nginx
 RUN chown -R www-data:www-data /usr/share/nginx/html
 RUN chmod -R 755 /usr/share/nginx/html
 
-# Copy Nginx config
-COPY nginx.conf /etc/nginx/sites-enabled/default
+# Copy and set up Nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN ln -sf /etc/nginx/nginx.conf /etc/nginx/sites-enabled/default
 
 # Copy supervisord config
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

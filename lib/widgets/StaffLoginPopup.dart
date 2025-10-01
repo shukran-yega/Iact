@@ -136,7 +136,7 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
           children: <Widget>[
             // Title for the popup
             const Text(
-              "Staff Login v0.0.4",
+              "Staff Login",
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.w700,
