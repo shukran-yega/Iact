@@ -139,7 +139,10 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
             print(f"[LOGIN ERROR] User not found for email: {user.email}")
             raise HTTPException(status_code=401, detail="Invalid credentials")
         
-        if not bcrypt.verify(user.password, db_user.password):
+        # Truncate password to 72 bytes as per bcrypt limitation
+        password = user.password[:72] if len(user.password.encode()) > 72 else user.password
+        
+        if not bcrypt.verify(password, db_user.password):
             print(f"[LOGIN ERROR] Invalid password for email: {user.email}")
             raise HTTPException(status_code=401, detail="Invalid credentials")
         
