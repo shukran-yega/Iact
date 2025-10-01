@@ -72,11 +72,16 @@ class _StaffpanelState extends State<Staffpanel> {
   }
 
   String get _baseUrl {
-    return html.window.location.hostname == 'localhost' ||
-            html.window.location.hostname == '127.0.0.1'
-        ? 'http://127.0.0.1:8000'
-        : html.window.location.origin;
+  final hostname = html.window.location.hostname;
+  
+  // Local development
+  if (hostname == 'localhost' || hostname == '127.0.0.1') {
+    return 'http://127.0.0.1:8000';
   }
+  
+  // Production - API is proxied through nginx on same domain
+  return html.window.location.origin;
+}
 
   Future<void> _fetchFolders() async {
     try {

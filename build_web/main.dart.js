@@ -89793,7 +89793,9 @@ a3(){return new A.Z6(A.a([],t.C3),A.a([],t.oi),A.a([],t.P5))}}
 A.Z6.prototype={
 aq(){this.aI()
 this.pW()},
-gjy(){return window.location.hostname==="localhost"||window.location.hostname==="127.0.0.1"?"http://127.0.0.1:8000":B.oS.gw4(window.location)},
+gjy(){var s=window.location.hostname
+if(s==="localhost"||s==="127.0.0.1")return"http://127.0.0.1:8000"
+return B.oS.gw4(window.location)},
 pW(){var s=0,r=A.P(t.H),q,p=2,o,n=this,m,l,k,j,i,h,g
 var $async$pW=A.K(function(a,b){if(a===1){o=b
 s=p}while(true)switch(s){case 0:p=4
