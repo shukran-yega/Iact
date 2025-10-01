@@ -7,23 +7,16 @@ WORKDIR /app
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     nginx supervisor gcc libpq-dev && \
-    pip install --no-cache-dir fastapi uvicorn[standard] sqlalchemy passlib[bcrypt] python-multipart psycopg2-binary python-jose[cryptography] && \
+    pip install --no-cache-dir fastapi uvicorn sqlalchemy passlib[bcrypt] python-multipart psycopg2-binary && \
     mkdir -p /app/backend/uploads /var/log/supervisor
-
-# Create and set permissions for uploads directory
-RUN mkdir -p /app/backend/uploads && \
-    chmod 777 /app/backend/uploads
 
 # Copy backend
 COPY backend/ ./backend/
 
 # Copy Flutter web build
-COPY build_web/web/ /usr/share/nginx/html/
-COPY assets/ /usr/share/nginx/html/assets/
+COPY build_web/web /usr/share/nginx/html
+COPY assets /usr/share/nginx/html/assets
 COPY test.html /usr/share/nginx/html/test.html
-
-# Ensure PORT env var has a default (Render will override this)
-ENV PORT=80
 
 # Create nginx log directory
 RUN mkdir -p /var/log/nginx
@@ -32,9 +25,8 @@ RUN mkdir -p /var/log/nginx
 RUN chown -R www-data:www-data /usr/share/nginx/html
 RUN chmod -R 755 /usr/share/nginx/html
 
-# Copy and set up Nginx config (template - rendered at container start)
-COPY nginx.conf /etc/nginx/nginx.conf.template
-RUN ln -sf /etc/nginx/nginx.conf /etc/nginx/sites-enabled/default || true
+# Copy Nginx config
+COPY nginx.conf /etc/nginx/sites-enabled/default
 
 # Copy supervisord config
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
