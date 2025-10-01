@@ -8,10 +8,13 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     nginx supervisor gcc libpq-dev && \
     pip install --no-cache-dir fastapi uvicorn sqlalchemy passlib[bcrypt] python-multipart psycopg2-binary && \
-    mkdir -p /app/backend/uploads /var/log/supervisor
+    mkdir -p /var/log/supervisor
 
 # Copy backend
 COPY backend/ ./backend/
+
+# Create uploads directory in the backend folder
+RUN mkdir -p /app/backend/uploads && chmod -R 755 /app/backend/uploads
 
 # Copy Flutter web build
 COPY build_web/web /usr/share/nginx/html
