@@ -4,7 +4,8 @@ from schemas import UserCreate, DocumentCreate, FolderCreate
 from passlib.hash import bcrypt
 
 def create_user(db: Session, user: UserCreate):
-    hashed_pw = bcrypt.hash(user.password)
+    hashed_pw = bcrypt.hash(user.password[:72])
+
     db_user = User(
         staff_id=user.staff_id,
         username=user.username, 

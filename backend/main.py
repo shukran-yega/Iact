@@ -81,11 +81,16 @@ def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     """Create a new user with staff_id, name, email, and password"""
     try:
         print(f"[CREATE USER] Creating user: staff_id={user.staff_id}, username={user.username}, email={user.email}")
+        
+        # Truncate password to 72 bytes before hashing
+        if len(user.password) > 72:
+            user.password = user.password[:72]
+        
         return crud.create_user(db=db, user=user)
     except Exception as e:
         print(f"[CREATE USER ERROR] Failed to create user: {e}")
         raise HTTPException(status_code=400, detail=f"Failed to create user: {str(e)}")
-
+    
 @app.get("/users/", response_model=list[schemas.UserOut])
 def get_users(db: Session = Depends(get_db)):
     """Get all users"""
@@ -139,7 +144,10 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
             print(f"[LOGIN ERROR] User not found for email: {user.email}")
             raise HTTPException(status_code=401, detail="Invalid credentials")
         
-        if not bcrypt.verify(user.password, db_user.password):
+        # Truncate password to 72 bytes for bcrypt
+        password_to_check = user.password[:72]
+        
+        if not bcrypt.verify(password_to_check, db_user.password):
             print(f"[LOGIN ERROR] Invalid password for email: {user.email}")
             raise HTTPException(status_code=401, detail="Invalid credentials")
         
@@ -150,7 +158,6 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     except Exception as e:
         print(f"[LOGIN ERROR] Unexpected error during login: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
-
 
 # ------------------ Folder endpoints ------------------
 @app.post("/folders/", response_model=schemas.FolderOut)
