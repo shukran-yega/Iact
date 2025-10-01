@@ -72,16 +72,16 @@ class _StaffpanelState extends State<Staffpanel> {
   }
 
   String get _baseUrl {
-  final hostname = html.window.location.hostname;
-  
-  // Local development
-  if (hostname == 'localhost' || hostname == '127.0.0.1') {
-    return 'http://127.0.0.1:8000';
+    final hostname = html.window.location.hostname;
+
+    // Local development
+    if (hostname == 'localhost' || hostname == '127.0.0.1') {
+      return 'http://127.0.0.1:8000';
+    }
+
+    // Production - API is proxied through nginx on same domain
+    return html.window.location.origin;
   }
-  
-  // Production - API is proxied through nginx on same domain
-  return html.window.location.origin;
-}
 
   Future<void> _fetchFolders() async {
     try {
@@ -197,8 +197,9 @@ class _StaffpanelState extends State<Staffpanel> {
     setState(() => _loading = true);
 
     try {
-      print('[UPLOAD] Starting upload of ${filename} (${fileSizeInMB.toStringAsFixed(2)}MB)');
-      
+      print(
+          '[UPLOAD] Starting upload of ${filename} (${fileSizeInMB.toStringAsFixed(2)}MB)');
+
       var request = http.MultipartRequest(
         'POST',
         Uri.parse('$_baseUrl/documents/upload/'),
@@ -218,8 +219,9 @@ class _StaffpanelState extends State<Staffpanel> {
       print('[UPLOAD] Sending request for ${filename}');
       var streamed = await request.send();
       var response = await http.Response.fromStream(streamed);
-      
-      print('[UPLOAD] Response status: ${response.statusCode}, body: ${response.body}');
+
+      print(
+          '[UPLOAD] Response status: ${response.statusCode}, body: ${response.body}');
 
       if (!mounted) return;
       setState(() => _loading = false);
@@ -234,7 +236,8 @@ class _StaffpanelState extends State<Staffpanel> {
       } else if (response.statusCode == 413) {
         _showSnackBar('File too large. Maximum size is 50MB');
       } else {
-        _showSnackBar('Upload failed: ${response.statusCode}. ${response.body}');
+        _showSnackBar(
+            'Upload failed: ${response.statusCode}. ${response.body}');
       }
     } catch (e) {
       print('[UPLOAD ERROR] $e');
@@ -1076,7 +1079,7 @@ class _StaffpanelState extends State<Staffpanel> {
                             ),
                           ),
                           Text(
-                            'ID: '+user.id.toString(),
+                            'ID: ' + user.id.toString(),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[900],
