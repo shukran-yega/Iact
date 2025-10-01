@@ -214,15 +214,6 @@ def get_documents(folder_id: int | None = None, db: Session = Depends(get_db)):
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
-class LargeUploadMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        if request.url.path == "/documents/upload/":
-            # Increase the body limit for upload endpoint
-            request.scope["server"].max_body_size = 1024 * 1024 * 50  # 50MB
-        return await call_next(request)
-
-app.add_middleware(LargeUploadMiddleware)
-
 @app.post("/documents/upload/", response_model=schemas.DocumentOut)
 async def upload_document(
     file: UploadFile = File(...),
