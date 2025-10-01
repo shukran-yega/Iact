@@ -25,7 +25,7 @@ def create_admin_user():
         if not admin_user:
             admin_data = schemas.UserCreate(
                 staff_id="0001",
-                username="admin",
+                username="Level 1",
                 password="welcome2iact",
                 email="support@iact.co.tz",
                 first_name="Admin",
@@ -100,6 +100,16 @@ def get_users(db: Session = Depends(get_db)):
 
 # ------------------ User delete endpoint ------------------
 from fastapi import status, Response
+
+@app.patch("/users/{user_id}/role")
+def update_user_role(user_id: int, role_update: schemas.UserRoleUpdate, db: Session = Depends(get_db)):
+    """Update a user's role"""
+    try:
+        print(f"[UPDATE ROLE] Updating role for user {user_id} to {role_update.role}")
+        return crud.update_user_role(db=db, user_id=user_id, new_role=role_update.role)
+    except Exception as e:
+        print(f"[UPDATE ROLE ERROR] Failed to update role: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
 
 @app.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(user_id: int, db: Session = Depends(get_db)):

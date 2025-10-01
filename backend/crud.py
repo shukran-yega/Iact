@@ -45,3 +45,12 @@ def delete_folder(db: Session, folder_id: int):
         raise Exception("Folder not found")
     db.delete(folder)
     db.commit()
+
+def update_user_role(db: Session, user_id: int, new_role: str):
+    db_user = db.query(User).filter(User.id == user_id).first()
+    if not db_user:
+        raise Exception("User not found")
+    db_user.role = new_role
+    db.commit()
+    db.refresh(db_user)
+    return db_user

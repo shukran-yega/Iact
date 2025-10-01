@@ -36,6 +36,9 @@ class UserLoginResponse(BaseModel):
     role: str
     class Config:
         from_attributes = True
+
+class UserRoleUpdate(BaseModel):
+    role: str
         
 
 from pydantic import BaseModel

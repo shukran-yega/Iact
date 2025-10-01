@@ -28,12 +28,14 @@ class Folder {
 // User data model
 class User {
   final int id;
+  final String staffId;
   final String firstName;
   final String lastName;
   final String email;
   final String role;
   User({
     required this.id,
+    required this.staffId,
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -60,7 +62,8 @@ class _StaffpanelState extends State<Staffpanel> {
   bool _loading = false;
   bool _leftSidebarExpanded = true;
   bool _rightSidebarExpanded = false;
-  String _rightSidebarMode = 'none'; // 'upload', 'users', 'newStaff', 'newFolder'
+  String _rightSidebarMode =
+      'none'; // 'upload', 'users', 'newStaff', 'newFolder'
 
   @override
   void initState() {
@@ -76,33 +79,36 @@ class _StaffpanelState extends State<Staffpanel> {
   }
 
   Future<void> _fetchFolders() async {
-  try {
-    final uri = Uri.parse('$_baseUrl/folders/');
-    final response = await http.get(uri);
-    
-    print('[GET /folders/] status=${response.statusCode} body=${response.body}');
-    
-    if (response.statusCode == 200) {
-      // Check if response is actually JSON
-      if (response.body.trim().startsWith('[') || response.body.trim().startsWith('{')) {
-        final List<dynamic> list = jsonDecode(response.body);
-        if (!mounted) return;
-        setState(() {
-          _folders = list.map((j) => Folder(id: j['id'], name: j['name'])).toList();
-        });
+    try {
+      final uri = Uri.parse('$_baseUrl/folders/');
+      final response = await http.get(uri);
+
+      print(
+          '[GET /folders/] status=${response.statusCode} body=${response.body}');
+
+      if (response.statusCode == 200) {
+        // Check if response is actually JSON
+        if (response.body.trim().startsWith('[') ||
+            response.body.trim().startsWith('{')) {
+          final List<dynamic> list = jsonDecode(response.body);
+          if (!mounted) return;
+          setState(() {
+            _folders =
+                list.map((j) => Folder(id: j['id'], name: j['name'])).toList();
+          });
+        } else {
+          print('[GET /folders/] Response is not JSON: ${response.body}');
+          _showSnackBar('Server returned invalid response');
+        }
       } else {
-        print('[GET /folders/] Response is not JSON: ${response.body}');
-        _showSnackBar('Server returned invalid response');
+        print('[GET /folders/] Error: ${response.statusCode}');
+        _showSnackBar('Failed to fetch folders: ${response.statusCode}');
       }
-    } else {
-      print('[GET /folders/] Error: ${response.statusCode}');
-      _showSnackBar('Failed to fetch folders: ${response.statusCode}');
+    } catch (e) {
+      print('[GET /folders/] exception=$e');
+      _showSnackBar('Error fetching folders: $e');
     }
-  } catch (e) {
-    print('[GET /folders/] exception=$e');
-    _showSnackBar('Error fetching folders: $e');
   }
-}
 
   Future<void> _fetchDocuments({required int folderId}) async {
     try {
@@ -138,6 +144,7 @@ class _StaffpanelState extends State<Staffpanel> {
           _users = usersJson
               .map((u) => User(
                     id: u['id'],
+                    staffId: u['staff_id'] ?? '',
                     firstName: u['first_name'],
                     lastName: u['last_name'],
                     email: u['email'] ?? '',
@@ -287,7 +294,20 @@ class _StaffpanelState extends State<Staffpanel> {
     try {
       final datePart = uploadedAt.split(' ').first;
       final dt = DateTime.parse(datePart);
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+      ];
       return '${dt.day.toString().padLeft(2, '0')} ${months[dt.month - 1]} ${dt.year}';
     } catch (e) {
       return uploadedAt.split(' ').first;
@@ -375,7 +395,7 @@ class _StaffpanelState extends State<Staffpanel> {
           ),
         ),
         if (_leftSidebarExpanded) const Divider(),
-        
+
         // User info
         if (_leftSidebarExpanded)
           Padding(
@@ -396,7 +416,8 @@ class _StaffpanelState extends State<Staffpanel> {
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.blueAccent.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(12),
@@ -413,9 +434,9 @@ class _StaffpanelState extends State<Staffpanel> {
               ],
             ),
           ),
-        
+
         const SizedBox(height: 20),
-        
+
         // Navigation items
         Expanded(
           child: ListView(
@@ -450,13 +471,13 @@ class _StaffpanelState extends State<Staffpanel> {
               ),
               _buildNavItem(
                 icon: Icons.supervised_user_circle,
-                label: 'Manage Users',
+                label: 'Manage Users/roles',
                 onTap: () => _openRightSidebar('users'),
               ),
             ],
           ),
         ),
-        
+
         // Logout button
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -482,7 +503,7 @@ class _StaffpanelState extends State<Staffpanel> {
                   onPressed: () => html.window.location.reload(),
                 ),
         ),
-        
+
         if (_leftSidebarExpanded)
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -562,7 +583,8 @@ class _StaffpanelState extends State<Staffpanel> {
                         const SizedBox(width: 8),
                         const Text(
                           'Folders',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -582,9 +604,9 @@ class _StaffpanelState extends State<Staffpanel> {
                 ],
               ],
             ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Content
           Expanded(
             child: _currentFolderId == null
@@ -621,7 +643,8 @@ class _StaffpanelState extends State<Staffpanel> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               ),
             ),
           ],
@@ -668,7 +691,8 @@ class _StaffpanelState extends State<Staffpanel> {
                 children: [
                   Icon(Icons.folder, size: 36, color: Colors.amber[700]),
                   IconButton(
-                    icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                    icon: const Icon(Icons.delete_outline,
+                        color: Colors.redAccent),
                     onPressed: () => _deleteFolder(folder.id),
                   ),
                 ],
@@ -715,7 +739,8 @@ class _StaffpanelState extends State<Staffpanel> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               ),
             ),
           ],
@@ -995,11 +1020,10 @@ class _StaffpanelState extends State<Staffpanel> {
         final user = _users[index];
         Color roleColor;
         switch (user.role.toLowerCase()) {
-          case 'admin':
-          case 'manager':
+          case 'Level 1':
             roleColor = Colors.blueAccent;
             break;
-          case 'employee':
+          case 'Level 2':
             roleColor = Colors.green;
             break;
           default:
@@ -1032,6 +1056,13 @@ class _StaffpanelState extends State<Staffpanel> {
                             ),
                           ),
                           Text(
+                            user.id.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[900],
+                            ),
+                          ),
+                          Text(
                             user.email,
                             style: TextStyle(
                               fontSize: 13,
@@ -1047,23 +1078,73 @@ class _StaffpanelState extends State<Staffpanel> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: roleColor.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        user.role.toUpperCase(),
-                        style: TextStyle(
-                          color: roleColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
+                    PopupMenuButton<String>(
+                      onSelected: (String newRole) async {
+                        try {
+                          final uri =
+                              Uri.parse('$_baseUrl/users/${user.id}/role');
+                          final response = await http.patch(
+                            uri,
+                            headers: {'Content-Type': 'application/json'},
+                            body: jsonEncode({'role': newRole}),
+                          );
+
+                          if (response.statusCode == 200) {
+                            _showSnackBar('Role updated successfully');
+                            await _fetchUsers(); // Refresh the users list
+                          } else {
+                            _showSnackBar('Failed to update role');
+                          }
+                        } catch (e) {
+                          _showSnackBar('Error updating role: $e');
+                        }
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          value: 'Level 1',
+                          child: Text('Level 1'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'Level 2',
+                          child: Text('Level 2'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'Level 3',
+                          child: Text('Level 3'),
+                        ),
+                      ],
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: roleColor.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              user.role.toUpperCase(),
+                              style: TextStyle(
+                                color: roleColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.arrow_drop_down,
+                              color: roleColor,
+                              size: 16,
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                      icon: const Icon(Icons.delete_outline,
+                          color: Colors.redAccent),
                       onPressed: () async {
                         final confirm = await showDialog<bool>(
                           context: context,
@@ -1108,7 +1189,7 @@ class _StaffpanelState extends State<Staffpanel> {
     final lastNameController = TextEditingController();
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
-    String selectedRole = 'employee';
+    String selectedRole = 'Level 3';
 
     return StatefulBuilder(
       builder: (context, setFormState) {
@@ -1121,7 +1202,8 @@ class _StaffpanelState extends State<Staffpanel> {
                 controller: firstNameController,
                 decoration: InputDecoration(
                   labelText: 'First Name',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   prefixIcon: const Icon(Icons.person_outline),
                 ),
               ),
@@ -1130,7 +1212,8 @@ class _StaffpanelState extends State<Staffpanel> {
                 controller: lastNameController,
                 decoration: InputDecoration(
                   labelText: 'Last Name',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   prefixIcon: const Icon(Icons.person_outline),
                 ),
               ),
@@ -1139,7 +1222,8 @@ class _StaffpanelState extends State<Staffpanel> {
                 controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   prefixIcon: const Icon(Icons.email_outlined),
                 ),
               ),
@@ -1149,7 +1233,8 @@ class _StaffpanelState extends State<Staffpanel> {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   prefixIcon: const Icon(Icons.lock_outline),
                 ),
               ),
@@ -1158,13 +1243,19 @@ class _StaffpanelState extends State<Staffpanel> {
                 value: selectedRole,
                 decoration: InputDecoration(
                   labelText: 'Role',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   prefixIcon: const Icon(Icons.work_outline),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'admin', child: Text('Admin')),
-                  DropdownMenuItem(value: 'manager', child: Text('Manager')),
-                  DropdownMenuItem(value: 'employee', child: Text('Employee')),
+                  DropdownMenuItem(
+                      value: 'Level 1',
+                      child: Text('level 1 (full privildege)')),
+                  DropdownMenuItem(
+                      value: 'Level 2',
+                      child: Text('level 2 (Create/delete folders/files)')),
+                  DropdownMenuItem(
+                      value: 'Level 3', child: Text('Level 3 (View only)')),
                 ],
                 onChanged: (value) {
                   setFormState(() {
@@ -1183,36 +1274,64 @@ class _StaffpanelState extends State<Staffpanel> {
                     final email = emailController.text.trim();
                     final password = passwordController.text.trim();
 
-                    if (firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty) {
+                    if (firstName.isEmpty ||
+                        lastName.isEmpty ||
+                        email.isEmpty ||
+                        password.isEmpty) {
                       _showSnackBar('Please fill in all fields');
                       return;
                     }
 
                     try {
+                      // Generate a staff_id
+                      final staffId = DateTime.now()
+                          .millisecondsSinceEpoch
+                          .toString()
+                          .substring(8);
+                      final username =
+                          '${firstName.toLowerCase()}.${lastName.toLowerCase()}';
+
                       final uri = Uri.parse('$_baseUrl/users/');
+                      print(
+                          '[CREATE USER] Sending request for $firstName $lastName');
+
                       final response = await http.post(
                         uri,
                         headers: {'Content-Type': 'application/json'},
                         body: jsonEncode({
+                          'staff_id': staffId,
+                          'username': username,
+                          'password': password,
+                          'email': email,
                           'first_name': firstName,
                           'last_name': lastName,
-                          'email': email,
-                          'password': password,
                           'role': selectedRole,
                         }),
                       );
 
                       if (response.statusCode == 200) {
                         _showSnackBar('Staff member added successfully');
+                        // Clear the form
+                        firstNameController.clear();
+                        lastNameController.clear();
+                        emailController.clear();
+                        passwordController.clear();
                         setState(() {
                           _rightSidebarExpanded = false;
                           _rightSidebarMode = 'none';
                         });
+                        // Refresh users list if it's visible
+                        if (_rightSidebarMode == 'users') {
+                          _fetchUsers();
+                        }
                       } else {
-                        _showSnackBar('Failed to add staff member');
+                        _showSnackBar(
+                            'Failed to add staff member: ${response.statusCode}');
+                        print('[CREATE USER ERROR] ${response.body}');
                       }
                     } catch (e) {
-                      _showSnackBar('Error: $e');
+                      _showSnackBar('Error creating staff member: $e');
+                      print('[CREATE USER ERROR] $e');
                     }
                   },
                   icon: const Icon(Icons.person_add),
@@ -1242,7 +1361,8 @@ class _StaffpanelState extends State<Staffpanel> {
             controller: folderNameController,
             decoration: InputDecoration(
               labelText: 'Folder Name',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
               prefixIcon: const Icon(Icons.folder_outlined),
             ),
           ),
