@@ -46,7 +46,9 @@ class User {
 class Staffpanel extends StatefulWidget {
   final String firstName;
   final String role;
-  const Staffpanel({Key? key, required this.firstName, required this.role})
+  final id;
+  const Staffpanel(
+      {Key? key, required this.firstName, required this.role, required this.id})
       : super(key: key);
 
   @override
@@ -85,7 +87,7 @@ class _StaffpanelState extends State<Staffpanel> {
 
   Future<void> _fetchFolders() async {
     try {
-      final uri = Uri.parse('$_baseUrl/folders/');
+      final uri = Uri.parse("$_baseUrl/folders/?current_user_id=${widget.id}");
       final response = await http.get(uri);
 
       print(
@@ -352,10 +354,17 @@ class _StaffpanelState extends State<Staffpanel> {
     });
   }
 
+  // access control
+  bool get canSeeStaffTools =>
+      widget.role == 'Level 1' || widget.role == 'Level 2';
+  bool get accesslevel1only => widget.role == 'Level 1';
+  // access control
+
+  List<int> selectedFolderIds = []; // folder IDs selected for access
+
   @override
   Widget build(BuildContext context) {
     const Color primaryColor = Color(0xFF0D47A1);
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: Row(
@@ -477,25 +486,37 @@ class _StaffpanelState extends State<Staffpanel> {
                   });
                 },
               ),
-              _buildNavItem(
-                icon: Icons.upload_file,
-                label: 'Upload Document',
-                onTap: () => _openRightSidebar('upload'),
+              Visibility(
+                visible: canSeeStaffTools,
+                child: _buildNavItem(
+                  icon: Icons.upload_file,
+                  label: 'Upload Document',
+                  onTap: () => _openRightSidebar('upload'),
+                ),
               ),
-              _buildNavItem(
-                icon: Icons.create_new_folder,
-                label: 'New Folder',
-                onTap: () => _openRightSidebar('newFolder'),
+              Visibility(
+                visible: canSeeStaffTools,
+                child: _buildNavItem(
+                  icon: Icons.create_new_folder,
+                  label: 'New Folder',
+                  onTap: () => _openRightSidebar('newFolder'),
+                ),
               ),
-              _buildNavItem(
-                icon: Icons.person_add,
-                label: 'Add Staff',
-                onTap: () => _openRightSidebar('newStaff'),
+              Visibility(
+                visible: accesslevel1only,
+                child: _buildNavItem(
+                  icon: Icons.person_add,
+                  label: 'Add Staff',
+                  onTap: () => _openRightSidebar('newStaff'),
+                ),
               ),
-              _buildNavItem(
-                icon: Icons.supervised_user_circle,
-                label: 'Manage Users/roles',
-                onTap: () => _openRightSidebar('users'),
+              Visibility(
+                visible: accesslevel1only,
+                child: _buildNavItem(
+                  icon: Icons.supervised_user_circle,
+                  label: 'Manage Users/roles',
+                  onTap: () => _openRightSidebar('users'),
+                ),
               ),
             ],
           ),
@@ -647,27 +668,26 @@ class _StaffpanelState extends State<Staffpanel> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.folder_off_outlined, size: 72, color: Colors.grey[300]),
+            Icon(Icons.folder_off_sharp, size: 72, color: Colors.grey[300]),
             const SizedBox(height: 16),
             const Text(
-              'No folders yet',
+              'No accessible folders detected',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            Text(
-              'Create a folder to get started',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-            ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => _openRightSidebar('newFolder'),
-              icon: const Icon(Icons.add),
-              label: const Text('Create Folder'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            Visibility(
+              visible: canSeeStaffTools,
+              child: ElevatedButton.icon(
+                onPressed: () => _openRightSidebar('newFolder'),
+                icon: const Icon(Icons.add),
+                label: const Text('Create Folder'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  foregroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                ),
               ),
             ),
           ],
@@ -713,10 +733,13 @@ class _StaffpanelState extends State<Staffpanel> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(Icons.folder, size: 36, color: Colors.amber[700]),
-                  IconButton(
-                    icon: const Icon(Icons.delete_outline,
-                        color: Colors.redAccent),
-                    onPressed: () => _deleteFolder(folder.id),
+                  Visibility(
+                    visible: canSeeStaffTools,
+                    child: IconButton(
+                      icon: const Icon(Icons.delete_outline,
+                          color: Colors.redAccent),
+                      onPressed: () => _deleteFolder(folder.id),
+                    ),
                   ),
                 ],
               ),
@@ -834,11 +857,14 @@ class _StaffpanelState extends State<Staffpanel> {
                   onPressed: () => _viewDocument(document.title),
                   tooltip: 'View',
                 ),
-                IconButton(
-                  icon: const Icon(Icons.delete_outline),
-                  color: Colors.redAccent,
-                  onPressed: () => _deleteDocument(document.id),
-                  tooltip: 'Delete',
+                Visibility(
+                  visible: canSeeStaffTools,
+                  child: IconButton(
+                    icon: const Icon(Icons.delete_outline),
+                    color: Colors.redAccent,
+                    onPressed: () => _deleteDocument(document.id),
+                    tooltip: 'Delete',
+                  ),
                 ),
               ],
             ),
@@ -951,7 +977,7 @@ class _StaffpanelState extends State<Staffpanel> {
     }
 
     final filenameController = TextEditingController();
-    final ownerController = TextEditingController();
+    final ownerController = TextEditingController(text: widget.firstName);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -1079,14 +1105,14 @@ class _StaffpanelState extends State<Staffpanel> {
                             ),
                           ),
                           Text(
-                            'ID: ' + user.id.toString(),
+                            'UserID: ' + user.id.toString(),
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[900],
+                              color: Colors.grey[600],
                             ),
                           ),
                           Text(
-                            user.email,
+                            "Email: " + user.email,
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey[600],
@@ -1098,107 +1124,135 @@ class _StaffpanelState extends State<Staffpanel> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PopupMenuButton<String>(
-                      onSelected: (String newRole) async {
-                        try {
-                          final uri =
-                              Uri.parse('$_baseUrl/users/${user.id}/role');
-                          final response = await http.patch(
-                            uri,
-                            headers: {'Content-Type': 'application/json'},
-                            body: jsonEncode({'role': newRole}),
-                          );
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // Role dropdown
+                        PopupMenuButton<String>(
+                          onSelected: (String newRole) async {
+                            // ... your role update logic
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                                value: 'Level 1', child: Text('Level 1')),
+                            const PopupMenuItem<String>(
+                                value: 'Level 2', child: Text('Level 2')),
+                            const PopupMenuItem<String>(
+                                value: 'Level 3', child: Text('Level 3')),
+                          ],
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: roleColor.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  user.role.toUpperCase(),
+                                  style: TextStyle(
+                                    color: roleColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                Icon(Icons.arrow_drop_down,
+                                    color: roleColor, size: 16),
+                              ],
+                            ),
+                          ),
+                        ),
 
-                          if (response.statusCode == 200) {
-                            _showSnackBar('Role updated successfully');
-                            await _fetchUsers(); // Refresh the users list
-                          } else {
-                            _showSnackBar('Failed to update role');
-                          }
-                        } catch (e) {
-                          _showSnackBar('Error updating role: $e');
-                        }
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Level 1',
-                          child: Text('Level 1'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Level 2',
-                          child: Text('Level 2'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Level 3',
-                          child: Text('Level 3'),
+                        // Delete button
+                        IconButton(
+                          icon: const Icon(Icons.delete_outline,
+                              color: Colors.redAccent),
+                          onPressed: ()=> _deleteUser(user.id),
                         ),
                       ],
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: roleColor.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              user.role.toUpperCase(),
-                              style: TextStyle(
-                                color: roleColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            Icon(
-                              Icons.arrow_drop_down,
-                              color: roleColor,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.delete_outline,
-                          color: Colors.redAccent),
-                      onPressed: () async {
-                        final confirm = await showDialog<bool>(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                            title: const Text('Delete User'),
-                            content: Text(
-                              'Are you sure you want to delete ${user.firstName} ${user.lastName}?',
+
+                    // ExpansionTile placed outside the Row
+                    
+
+                    ExpansionTile(
+                      title: Text('Update Folder Access'),
+                      leading: Icon(Icons.folder_open),
+                      children: [
+                        ..._folders.map((folder) {
+                          return StatefulBuilder(
+                            builder: (context, setCheckboxState) {
+                              bool isChecked =
+                                  selectedFolderIds.contains(folder.id);
+
+                              return CheckboxListTile(
+                                title: Text(folder.name),
+                                value: isChecked,
+                                onChanged: (bool? checked) {
+                                  setCheckboxState(() {
+                                    isChecked = checked ?? false;
+                                  });
+
+                                  setState(() {
+                                    if (checked == true) {
+                                      selectedFolderIds.add(folder.id);
+                                    } else {
+                                      selectedFolderIds.remove(folder.id);
+                                    }
+                                  });
+                                },
+                              );
+                            },
+                          );
+                        }).toList(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Center(
+                            child: ElevatedButton.icon(
+                              onPressed: () async {
+                                try {
+                                  final uri = Uri.parse(
+                                      '$_baseUrl/users/${user.id}/access');
+                                  final response = await http.patch(
+                                    uri,
+                                    headers: {
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: jsonEncode(
+                                        {'accessFile': selectedFolderIds}),
+                                  );
+
+                                  if (response.statusCode == 200) {
+                                    _showSnackBar(
+                                        'Access updated successfully');
+                                    await _fetchUsers(); // Refresh user list
+                                  } else {
+                                    _showSnackBar('Failed to update access');
+                                  }
+                                } catch (e) {
+                                  _showSnackBar('Error updating access: $e');
+                                }
+                              },
+                              icon: const Icon(Icons.check),
+                              label: const Text('Done'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                              ),
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(ctx, false),
-                                child: const Text('Cancel'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () => Navigator.pop(ctx, true),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.redAccent,
-                                  foregroundColor: Colors.white,
-                                ),
-                                child: const Text('Delete'),
-                              ),
-                            ],
                           ),
-                        );
-                        if (confirm == true) {
-                          await _deleteUser(user.id);
-                        }
-                      },
-                    ),
+                        ),
+                      ],
+                    )
                   ],
-                ),
+                )
               ],
             ),
           ),
@@ -1213,6 +1267,7 @@ class _StaffpanelState extends State<Staffpanel> {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     String selectedRole = 'Level 3';
+    String Access = "Full access";
 
     return StatefulBuilder(
       builder: (context, setFormState) {
@@ -1286,6 +1341,33 @@ class _StaffpanelState extends State<Staffpanel> {
                   });
                 },
               ),
+              // access panel
+              SizedBox(height: 24),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: ExpansionTile(
+                  title: Text('Select Folder Access'),
+                  leading: Icon(Icons.folder_open),
+                  children: _folders.map((folder) {
+                    return CheckboxListTile(
+                      title: Text(folder.name),
+                      value: selectedFolderIds.contains(folder.id),
+                      onChanged: (bool? checked) {
+                        setFormState(() {
+                          if (checked == true) {
+                            selectedFolderIds.add(folder.id);
+                          } else {
+                            selectedFolderIds.remove(folder.id);
+                          }
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
@@ -1302,6 +1384,14 @@ class _StaffpanelState extends State<Staffpanel> {
                         email.isEmpty ||
                         password.isEmpty) {
                       _showSnackBar('Please fill in all fields');
+                      return;
+                    }
+
+                    // ✅ New check: Ensure folders are selected for non-Level 1 users
+                    if (selectedRole != 'Level 1' &&
+                        selectedFolderIds.isEmpty) {
+                      _showSnackBar(
+                          'Please select at least one folder for this role');
                       return;
                     }
 
@@ -1329,6 +1419,9 @@ class _StaffpanelState extends State<Staffpanel> {
                           'first_name': firstName,
                           'last_name': lastName,
                           'role': selectedRole,
+                          'accessFile': selectedRole == 'Level 1'
+                              ? []
+                              : selectedFolderIds,
                         }),
                       );
 

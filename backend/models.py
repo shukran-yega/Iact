@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, JSON
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -12,6 +12,7 @@ class User(Base):
     first_name = Column(String)  # First name
     last_name = Column(String)   # Last name
     role = Column(String)       # e.g. "employee", "admin"
+    accessFile = Column(JSON, default=[])
 
 class Document(Base):
     __tablename__ = "documents"

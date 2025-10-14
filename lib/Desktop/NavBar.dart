@@ -100,7 +100,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.only(
-                                left: 85.0,
+                                left: 170.0,
                                 right: MediaQuery.of(context).size.width * 0.15,
                               ),
                               child: Container(

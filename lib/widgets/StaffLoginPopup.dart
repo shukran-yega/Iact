@@ -89,7 +89,8 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
         if (resp.statusCode == 200) {
           final userData = jsonDecode(resp.body);
           print(
-              '[LOGIN SUCCESS] User logged in: \\${userData['first_name']} \\${userData['last_name']}');
+              '[LOGIN SUCCESS] User logged in: \\${userData['first_name']} \\${userData['last_name']}'
+              );
 
           isSigned = true;
           Navigator.of(context).pop();
@@ -97,6 +98,7 @@ class _StaffLoginPopupState extends State<StaffLoginPopup> {
             return Staffpanel(
               firstName: userData['first_name'] ?? '',
               role: userData['role'] ?? '',
+              id: userData['id'],
             );
           }));
         } else if (resp.statusCode == 401) {

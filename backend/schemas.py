@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List, Optional
 
 class UserCreate(BaseModel):
     staff_id: str
@@ -8,6 +9,7 @@ class UserCreate(BaseModel):
     first_name: str
     last_name: str
     role: str
+    accessFile: Optional[List[int]] = []  # List of file IDs the user can access
 
 class UserOut(BaseModel):
     id: int
@@ -17,8 +19,9 @@ class UserOut(BaseModel):
     first_name: str
     last_name: str
     role: str
+    accessFile: Optional[List[int]] = []
     class Config:
-        from_attributes = True
+        from_attributes = True    
 
 # For login (request only needs email + password)
 class UserLogin(BaseModel):
@@ -34,8 +37,12 @@ class UserLoginResponse(BaseModel):
     first_name: str
     last_name: str
     role: str
+    accessFile: Optional[List[int]] = []
     class Config:
         from_attributes = True
+
+class UserAccessUpdate(BaseModel):
+    accessFile: List[int]    
 
 class UserRoleUpdate(BaseModel):
     role: str

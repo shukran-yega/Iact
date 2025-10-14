@@ -9,7 +9,7 @@ from passlib.hash import bcrypt
 import crud, models, schemas
 from database import SessionLocal, engine, Base
 import mimetypes
-
+from fastapi import Query
 
 
 # Create DB tables
@@ -25,12 +25,13 @@ def create_admin_user():
         if not admin_user:
             admin_data = schemas.UserCreate(
                 staff_id="0001",
-                username="Level 1",
+                username="Iact-Admin",
                 password="welcome2iact",
                 email="support@iact.co.tz",
                 first_name="Admin",
                 last_name="IAct",
-                role="admin"
+                role="Level 1",
+                accessFile=[]
             )
             crud.create_user(db=db, user=admin_data)
             print("[ADMIN USER] Created admin user with staff_id=0001")
@@ -101,6 +102,31 @@ def get_users(db: Session = Depends(get_db)):
     except Exception as e:
         print(f"[GET USERS ERROR] Failed to get users: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to get users: {str(e)}")
+
+
+@app.patch("/users/{user_id}/access", response_model=schemas.UserOut)
+def update_user_access(user_id: int, access_update: schemas.UserAccessUpdate, db: Session = Depends(get_db)):
+    """Update a user's file access list"""
+    try:
+        print(f"[UPDATE ACCESS] Updating accessFile for user {user_id} to {access_update.accessFile}")
+        return crud.update_user_access(db=db, user_id=user_id, new_access=access_update.accessFile)
+    except Exception as e:
+        print(f"[UPDATE ACCESS ERROR] Failed to update accessFile: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+    
+
+@app.get("/users/{user_id}/can-access/{file_id}")
+def check_file_access(user_id: int, file_id: int, db: Session = Depends(get_db)):
+    """Check if a user has access to a specific file"""
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.role == 'Level 1' or file_id in user.accessFile:
+        return {"access": True}
+    return {"access": False}
+
+
 
 
 # ------------------ User delete endpoint ------------------
@@ -183,10 +209,18 @@ def create_folder(folder: schemas.FolderCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/folders/", response_model=list[schemas.FolderOut])
-def list_folders(db: Session = Depends(get_db)):
-    """List all folders."""
+def list_folders(current_user_id: int = Query(...), db: Session = Depends(get_db)):
+    """List folders based on user access"""
     try:
-        folders = crud.list_folders(db=db)
+        user = db.query(models.User).filter(models.User.id == current_user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        if user.role == 'Level 1':
+            folders = crud.list_folders(db=db)
+        else:
+            folders = db.query(models.Folder).filter(models.Folder.id.in_(user.accessFile)).all()
+
         print(f"[FOLDER LIST] count={len(folders)}")
         return folders
     except Exception as e:
