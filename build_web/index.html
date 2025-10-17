@@ -103,17 +103,31 @@
       background: rgba(255,255,255,0.05);
     }
 
-    .loading-text {
-      color: #183153;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-top: 18px;
-      letter-spacing: 0.02em;
-      text-align: center;
-      text-shadow: 0 2px 8px rgba(51,153,255,0.10);
-      opacity: 0;
-      animation: fadeIn 0.5s ease-in forwards;
-    }
+    /* Animated dots that appear one after another */
+.loading-dots {
+  display: inline-flex;
+  margin-left: 4px;
+}
+
+.loading-dots .dot {
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  background-color: currentColor;
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: dotPulse 1.5s infinite ease-in-out;
+}
+
+.loading-dots .dot:nth-child(1) { animation-delay: 0s; }
+.loading-dots .dot:nth-child(2) { animation-delay: 0.3s; }
+.loading-dots .dot:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+
     .loading-bar {
       width: 220px;
       height: 5px;
@@ -230,28 +244,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <script>
   // List of interactive loading phrases (updated to reflect IACT's focus)
-  const loadingPhrases = [
-    'Training intelligent models...',
-    'Researching new frontiers...',
-    'Generating breakthrough ideas...',
-    'Analyzing data for insights...',
-    'Innovating with machine learning...',
-    'Collaborating on research...',
-    'Building smarter solutions...',
-    'Exploring AI possibilities...',
-    'Empowering creativity with AI...',
-    'Transforming ideas into impact...'
-  ];
-  // Select a random phrase
-  const randomPhrase = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
-  // Set the loading text and fade it in
-  const loadingText = document.getElementById('loading-text');
-  loadingText.textContent = randomPhrase;
-  loadingText.style.opacity = 0;
-  setTimeout(() => {
-    loadingText.style.transition = 'opacity 1s';
-    loadingText.style.opacity = 1;
-  }, 200);
+  // Simplified animated "Loading..." text with animated dots
+const loadingText = document.getElementById('loading-text');
+loadingText.textContent = 'Loading';
+
+// Create 3 animated dots that appear one after another
+const dotsContainer = document.createElement('span');
+dotsContainer.classList.add('loading-dots');
+loadingText.appendChild(dotsContainer);
+
+for (let i = 0; i < 3; i++) {
+  const dot = document.createElement('span');
+  dot.classList.add('dot');
+  dotsContainer.appendChild(dot);
+}
 
   // Graceful crossfade handler for flutter-first-frame
   window.addEventListener('flutter-first-frame', function () {
