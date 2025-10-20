@@ -9,7 +9,7 @@
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="iact">
+  <meta name="apple-mobile-web-app-title" content="iACT">
   <link rel="apple-touch-icon" href="favicon.png">
 
   <link rel="icon" type="image/png" href="favicon.png"/>
@@ -28,7 +28,7 @@
       font-family: 'Inter', Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      background: #3399ff;
+      background: #fefefe;
       color: #183153;
     }
     body {
@@ -73,7 +73,7 @@
       backdrop-filter: blur(6px);
     }
 
-    .logo-container {
+    /*.logo-container {
       position: relative;
       width: 150px;
       height: 150px;
@@ -92,16 +92,36 @@
     }
 
     .logo-container:hover { box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.22); }
-
+*/
     .logo {
-      width: 90%;
-      height: 90%;
-      object-fit: contain;
-      animation: pulse 2s infinite;
-      border-radius: 24px;
-      box-shadow: 0 4px 24px 0 rgba(51,153,255,0.18);
-      background: rgba(255,255,255,0.05);
-    }
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  animation: pulseGlow 2.5s ease-in-out infinite;
+  background: transparent;
+  border-radius: 24px;
+  box-shadow: none;
+  transform-origin: center;
+  margin-left: 10px;
+}
+
+/* Combined pulsing glow + subtle scale */
+@keyframes pulseGlow {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(51, 153, 255, 0.4));
+  }
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 18px rgba(51,153,255,0.9));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(51,153,255,0.4));
+  }
+}
+
+    
 
     /* Animated dots that appear one after another */
 .loading-dots {
@@ -117,6 +137,7 @@
   border-radius: 50%;
   opacity: 0.2;
   animation: dotPulse 1.5s infinite ease-in-out;
+  color: #82b5e5;
 }
 
 .loading-dots .dot:nth-child(1) { animation-delay: 0s; }

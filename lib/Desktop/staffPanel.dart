@@ -489,34 +489,46 @@ class _StaffpanelState extends State<Staffpanel> {
               Visibility(
                 visible: canSeeStaffTools,
                 child: _buildNavItem(
-                  icon: Icons.upload_file,
-                  label: 'Upload Document',
-                  onTap: () => _openRightSidebar('upload'),
-                ),
+                    icon: Icons.upload_file,
+                    label: 'Upload Document',
+                    isActive: _currentFolderId == 0,
+                    onTap: () {
+                      _openRightSidebar('upload');
+                      _currentFolderId = 0;
+                    }),
               ),
               Visibility(
                 visible: canSeeStaffTools,
                 child: _buildNavItem(
-                  icon: Icons.create_new_folder,
-                  label: 'New Folder',
-                  onTap: () => _openRightSidebar('newFolder'),
-                ),
+                    icon: Icons.create_new_folder,
+                    label: 'New Folder',
+                    isActive: _currentFolderId == 1,
+                    onTap: () {
+                      _openRightSidebar('newFolder');
+                      _currentFolderId = 1;
+                    }),
               ),
               Visibility(
                 visible: accesslevel1only,
                 child: _buildNavItem(
-                  icon: Icons.person_add,
-                  label: 'Add Staff',
-                  onTap: () => _openRightSidebar('newStaff'),
-                ),
+                    icon: Icons.person_add,
+                    label: 'Add Staff',
+                    isActive: _currentFolderId == 2,
+                    onTap: () {
+                      _openRightSidebar('newStaff');
+                      _currentFolderId = 2;
+                    }),
               ),
               Visibility(
                 visible: accesslevel1only,
                 child: _buildNavItem(
-                  icon: Icons.supervised_user_circle,
-                  label: 'Manage Users/roles',
-                  onTap: () => _openRightSidebar('users'),
-                ),
+                    icon: Icons.supervised_user_circle,
+                    label: 'Manage Users/roles',
+                    isActive: _currentFolderId == 3,
+                    onTap: () {
+                      _openRightSidebar('users');
+                      _currentFolderId = 3;
+                    }),
               ),
             ],
           ),
@@ -1174,13 +1186,12 @@ class _StaffpanelState extends State<Staffpanel> {
                         IconButton(
                           icon: const Icon(Icons.delete_outline,
                               color: Colors.redAccent),
-                          onPressed: ()=> _deleteUser(user.id),
+                          onPressed: () => _deleteUser(user.id),
                         ),
                       ],
                     ),
 
                     // ExpansionTile placed outside the Row
-                    
 
                     ExpansionTile(
                       title: Text('Update Folder Access'),
