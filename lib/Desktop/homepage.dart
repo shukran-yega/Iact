@@ -10,6 +10,7 @@ import 'Impact.dart';
 import 'carauselText.dart';
 
 double _opacity = 0.0;
+double _offsetY = -50;
 
 class Homepage extends StatefulWidget {
   final TabController tabController;
@@ -31,11 +32,13 @@ class _HomepageState extends State<Homepage> {
     // trigger fade after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 300), () {
-        setState(() => _opacity = 1.0);
+        setState(() {
+          _opacity = 1.0;
+          _offsetY = 0.0;
+        });
       });
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return AnimateGradient(
@@ -65,9 +68,12 @@ class _HomepageState extends State<Homepage> {
           // welcome to iact
           AnimatedOpacity(
             opacity: _opacity,
-            duration: const Duration(milliseconds: 1200),
-            curve: Curves.fastLinearToSlowEaseIn, // smooth Apple-like curve
-            child: Container(
+            duration: const Duration(milliseconds: 1000), // duration animation for opacity
+            curve: Curves.fastLinearToSlowEaseIn, 
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 1000), // duration animation for offset
+              curve: Curves.fastLinearToSlowEaseIn,
+              transform: Matrix4.translationValues(0, _offsetY, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
