@@ -5,18 +5,36 @@ import 'package:iact/Desktop/Footer.dart';
 import 'package:iact/Desktop/News.dart';
 import 'package:iact/Desktop/test.dart';
 import 'package:iact/widgets/StyledImageContainers.dart';
-
 import 'Client.dart';
 import 'Impact.dart';
 import 'carauselText.dart';
 
-class Homepage extends StatelessWidget {
-  final TabController tabController;
+double _opacity = 0.0;
 
-  const Homepage({
+class Homepage extends StatefulWidget {
+  final TabController tabController;
+  // start invisible
+
+  Homepage({
     super.key,
     required this.tabController,
   });
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  @override
+  void initState() {
+    super.initState();
+    // trigger fade after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        setState(() => _opacity = 1.0);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,91 +63,96 @@ class Homepage extends StatelessWidget {
       child: ListView(
         children: [
           // welcome to iact
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          "Ideas to Action",
-                          style: GoogleFonts.baloo2(
-                              fontSize: 25, letterSpacing: 7),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: Text.rich(
-                          overflow: TextOverflow.visible,
-                          TextSpan(
-                            text: "From ",
+          AnimatedOpacity(
+            opacity: _opacity,
+            duration: const Duration(milliseconds: 1200),
+            curve: Curves.fastLinearToSlowEaseIn, // smooth Apple-like curve
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            "Ideas to Action",
                             style: GoogleFonts.baloo2(
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "insights ",
-                                style: GoogleFonts.baloo2(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "to",
-                                style: GoogleFonts.baloo2(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              TextSpan(
-                                text: " products",
-                                style: GoogleFonts.baloo2(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
-                                ),
-                              ),
-                            ],
+                                fontSize: 25, letterSpacing: 7),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Text.rich(
+                            overflow: TextOverflow.visible,
+                            TextSpan(
+                              text: "From ",
+                              style: GoogleFonts.baloo2(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "insights ",
+                                  style: GoogleFonts.baloo2(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue.shade900,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "to",
+                                  style: GoogleFonts.baloo2(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " products",
+                                  style: GoogleFonts.baloo2(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue.shade900,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            textAlign: TextAlign.justify,
+                            "Transforming bold ideas to breakthrough products, \npowered by innovation and insight",
+                            style: GoogleFonts.baloo2(fontSize: 28),
+                          ),
+                        ),
+                        Text(
                           textAlign: TextAlign.justify,
-                          "Transforming bold ideas to breakthrough products, \npowered by innovation and insight",
-                          style: GoogleFonts.baloo2(fontSize: 28),
+                          "At iACT, we help our clients to turn ideas into actionable"
+                          " outcomes\nby providing innovative solutions that bridge the gap between\ntechnology and community impact."
+                          "We empower business and\nindividuals to bring their vision to life with efficiency and creativity",
+                          style: GoogleFonts.baloo2(
+                            fontSize: 18,
+                            color: Colors.black87,
+                            height: 1.5,
+                          ),
                         ),
-                      ),
-                      Text(
-                        textAlign: TextAlign.justify,
-                        "At iACT, we help our clients to turn ideas into actionable"
-                        " outcomes\nby providing innovative solutions that bridge the gap between\ntechnology and community impact."
-                        "We empower business and\nindividuals to bring their vision to life with efficiency and creativity",
-                        style: GoogleFonts.baloo2(
-                          fontSize: 18,
-                          color: Colors.black87,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const StyledImageGrid(
-                  imagePath1: "pic1.jpg",
-                  imagePath2: "computer.jpg",
-                  imagePath3: "PIC2.jpg",
-                ),
-              ],
+                  const StyledImageGrid(
+                    imagePath1: "pic1.jpg",
+                    imagePath2: "computer.jpg",
+                    imagePath3: "PIC2.jpg",
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 70),
@@ -143,15 +166,15 @@ class Homepage extends StatelessWidget {
           ParallaxImage(
             imagePath: "experts.jpg",
             height: MediaQuery.of(context).size.height + 30,
-            tabController: tabController,
+            tabController: widget.tabController,
             //width: MediaQuery.of(context).size.width,
           ),
-          News(tabController: tabController),
+          News(tabController: widget.tabController),
           //ExpertSection(),
           InstitutionStats(),
           Padding(
             padding: const EdgeInsets.only(bottom: 50.0),
-            child: ClientLogosGrid(tabController: tabController),
+            child: ClientLogosGrid(tabController: widget.tabController),
           ),
           // footer
           IACTFooter()
